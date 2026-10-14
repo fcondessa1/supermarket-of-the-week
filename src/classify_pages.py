@@ -64,7 +64,8 @@ def read_manifest(folder: Path) -> list[dict]:
 
 
 def predict(row: dict) -> tuple[int, str]:
-    text = normalise(f"{row['alt_text']} {row['keywords']}")
+    # Lidl manifests have alt_text + keywords; Continente manifests have the page's full text.
+    text = normalise(" ".join(row.get(k) or "" for k in ("alt_text", "keywords", "text")))
     for term, pattern in TERMS:
         if pattern.search(text):
             return 1, term
@@ -98,7 +99,8 @@ def cmd_auto(folder: Path) -> None:
         w.writerow(["page", "predicted", "matched_term", "alt_text"])
         for row in rows:
             pred, term = predict(row)
-            w.writerow([row["page"], pred, term, row["alt_text"]])
+            summary = row.get("alt_text") or (row.get("text") or "")[:200]
+            w.writerow([row["page"], pred, term, summary])
     kept = sum(predict(r)[0] for r in rows)
     print(f"Wrote {auto}: keep {kept} of {len(rows)} pages, skip {len(rows) - kept}.")
 
