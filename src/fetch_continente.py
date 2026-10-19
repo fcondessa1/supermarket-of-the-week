@@ -1,7 +1,8 @@
 """Download one Continente weekly leaflet (iPaper viewer): page images, page text and product data.
 
 Usage:
-    python src/fetch_continente.py                     # try to find the current "semanal" leaflet on continente.pt
+    python src/fetch_continente.py                     # find the current mainland "semanal" leaflet on continente.pt
+    python src/fetch_continente.py --all-editions      # also Continente Bom Dia, Madeira, Açores editions
     python src/fetch_continente.py <viewer_url>        # e.g. https://folhetos.continente.pt/2026/10/semanal-42-xxxx/
     python src/fetch_continente.py <viewer_url> --no-images   # text + product data only
 
@@ -42,6 +43,10 @@ OUT = Path("data/raw/continente")
 HEADERS = {"User-Agent": "Mozilla/5.0 (supermarket-of-the-week; personal project)"}
 DELAY_S = 1.0
 VIEWER_RE = re.compile(r"https://folhetos\.continente\.pt/\d{4}/\d{2}/semanal-[a-z0-9-]+/")
+# Weekly leaflets that are NOT the mainland Continente edition, identified by a tag in the slug.
+# Seen in week 42 (Oct 2026): semanal-42-cbd-fj87 (Continente Bom Dia) and semanal-42-mad-ia44 (Madeira).
+# "aco"/"acores"/"az" are guesses for the Azores edition, not yet seen in a slug.
+OTHER_EDITIONS = {"cbd": "Continente Bom Dia", "mad": "Madeira", "aco": "Açores", "acores": "Açores", "az": "Açores"}
 
 
 def get(url: str) -> requests.Response:
@@ -54,6 +59,15 @@ def discover_viewer_urls() -> list[str]:
     """Look for weekly-leaflet viewer links in the listing page's HTML (may be empty if the list is built by JavaScript)."""
     html = get(LISTING).text.replace("\\/", "/")
     return list(dict.fromkeys(VIEWER_RE.findall(html)))
+
+
+def edition(url: str) -> str | None:
+    """Return the edition name if the slug carries a regional/format tag, else None (= mainland edition)."""
+    slug_parts = url.rstrip("/").split("/")[-1].split("-")   # e.g. ['semanal', '42', 'cbd', 'fj87']
+    for part in slug_parts[2:-1]:
+        if part in OTHER_EDITIONS:
+            return OTHER_EDITIONS[part]
+    return None
 
 
 def parse_settings(html: str) -> dict:
@@ -153,7 +167,16 @@ def fetch(viewer_url: str, images: bool = True) -> None:
 def main() -> None:
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
     images = "--no-images" not in sys.argv
-    urls = args or discover_viewer_urls()
+    if args:
+        urls = args
+    else:
+        urls = []
+        for url in discover_viewer_urls():
+            other = edition(url)
+            if other and "--all-editions" not in sys.argv:
+                print(f"skipping {other} edition: {url}")
+            else:
+                urls.append(url)
     if not urls:
         sys.exit("No weekly leaflet link found in the listing HTML (it is probably built by JavaScript).\n"
                  "Open https://www.continente.pt/folhetos/, open the weekly leaflet, and pass its address:\n"

@@ -31,7 +31,7 @@ weekly report ◄── choose store or pair of stores ◄── match offers to
 | Store | How the leaflet is published | How this project gets it |
 |---|---|---|
 | Lidl | Viewer backed by a public JSON endpoint: flyer id, offer dates, 1200 px page images, per-page alt text and keywords, plus a PDF | `src/fetch_lidl.py` (automatic) |
-| Continente | iPaper flipbook viewer. The viewer page embeds a config with each page's printed text, signed links to the page images, and "enrichment" files with the product behind each cart icon (Continente product ID, name, price) | `src/fetch_continente.py` (needs the week's viewer address if the listing page doesn't expose it) |
+| Continente | iPaper flipbook viewer. The viewer page embeds a config with each page's printed text, signed links to the page images, and "enrichment" files with the product behind each cart icon (Continente product ID, name, price) | `src/fetch_continente.py` (automatic: finds the week's leaflet on the listing page and skips the Continente Bom Dia and Madeira editions) |
 | Pingo Doce | Website blocks automated requests | Being investigated; fallback is a 1-minute manual weekly download |
 | Intermarché | `robots.txt` disallows automated access | Not used |
 
@@ -74,8 +74,8 @@ pip install -r requirements.txt
 # 1. Download this week's Lidl leaflet (or pass a leaflet name, e.g. promocoes-semanais-a-partir-de-12-10)
 python src/fetch_lidl.py
 
-# 1b. Download a Continente weekly leaflet (pass the viewer address if it isn't found automatically)
-python src/fetch_continente.py https://folhetos.continente.pt/2026/10/semanal-NN-xxxx/
+# 1b. Download this week's mainland Continente leaflet (or pass a viewer address)
+python src/fetch_continente.py
 
 # 2. Page filter: make a blank label file, label it by hand, then predict and score
 FLYER=$(ls -d data/raw/lidl/*/ | head -n 1)
