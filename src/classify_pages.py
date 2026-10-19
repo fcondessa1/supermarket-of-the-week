@@ -25,14 +25,26 @@ from pathlib import Path
 
 LABELS = Path("data/labels")
 
-# Stems matched against lowercase, accent-free alt text + keywords.
+# Stems matched against the lowercase, accent-free page description (Lidl alt text, Continente page text).
 # Kept fairly specific on purpose: words like "cozinha" also appear on appliance pages.
+#
+# Version history (dev set = Lidl leaflet 19-25 Oct 2026, 43 pages; see README for scores):
+#   v1  alt text + keywords: recall 0.97, precision 0.88.
+#   v2  changes made after reading v1's errors on the dev set:
+#       - Lidl keywords are no longer used: they carry boilerplate and legal text, and three of the
+#         four false positives matched there ("fresco", "agua"). Keywords are only a fallback
+#         when a page has no description.
+#       - added stems for food v1 missed on page 34 (sausages, herring) and close relatives.
+#       - "limpeza" -> "produtos de limpeza": cleaning appliances are not consumables.
+#       - flower bunches ("molhos de rosas") are removed before matching the sauce stem "molho".
+#   Because v2 was shaped by the dev set's errors, its honest score comes from a different leaflet.
 GROCERY_TERMS = [
     # fresh food
     "fruta", "legume", "fresco", "carne", "frango", "porco", "bovino", "peru", "hamburguer", "almondega",
     "peixe", "marisco", "salmao", "pescada", "bacalhau", "camarao", "atum", "choco", "polvo",
     "padaria", "pastelaria", "pao", "baguete", "croissant", "bolo",
-    "queijo", "fiambre", "presunto", "charcutaria", "chourico", "enchido",
+    "queijo", "fiambre", "presunto", "charcutaria", "chourico", "enchido", "salsicha",
+    "sardinha", "cavala", "arenque", "gastronom",
     "leite", "iogurte", "laticin", "manteiga", "nata", "ovo",
     "batata", "tomate", "cebola", "alho", "couve", "brocolo", "curgete", "abobora", "cenoura", "alface",
     "maca", "pera", "banana", "laranja", "roma", "diospiro", "anona", "uva", "kiwi", "limao",
@@ -42,7 +54,7 @@ GROCERY_TERMS = [
     "chocolate", "cafe", "cha", "acucar", "molho", "snack", "congelad", "pizza", "gelado",
     "bebida", "agua", "sumo", "refrigerante", "cerveja", "vinho",
     # household consumables and personal care
-    "detergente", "amaciador", "lixivia", "limpeza", "papel higienico", "rolo de cozinha",
+    "detergente", "amaciador", "lixivia", "produtos de limpeza", "papel higienico", "rolo de cozinha",
     "champo", "gel de banho", "pasta de dentes", "desodorizante", "fralda",
     # pet food (not pet toys)
     "racao", "comida para", "croquete", "patê",
@@ -63,9 +75,16 @@ def read_manifest(folder: Path) -> list[dict]:
         return list(csv.DictReader(f))
 
 
+# Phrases removed before matching because they contain a grocery stem but are not groceries.
+NOT_GROCERY = re.compile(r"\bmolhos? de (rosas|flores|tulipas)")
+
+
 def predict(row: dict) -> tuple[int, str]:
-    # Lidl manifests have alt_text + keywords; Continente manifests have the page's full text.
-    text = normalise(" ".join(row.get(k) or "" for k in ("alt_text", "keywords", "text")))
+    # Lidl: alt_text (keywords only as a fallback). Continente: the page's printed text.
+    description = (row.get("alt_text") or "") + " " + (row.get("text") or "")
+    if not description.strip():
+        description = row.get("keywords") or ""
+    text = NOT_GROCERY.sub(" ", normalise(description))
     for term, pattern in TERMS:
         if pattern.search(text):
             return 1, term
