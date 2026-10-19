@@ -17,7 +17,7 @@ weekly report ◄── choose store or pair of stores ◄── match offers to
 | Stage | What it does | Status |
 |---|---|---|
 | Fetch | Download each store's weekly leaflet pages and metadata | Lidl and Continente done; Pingo Doce in progress |
-| Page filter | Skip pages with nothing from a shopping list (tools, clothes, plants) before any API call | v1 evaluated; v2 held-out eval pending |
+| Page filter | Skip pages with nothing from a shopping list (tools, clothes, plants) before any API call | Done: ~25–33% of Lidl pages skipped; v2 held-out recall 0.96 |
 | Extraction | Vision model turns each page into JSON offers: name, brand, pack size, price, condition, dates | Not started |
 | Normalisation | Deterministic code parses pack sizes ("emb. 4 x 160 gr") into price per kg/L/unit | Not started |
 | Matching | Rules, then embeddings, then an LLM only for ambiguous cases; my confirmations are cached | Not started |
@@ -50,7 +50,8 @@ All labels are made by hand, before looking at the model's or the rules' output,
 | What is measured | Against | Result |
 |---|---|---|
 | Page filter v1: recall (grocery pages kept) and precision | Hand labels for all 43 pages of the Lidl leaflet of 19–25 Oct 2026 (dev set) | Recall 0.97 (29 of 30 grocery pages kept), precision 0.88 (4 extra pages); 10 of 43 pages skipped |
-| Page filter v2 (changed after reading v1's errors) | Hand labels for a different Lidl leaflet (12–18 Oct 2026, held-out test set) | Pending |
+| Page filter v2 (changed after reading v1's errors) | Hand labels for a different Lidl leaflet (12–18 Oct 2026, held-out test set, 40 pages) | Recall 0.96 (27 of 28), precision 0.90 (3 extra pages); 10 of 40 pages skipped |
+| Page filter v3 (changed after reading v2's errors on both leaflets) | Next unseen Lidl leaflet (26 Oct–1 Nov 2026) | Pending |
 | Extraction: field-level accuracy (price, pack size, condition) | 15–20 hand-labelled pages across the three stores | Pending |
 | Normalisation: computed unit price vs the unit price printed on the leaflet | All extracted offers that print one | Pending |
 | Matching: precision and recall | Hand-labelled matches for my list over 2–3 weeks | Pending |
@@ -58,6 +59,13 @@ All labels are made by hand, before looking at the model's or the rules' output,
 For the page filter, recall matters more than precision: a missed page means missed offers, while an extra page only costs one API call.
 
 **What v1 got wrong and what changed.** v1 missed one page of German specialities (sausages, marinated herring) because no rule covered them. Three of its four extra pages matched in Lidl's keyword field, which mixes product names with boilerplate and legal text ("fresco", "água"). The fourth was a flowers page: "molhos de rosas" (bunches of roses) matched the stem for "molho" (sauce). v2 reads only the page description, adds the missing food stems, removes flower bunches before matching, and only counts "produtos de limpeza" rather than any page mentioning cleaning. These changes were made by looking at the dev set's errors, so v2's score on that same leaflet would be flattering. v2 is scored on a different leaflet instead.
+
+**What v2 got wrong.** On the held-out leaflet it held up (recall 0.96, precision 0.90). But dropping the keyword field had a cost I didn't catch in my spot check: on the dev leaflet, v2 missed a Halloween sweets page that v1 had found through the keywords. Its other errors exposed a general bug. Short stems also matched longer, unrelated words: "bolo" (cake) matched "bolor" (mould), and "nata" (cream) would match "Natal" (Christmas). v3 matches stems of four letters or fewer only as whole words or plurals, adds sweets vocabulary, and drops pet food, which isn't on my list (my labels mark pet-food pages 0). Both leaflets have now been used to shape the rules, so v3 gets scored on the next unseen leaflet.
+
+**Errors left in on purpose.** Three pages in the two leaflets are still wrong, and fixing them would mean writing rules for single phrasings:
+- A charity-voucher page I labelled relevant: its alt text describes only the campaign, not the products on it. That is a limit of the description, not of the rules.
+- A pet-accessories page that mentions a "bolsa de snacks" (treat bag).
+- A household page that mentions "produtos de limpeza Dirt Devil" (cleaning gadgets, not consumables).
 
 ## Cost
 

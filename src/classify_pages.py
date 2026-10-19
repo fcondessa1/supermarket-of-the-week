@@ -38,6 +38,14 @@ LABELS = Path("data/labels")
 #       - "limpeza" -> "produtos de limpeza": cleaning appliances are not consumables.
 #       - flower bunches ("molhos de rosas") are removed before matching the sauce stem "molho".
 #   Because v2 was shaped by the dev set's errors, its honest score comes from a different leaflet.
+#       Held-out (Lidl 12-18 Oct): recall 0.96, precision 0.90. On the dev set v2 fixed v1's errors
+#       but newly missed a Halloween sweets page that v1 had caught through the keyword field.
+#   v3  changes made after reading v2's errors on BOTH leaflets (so both are now seen data):
+#       - stems of 4 letters or fewer match only the whole word or its plural: "bolo" matched
+#         "bolor" (mould) and "nata" would match "natal".
+#       - sweets stems added (doce, goma, rebucado, caramelo, biscoito, sobremesa).
+#       - pet food removed: my labels mark pet-food pages 0, because pet food isn't on my list.
+#   v3 is scored on the next unseen leaflet.
 GROCERY_TERMS = [
     # fresh food
     "fruta", "legume", "fresco", "carne", "frango", "porco", "bovino", "peru", "hamburguer", "almondega",
@@ -52,12 +60,12 @@ GROCERY_TERMS = [
     # pantry, frozen, drinks
     "mercearia", "arroz", "massa", "farinha", "azeite", "oleo", "conserva", "cereais", "bolacha",
     "chocolate", "cafe", "cha", "acucar", "molho", "snack", "congelad", "pizza", "gelado",
+    "doce", "goma", "rebucado", "caramelo", "biscoito", "sobremesa", "paes",
     "bebida", "agua", "sumo", "refrigerante", "cerveja", "vinho",
     # household consumables and personal care
     "detergente", "amaciador", "lixivia", "produtos de limpeza", "papel higienico", "rolo de cozinha",
     "champo", "gel de banho", "pasta de dentes", "desodorizante", "fralda",
-    # pet food (not pet toys)
-    "racao", "comida para", "croquete", "patê",
+    # pet food: not on my list, so not included (see v3 note)
 ]
 
 
@@ -66,8 +74,16 @@ def normalise(text: str) -> str:
     return "".join(c for c in text if not unicodedata.combining(c))
 
 
-# Match stems only at the start of a word: "ovo" must not match "novo", "pera" not "espera".
-TERMS = [(normalise(t), re.compile(r"\b" + re.escape(normalise(t)))) for t in GROCERY_TERMS]
+def term_pattern(term: str) -> re.Pattern:
+    """Longer stems match at the start of a word ("congelad" -> "congelados"); stems of 4 letters
+    or fewer match only the whole word or its plural ("bolo"/"bolos", not "bolor")."""
+    t = re.escape(normalise(term))
+    if len(term) <= 4:
+        return re.compile(r"\b" + t + r"(s|es)?\b")
+    return re.compile(r"\b" + t)
+
+
+TERMS = [(normalise(t), term_pattern(t)) for t in GROCERY_TERMS]
 
 
 def read_manifest(folder: Path) -> list[dict]:
