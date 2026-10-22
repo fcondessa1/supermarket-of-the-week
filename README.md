@@ -1,79 +1,104 @@
 # Supermarket of the Week
 
-Reads the weekly promotion leaflets (*folhetos*) of Portuguese supermarkets, matches the offers against my shopping list, and tells me where to shop this week: one store, or a split across two when the saving is worth the extra trip.
+Tells me where to do this week's shopping. For each item on my list ("leite meio gordo", "atum ao natural") it compares every brand and pack size by price per kg or litre, across supermarkets, and recommends one store, or a split across two when the saving is worth the extra trip.
 
-I built it because I use it. It is also a portfolio project: the parts that matter are measured against data I labelled by hand, and the failures are documented next to the fixes.
+I built it because I use it. It is also a portfolio project: the parts that matter are measured against data I checked by hand, and the failures are documented next to the fixes.
 
-> **Status (week 1 of 3, started 2026-10-12):** Lidl and Continente leaflets are downloaded automatically, and a zero-cost page filter is written. The Pingo Doce fetcher, extraction, matching and the shopping recommendation are not built yet.
+> **Status (2026-10-22, week 2 of 3):** Continente prices for my list are fetched from Continente Online and compared per kg/L across all brands, with a normalisation check against Continente's own figures. Lidl and Continente leaflets are downloaded automatically, and a page filter skips non-grocery Lidl pages. Not built yet: reading Lidl's leaflet with a vision model, Pingo Doce, the store recommendation and the weekly report.
 
-## How it works (planned v1)
+## How it works
+
+A list item is a **need**, not a product. "leite meio gordo" means "whichever brand and pack size is cheapest per litre this week".
 
 ```
-fetch leaflets ──► filter grocery pages ──► extract offers (vision model) ──► normalise to €/kg, €/L, €/unit
-                                                                                        │
-weekly report ◄── choose store or pair of stores ◄── match offers to my shopping list ◄─┘
+my list (plain words) ──► every matching product, all brands ──► price per kg / L / unit ──► cheapest per item
+                          (reviewed once by me)                                                    │
+weekly report ◄── one store, or two if worth the trip ◄── same items in each store ◄──────────────┘
 ```
 
-| Stage | What it does | Status |
-|---|---|---|
-| Fetch | Download each store's weekly leaflet pages and metadata | Lidl and Continente done; Pingo Doce in progress |
-| Page filter | Skip pages with nothing from a shopping list (tools, clothes, plants) before any API call | Done: ~25–33% of Lidl pages skipped; v2 held-out recall 0.96 |
-| Extraction | Vision model turns each page into JSON offers: name, brand, pack size, price, condition, dates | Not started |
-| Normalisation | Deterministic code parses pack sizes ("emb. 4 x 160 gr") into price per kg/L/unit | Not started |
-| Matching | Rules, then embeddings, then an LLM only for ambiguous cases; my confirmations are cached | Not started |
-| Optimisation | Compare every single store and every pair, with a € penalty per extra trip | Not started |
-| Report | Weekly GitHub issue, like my [Filing Diff](https://github.com/fcondessa1/Filing-Diff) project | Not started |
+Where the prices come from depends on what each store publishes:
 
-**Known limitation, by design:** leaflets only list promoted items. Items on my list that are not on promotion are priced from a small baseline table that I maintain by hand. The report will say which prices came from the baseline.
+| Store | Source | Why | Status |
+|---|---|---|---|
+| Continente | Continente Online product pages | Gives the current price, the price before discount, the promotion's end date and pack size for every product, not only promoted ones | Working |
+| Lidl | Weekly leaflet, read by a vision model | Lidl Portugal has no online grocery shop, so the leaflet is the only source | Leaflets downloaded; extraction next |
+| Pingo Doce | Online shop, if it allows automated requests | The website blocked my first automated requests | Not started |
+| Intermarché | — | `robots.txt` disallows automated access | Not used |
 
-## Sources
+**Known limitation, by design:** for Lidl only promoted items have a known price. The report will say when an item has no Lidl price.
 
-| Store | How the leaflet is published | How this project gets it |
-|---|---|---|
-| Lidl | Viewer backed by a public JSON endpoint: flyer id, offer dates, 1200 px page images, per-page alt text and keywords, plus a PDF | `src/fetch_lidl.py` (automatic) |
-| Continente | iPaper flipbook viewer. The viewer page embeds a config with each page's printed text, signed links to the page images, and "enrichment" files with the product behind each cart icon (Continente product ID, name, price) | `src/fetch_continente.py` (automatic: finds the week's leaflet on the listing page and skips the Continente Bom Dia and Madeira editions) |
-| Pingo Doce | Website blocks automated requests | Being investigated; fallback is a 1-minute manual weekly download |
-| Intermarché | `robots.txt` disallows automated access | Not used |
+## Continente: how an item becomes a ranked list
 
-Things the leaflets do that the data model has to handle:
+1. **Catalogue.** Continente publishes product sitemaps for search engines. Each entry's address holds the product's name and ID, e.g. `.../produto/atum-posta-ao-natural-continente-equilibrio-3697795.html`, so the whole catalogue costs 7 requests. It has no prices.
+2. **Review, once per item.** Every product whose name contains all the item's words, minus phrases I exclude ("sem lactose", "achocolatado"), is shown to me once. I reject what isn't what I mean. Decisions are saved, and later reviews show only new products.
+3. **Weekly prices.** For each accepted product, the product page gives:
+   - the price and promotion end date (JSON-LD block)
+   - the price before discount, whether it's sold by weight, and its category (the page's analytics data)
+   - the pack size ("emb. 6 x 1 lt")
+   - Continente's own €/kg
 
-- **Conditional prices.** "-20% em Lidl Plus" or a Continente card price is not the shelf price. Every offer gets a `condition` field.
-- **Repeated offers.** Lidl's cover repeats offers from inner pages. Lidl prints article numbers (e.g. Nº5912266), which are used to remove duplicates.
-- **Leaflet vs online prices.** Continente's viewer itself warns that leaflet prices and promotions may differ from Continente Online, so online prices are not used as a substitute for leaflet prices.
-- **Structured data is not the leaflet price.** Continente's product hotspots carry a price, but it is the price *before* the promotion. On the leaflet of 6–12 October 2026, Pescanova Supremas has hotspot price 11.28, while the page text reads "20 % Sobre PVPR · PVPR 11,28 € · 8,99 €". The hotspots are used for product IDs and names, and prices come from the page itself.
-- **Different weeks per store.** Lidl's weekly offers run Monday to Sunday; Continente's run Tuesday to Monday.
+   The script computes €/kg, €/L or €/unit itself and ranks each item.
+
+Example from 22 October 2026:
+
+```
+== arroz agulha: 14 of 22 products priced per kg
+      1.08 €/kg   5.39 € Arroz Agulha Pack Poupança Continente
+      1.15 €/kg   1.15 € Arroz Agulha Continente
+      1.19 €/kg   2.38 € Arroz Agulha Oriente
+```
+
+Why not fetch the price of every catalogue product: that would be one ~1.6 MB page per product every week, hours of requests for things I never buy. Only accepted products are fetched, one per second.
 
 ## Evaluation
 
-All labels are made by hand, before looking at the model's or the rules' output, so the predictions cannot anchor them.
-
 | What is measured | Against | Result |
 |---|---|---|
-| Page filter v1: recall (grocery pages kept) and precision | Hand labels for all 43 pages of the Lidl leaflet of 19–25 Oct 2026 (dev set) | Recall 0.97 (29 of 30 grocery pages kept), precision 0.88 (4 extra pages); 10 of 43 pages skipped |
-| Page filter v2 (changed after reading v1's errors) | Hand labels for a different Lidl leaflet (12–18 Oct 2026, held-out test set, 40 pages) | Recall 0.96 (27 of 28), precision 0.90 (3 extra pages); 10 of 40 pages skipped |
-| Page filter v3 (changed after reading v2's errors on both leaflets) | Next unseen Lidl leaflet (26 Oct–1 Nov 2026) | Pending |
-| Extraction: field-level accuracy (price, pack size, condition) | 15–20 hand-labelled pages across the three stores | Pending |
-| Normalisation: computed unit price vs the unit price printed on the leaflet | All extracted offers that print one | Pending |
-| Matching: precision and recall | Hand-labelled matches for my list over 2–3 weeks | Pending |
+| Unit price (normalisation): my €/kg or €/L vs Continente's own printed figure | 114 Continente products for 4 items, 22 Oct 2026 | Before fix: 28 agree, 18 differ. After fix: **42 agree, 4 differ**; 22 have no figure to compare (see below) |
+| Page filter v1: recall and precision | Hand labels, all 43 pages of the Lidl leaflet of 19–25 Oct 2026 (dev set) | Recall 0.97 (29 of 30 grocery pages kept), precision 0.88; 10 of 43 pages skipped |
+| Page filter v2 | Hand labels, Lidl leaflet of 12–18 Oct 2026 (held-out test set, 40 pages) | Recall 0.96 (27 of 28), precision 0.90; 10 of 40 pages skipped |
+| Page filter v3 | Next unseen Lidl leaflet (26 Oct–1 Nov 2026) | Pending |
+| Lidl extraction: offers found and field accuracy (price, pack size, condition) | Hand-labelled Lidl pages | Pending |
+| Matching Lidl offers to list items | Hand-labelled matches | Pending |
 
-For the page filter, recall matters more than precision: a missed page means missed offers, while an extra page only costs one API call.
+### Unit prices: what went wrong and what changed
 
-**What v1 got wrong and what changed.** v1 missed one page of German specialities (sausages, marinated herring) because no rule covered them. Three of its four extra pages matched in Lidl's keyword field, which mixes product names with boilerplate and legal text ("fresco", "água"). The fourth was a flowers page: "molhos de rosas" (bunches of roses) matched the stem for "molho" (sauce). v2 reads only the page description, adds the missing food stems, removes flower bunches before matching, and only counts "produtos de limpeza" rather than any page mentioning cleaning. These changes were made by looking at the dev set's errors, so v2's score on that same leaflet would be flattering. v2 is scored on a different leaflet instead.
+- **Drained weight.** 17 of the first 18 disagreements were canned tuna. Continente computes €/kg on the drained weight ("peso escorrido"), while I had used the total weight: 2,74 € ÷ 0,270 kg = 10,15 €/kg is Continente's figure. Drained weight is also the fair comparison (you pay for the fish, not the water), so the script now uses it whenever it is printed.
+- **Continente disagrees with itself.** Three tuna products still differ, because Continente's €/kg implies a different drained weight than its own description. Minerva says "peso escorrido 78 gr", but 1,29 € ÷ 15,36 €/kg = 84 g. My figure follows the stated weight, and the price file records what the page's figure implies.
+- **A wrong product, caught by the check.** The fourth disagreement was a tuna-and-egg salad that I had accepted under "atum ao natural" during review.
+- **22 not checkable.** The page shows no per-kg figure. The ones I inspected were all 1 kg packs, where the unit price is the price; these are now labelled as such.
+- **A parser bug.** The first version looked for the product's analytics entry by its discount field, so it missed every product without a discount (86 of 114 rows had a note).
 
-**What v2 got wrong.** On the held-out leaflet it held up (recall 0.96, precision 0.90). But dropping the keyword field had a cost I didn't catch in my spot check: on the dev leaflet, v2 missed a Halloween sweets page that v1 had found through the keywords. Its other errors exposed a general bug. Short stems also matched longer, unrelated words: "bolo" (cake) matched "bolor" (mould), and "nata" (cream) would match "Natal" (Christmas). v3 matches stems of four letters or fewer only as whole words or plurals, adds sweets vocabulary, and drops pet food, which isn't on my list (my labels mark pet-food pages 0). Both leaflets have now been used to shape the rules, so v3 gets scored on the next unseen leaflet.
+### Products the catalogue lists but Continente doesn't sell
 
-**Errors left in on purpose.** Three pages in the two leaflets are still wrong, and fixing them would mean writing rules for single phrasings:
-- A charity-voucher page I labelled relevant: its alt text describes only the campaign, not the products on it. That is a limit of the description, not of the rules.
-- A pet-accessories page that mentions a "bolsa de snacks" (treat bag).
-- A household page that mentions "produtos de limpeza Dirt Devil" (cleaning gadgets, not consumables).
+46 of the 114 accepted products (40%) redirect to Continente's home page: they are still in the search-engine catalogue but not sold online. They are marked unavailable and skipped in weekly runs; a monthly `--recheck` puts them back if they return.
+
+### Page filter (Lidl): what went wrong and what changed
+
+Lidl leaflets have many non-food pages, so a free keyword filter on the leaflet's own page descriptions skips them before any model call. Recall matters more than precision: a missed page means missed offers, an extra page costs one model call.
+
+- **v1** missed a page of German specialities (no rule for sausages or herring). Three of its four extra pages matched boilerplate in Lidl's keyword field ("fresco", "água"). The fourth was flowers: "molhos de rosas" matched "molho" (sauce).
+- **v2** reads only the page description, adds the missing food words, and ignores flower bunches. These changes came from the dev set's errors, so it was scored on a different leaflet. On the dev leaflet it newly missed a Halloween sweets page that v1 had caught through the keywords, a cost my spot check didn't show.
+- **v3** fixes a general bug: short stems matched longer words ("bolo" matched "bolor", "nata" would match "Natal"). It also adds sweets and drops pet food, which isn't on my list. Both leaflets shaped it, so it is scored on the next unseen one.
+- **Left in on purpose.** Three errors would need rules for single phrases: a charity page whose description omits its products, a pet "bolsa de snacks", and "produtos de limpeza Dirt Devil" (gadgets).
+
+## Things the stores' data does that the code has to handle
+
+- **Conditional prices.** "-20% em Lidl Plus" or a card price is not the shelf price. Lidl offers get a `condition` field.
+- **Leaflet vs online prices.** Continente's leaflet warns that store prices and promotions may differ from Continente Online. This project uses online prices for Continente and says so.
+- **Structured leaflet data is not the leaflet price.** The product hotspots in Continente's leaflet carry the price *before* the promotion (Pescanova Supremas: hotspot 11.28, page text "PVPR 11,28 € · 8,99 €").
+- **Promotion end dates.** Some products show a far-off "valid until" (e.g. 2027-01-01). Anything more than 45 days away is shown as "no end date".
+- **Different weeks per store.** Lidl's offers run Monday to Sunday; Continente's run Tuesday to Monday.
 
 ## Cost
 
-| Step | API cost |
-|---|---|
-| Fetching leaflets | €0 (no API calls) |
-| Page filter | €0 (keyword rules on the leaflet's own alt text) |
-| Extraction | To be measured per page and reported here |
+| Step | API cost | Load on the store's site |
+|---|---|---|
+| Continente catalogue | €0 | 7 requests, when rebuilt |
+| Continente weekly prices | €0 | one request per accepted product (68 this week), one per second |
+| Leaflet downloads | €0 | one leaflet per store per week |
+| Page filter | €0 | none (keyword rules) |
+| Lidl extraction | To be measured per page | none |
 
 ## Run it
 
@@ -82,15 +107,18 @@ Requires Python 3.10+.
 ```bash
 pip install -r requirements.txt
 
-# 1. Download this week's Lidl leaflet (or pass a leaflet name, e.g. promocoes-semanais-a-partir-de-12-10)
-python src/fetch_lidl.py
+# Continente: catalogue (rebuild occasionally), review new products for my list, this week's prices
+python src/continente_catalogue.py build
+python src/continente_catalogue.py review
+python src/fetch_continente_online.py            # add --recheck about once a month
 
-# 1b. Download this week's mainland Continente leaflet (or pass a viewer address)
+# Leaflets
+python src/fetch_lidl.py
 python src/fetch_continente.py
 
-# 2. Page filter: make a blank label file, label it by hand, then predict and score
-FLYER=$(ls -d data/raw/lidl/*/ | head -n 1)
-python src/classify_pages.py template $FLYER   # fill 'relevant' with 1/0 by looking at each page
+# Page filter (Lidl): label a leaflet's pages by hand, then predict and score
+FLYER=data/raw/lidl/<flyer id>
+python src/classify_pages.py template $FLYER
 python src/classify_pages.py auto $FLYER
 python src/classify_pages.py eval $FLYER
 ```
@@ -98,18 +126,19 @@ python src/classify_pages.py eval $FLYER
 ## Repository layout
 
 ```
-src/fetch_lidl.py        download Lidl leaflet metadata and page images
-src/fetch_continente.py  download Continente leaflet page text, product hotspots and page images
-src/classify_pages.py    page filter: label template, keyword-rule predictions, evaluation
-data/raw/                downloaded leaflets (NOT committed: the images are the stores' copyrighted material)
-data/labels/             my hand labels and the predictions they are scored against (committed)
+src/continente_catalogue.py     catalogue from Continente's sitemaps; review which products count as each item
+src/fetch_continente_online.py  weekly prices, unit prices and checks for accepted products
+src/fetch_lidl.py               download Lidl leaflet metadata and page images
+src/fetch_continente.py         download Continente leaflet page text, product hotspots and page images
+src/classify_pages.py           page filter: label template, keyword-rule predictions, evaluation
+src/make_offer_labels.py        blank offer-label files per leaflet page, and a format check
+data/shopping/list.csv          my list: item (plain words), quantity, exclude, notes
+data/shopping/continente_products.csv   my decisions: which products count as each item
+data/prices/continente/         one price file per run (committed: the price history)
+data/labels/                    my hand labels and the predictions they are scored against
+data/raw/, data/catalogue/      downloads (not committed; leaflet images are the stores' material)
 ```
-
-## Known issues
-
-- The page filter barely helps on Continente: it keeps 50 of 52 pages of the 6–12 October leaflet, because the weekly leaflet is almost entirely groceries. Its savings are on Lidl, which has many non-food pages.
-- 73 of the 161 Continente product hotspots on pages 1–11 have no position on the page (they appear to be entries in a "several flavours" menu), so they can't be tied to a specific price box by position alone.
 
 ## Responsible use
 
-Personal, low-frequency use: one download per leaflet per week, one request per second, `robots.txt` respected, no leaflet images redistributed. Only extracted offer data, labels and metrics are published.
+Personal, low-frequency use: one request per second, `robots.txt` respected (Continente's disallows search and category paging, which this project doesn't use), no leaflet images redistributed. Only public prices, my labels and metrics are published.
