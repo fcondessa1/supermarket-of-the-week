@@ -37,6 +37,7 @@ from urllib.parse import urlsplit
 import requests
 
 PRODUCTS = Path("data/shopping/continente_products.csv")
+LIST = Path("data/shopping/list.csv")
 OUT = Path("data/prices/continente")
 FAILED_PAGES = Path("scratch/failed_pages")          # first 3 pages without a price, for inspection (not committed)
 PROMO_END_HORIZON_DAYS = 45                          # a "valid until" further away than this is shown as no end date
@@ -136,7 +137,7 @@ UNIT_FACTORS = {  # -> (base unit, factor)
 def drained_size_text(text: str) -> str:
     """'120 gr (peso escorrido 84 gr)' -> '84 gr'. Continente's own €/kg for canned fish uses the
     drained weight (2.74 € / 0.270 kg = 10.15 €/kg on the page), which is also the fair comparison."""
-    m = re.search(r"peso\s+escorrido\s*:?\s*(\d+(?:[.,]\d+)?\s*[a-z]+)", text, re.I)
+    m = re.search(r"peso\s+escorrido\s*:?\s*((?:\d+\s*x\s*)?\d+(?:[.,]\d+)?\s*[a-z]+)", text, re.I)
     return m.group(1) if m else ""
 
 
@@ -253,10 +254,23 @@ def main() -> None:
         sys.exit(f"{PRODUCTS} not found. Run: python src/continente_catalogue.py review")
     with open(PRODUCTS, encoding="utf-8") as f:
         decisions = list(csv.DictReader(f))
+    # The list decides what gets priced: decisions for items no longer on the list are kept (in case the
+    # item comes back) but not fetched; list items without decisions need a review first.
+    with open(LIST, encoding="utf-8") as f:
+        list_items = [r["item"].strip() for r in csv.DictReader(f) if (r.get("item") or "").strip()]
+    decided = {d["item"] for d in decisions}
+    for item in list_items:
+        if item not in decided:
+            print(f"'{item}': not reviewed yet -> run: python src/continente_catalogue.py review")
+        elif not any(d["item"] == item and d["decision"] == "accepted" for d in decisions):
+            print(f"'{item}': no accepted products (all rejected or unavailable)")
+    dropped = sorted(decided - set(list_items))
+    if dropped:
+        print(f"not on the list any more, skipped: {', '.join(dropped)}")
     wanted = {"accepted", "unavailable"} if "--recheck" in sys.argv else {"accepted"}
-    accepted = [r for r in decisions if r["decision"] in wanted]
+    accepted = [r for r in decisions if r["decision"] in wanted and r["item"] in list_items]
     if not accepted:
-        sys.exit("No accepted products yet. Run: python src/continente_catalogue.py review")
+        sys.exit("No accepted products for the items on the list. Run: python src/continente_catalogue.py review")
 
     today = date.today().isoformat()
     print(f"Fetching {len(accepted)} product pages (about {len(accepted) * (DELAY_S + 0.5) / 60:.0f} min)...")
@@ -318,6 +332,13 @@ def main() -> None:
         units = {r["unit"] for r in priced}
         if len(units) > 1:
             print(f"   WARNING: mixed units {sorted(units)}: some products are compared per kg, others per L or unit")
+        # Drained vs total weight are not comparable (2026-10-22: Atum Tritão, no drained weight on its
+        # page, ranked first per total kg while the others were per drained kg, ~70% of the total).
+        if any(r.get("weight_basis") == "drained" for r in priced):
+            total_basis = [r for r in priced[:3] if r.get("weight_basis") != "drained"]
+            for r in total_basis:
+                print(f"   WARNING: {r['name'][:45]} is priced per TOTAL weight (no drained weight on its page); "
+                      f"the drained ones are per drained weight, so it looks cheaper than it is")
     save_decisions(decisions)
     no_price = [r for r in rows if not r["price"]]
     unavailable = sum(1 for d in decisions if d["decision"] == "unavailable")

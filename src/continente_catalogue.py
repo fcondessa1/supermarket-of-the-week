@@ -40,7 +40,7 @@ DECISIONS = Path("data/shopping/continente_products.csv")
 DECISION_FIELDS = ["item", "product_id", "name", "url", "decision"]
 HEADERS = {"User-Agent": "Mozilla/5.0 (supermarket-of-the-week; personal project)"}
 DELAY_S = 1.0
-MAX_SHOWN = 80
+MAX_SHOWN = 200          # 2026-10-26: 113 genuine granolas were over the old limit of 80
 URL_RE = re.compile(r"/produto/([a-z0-9-]+)-(\d+)\.html")
 STOPWORDS = {"de", "da", "do", "das", "dos", "e", "com", "em", "a", "o", "ao", "para"}
 
@@ -55,8 +55,13 @@ def tokens(text: str) -> list[str]:
 
 
 def word_matches(query_word: str, name_words: list[str]) -> bool:
-    """'banana' matches 'bananas' and vice versa; at least 4 letters in common for the reverse case."""
-    return any(n.startswith(query_word) or (len(n) >= 4 and query_word.startswith(n)) for n in name_words)
+    """'banana' matches 'bananas' and vice versa; at least 4 letters in common for the reverse case.
+    Words of 1-2 letters must match exactly: 'm' (egg size M) must not match 'matinados' (a brand)."""
+    if len(query_word) <= 2:
+        return query_word in name_words
+    # Reverse direction only for plurals: query 'bananas' matches name 'banana', but query 'granola' must
+    # not match name 'gran' (2026-10-26: 'granola' matched 'gran reserva' rum and port wine).
+    return any(n.startswith(query_word) or query_word in (n + "s", n + "es") for n in name_words)
 
 
 # ---------- build ----------
@@ -107,13 +112,23 @@ def load_catalogue() -> list[dict]:
 
 
 def candidates(catalogue: list[dict], item: str, exclude: str) -> list[dict]:
-    """Every product whose name contains ALL words of the item and none of the excluded phrases."""
-    q = tokens(item)
+    """Every product whose name contains ALL words of the item and none of the excluded phrases.
+    An item starting with '^' must have its FIRST word at the start of the name; the other words can be
+    anywhere: '^mirtilo' keeps 'mirtilo continente 125 g' but not 'doce de mirtilo' (2026-10-22: plain
+    'mirtilos' matched 100 flavoured products), and '^capsulas cafe nicola' matches
+    'capsulas de cafe ... int 10 nicola' (2026-10-26: anchoring every word found nothing)."""
+    anchored = item.strip().startswith("^")
+    q = tokens(item.strip().lstrip("^"))
     bans = [normalise(x).strip() for x in exclude.split(";") if x.strip()]
-    found = [r for r in catalogue
-             if q and all(word_matches(t, r["_tokens"]) for t in q)
-             and not any(b in r["_norm"] for b in bans)]
-    return sorted(found, key=lambda r: r["name"])
+
+    def ok(r: dict) -> bool:
+        if not q or any(b in r["_norm"] for b in bans):
+            return False
+        if anchored and not (r["_tokens"] and word_matches(q[0], r["_tokens"][:1])):
+            return False
+        return all(word_matches(t, r["_tokens"]) for t in q)
+
+    return sorted((r for r in catalogue if ok(r)), key=lambda r: r["name"])
 
 
 def cmd_search(query: str) -> None:
@@ -159,10 +174,24 @@ def cmd_review() -> None:
     decisions = load_decisions()
     for row in items:
         item, exclude = row["item"].strip(), (row.get("exclude") or "").strip()
+        # Accepted products must still match the item's CURRENT words and exclusions: an exclusion added
+        # later, or a matching fix, removes them (2026-10-22: adding "frango" did not remove ready meals;
+        # "ovos classe m" had matched "classe xl matinados" through the one-letter word "m").
+        mine = [d for d in decisions if d["item"] == item and d["decision"] == "accepted"]
+        as_catalogue = [{"product_id": d["product_id"], "name": d["name"], "_tokens": tokens(d["name"]),
+                         "_norm": normalise(d["name"])} for d in mine]
+        still = {r["product_id"] for r in candidates(as_catalogue, item, exclude)}
+        newly_excluded = [d for d in mine if d["product_id"] not in still]
+        for d in newly_excluded:
+            d["decision"] = "rejected"
+        if newly_excluded:
+            save_decisions(decisions)
         seen = {d["product_id"] for d in decisions if d["item"] == item}
         accepted = sum(1 for d in decisions if d["item"] == item and d["decision"] == "accepted")
         new = [r for r in candidates(catalogue, item, exclude) if r["product_id"] not in seen]
         print(f"\n== {item}  (exclude: {exclude or '-'})  already accepted: {accepted}")
+        for d in newly_excluded:
+            print(f"   no longer matches this item, now rejected: {d['name']}")
         if not new:
             print("   nothing new")
             continue

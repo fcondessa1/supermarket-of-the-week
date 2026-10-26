@@ -1,173 +1,374 @@
 item,product_id,name,url,decision
+^capsulas de cafe nicola,7620731,capsulas de cafe 100  arabica int 10 nicola,https://www.continente.pt/produto/capsulas-de-cafe-100--arabica-int-10-nicola-7620731.html,accepted
+^capsulas de cafe nicola,7813575,capsulas de cafe 100  arabica int 10 nicola,https://www.continente.pt/produto/capsulas-de-cafe-100--arabica-int-10-nicola-7813575.html,unavailable
+^capsulas de cafe nicola,7620744,capsulas de cafe alma brasil int 10 nicola,https://www.continente.pt/produto/capsulas-de-cafe-alma-brasil-int-10-nicola-7620744.html,accepted
+^capsulas de cafe nicola,5915273,capsulas de cafe alma brasil int 9 nicola,https://www.continente.pt/produto/capsulas-de-cafe-alma-brasil-int-9-nicola-5915273.html,unavailable
+^capsulas de cafe nicola,5915275,capsulas de cafe alma colombia int 8 nicola,https://www.continente.pt/produto/capsulas-de-cafe-alma-colombia-int-8-nicola-5915275.html,unavailable
+^capsulas de cafe nicola,7201322,capsulas de cafe alma india int 11 nicola,https://www.continente.pt/produto/capsulas-de-cafe-alma-india-int-11-nicola-7201322.html,unavailable
+^capsulas de cafe nicola,7620748,capsulas de cafe alma peru int 9 nicola,https://www.continente.pt/produto/capsulas-de-cafe-alma-peru-int-9-nicola-7620748.html,accepted
+^capsulas de cafe nicola,7201270,capsulas de cafe alma peru int 9 nicola,https://www.continente.pt/produto/capsulas-de-cafe-alma-peru-int-9-nicola-7201270.html,unavailable
+^capsulas de cafe nicola,5915270,capsulas de cafe alma quenia int 10 nicola,https://www.continente.pt/produto/capsulas-de-cafe-alma-quenia-int-10-nicola-5915270.html,unavailable
+^capsulas de cafe nicola,7620735,capsulas de cafe alma quenia int 11 nicola,https://www.continente.pt/produto/capsulas-de-cafe-alma-quenia-int-11-nicola-7620735.html,accepted
+^capsulas de cafe nicola,6649632,capsulas de cafe aroma baunilha int 8 nicola,https://www.continente.pt/produto/capsulas-de-cafe-aroma-baunilha-int-8-nicola-6649632.html,unavailable
+^capsulas de cafe nicola,5740056,capsulas de cafe bocage int 11 nicola,https://www.continente.pt/produto/capsulas-de-cafe-bocage-int-11-nicola-5740056.html,accepted
+^capsulas de cafe nicola,7673478,capsulas de cafe bocage int 11 nicola,https://www.continente.pt/produto/capsulas-de-cafe-bocage-int-11-nicola-7673478.html,accepted
+^capsulas de cafe nicola,8952219,capsulas de cafe bocage int 11 nicola,https://www.continente.pt/produto/capsulas-de-cafe-bocage-int-11-nicola-8952219.html,accepted
+^capsulas de cafe nicola,7224012,capsulas de cafe bocage int 7 nicola,https://www.continente.pt/produto/capsulas-de-cafe-bocage-int-7-nicola-7224012.html,unavailable
+^capsulas de cafe nicola,7175905,capsulas de cafe bocage int 7 nicola,https://www.continente.pt/produto/capsulas-de-cafe-bocage-int-7-nicola-7175905.html,unavailable
+^capsulas de cafe nicola,7620728,capsulas de cafe encorpado int 11 nicola,https://www.continente.pt/produto/capsulas-de-cafe-encorpado-int-11-nicola-7620728.html,accepted
+^capsulas de cafe nicola,7848382,capsulas de cafe encorpado int 11 nicola,https://www.continente.pt/produto/capsulas-de-cafe-encorpado-int-11-nicola-7848382.html,accepted
+^capsulas de cafe nicola,7813577,capsulas de cafe encorpado int 11 nicola,https://www.continente.pt/produto/capsulas-de-cafe-encorpado-int-11-nicola-7813577.html,unavailable
+^capsulas de cafe nicola,7620722,capsulas de cafe intenso int 12 nicola,https://www.continente.pt/produto/capsulas-de-cafe-intenso-int-12-nicola-7620722.html,accepted
+^capsulas de cafe nicola,7848384,capsulas de cafe intenso int 12 nicola,https://www.continente.pt/produto/capsulas-de-cafe-intenso-int-12-nicola-7848384.html,accepted
+^capsulas de cafe nicola,7813578,capsulas de cafe intenso int 12 nicola,https://www.continente.pt/produto/capsulas-de-cafe-intenso-int-12-nicola-7813578.html,unavailable
+^capsulas de cafe nicola,6917694,capsulas de cafe mundi int 9 nicola,https://www.continente.pt/produto/capsulas-de-cafe-mundi-int-9-nicola-6917694.html,accepted
+^capsulas de cafe nicola,7673486,capsulas de cafe mundi int 9 nicola,https://www.continente.pt/produto/capsulas-de-cafe-mundi-int-9-nicola-7673486.html,accepted
+^capsulas de cafe nicola,7175907,capsulas de cafe mundi int 9 nicola,https://www.continente.pt/produto/capsulas-de-cafe-mundi-int-9-nicola-7175907.html,unavailable
+^capsulas de cafe nicola,7175908,capsulas de cafe rossio int 10 nicola,https://www.continente.pt/produto/capsulas-de-cafe-rossio-int-10-nicola-7175908.html,unavailable
+^capsulas de cafe nicola,7224036,capsulas de cafe rossio int 10 nicola,https://www.continente.pt/produto/capsulas-de-cafe-rossio-int-10-nicola-7224036.html,unavailable
+^capsulas de cafe nicola,5740053,capsulas de cafe rossio int 12 nicola,https://www.continente.pt/produto/capsulas-de-cafe-rossio-int-12-nicola-5740053.html,accepted
+^capsulas de cafe nicola,7673508,capsulas de cafe rossio int 12 nicola,https://www.continente.pt/produto/capsulas-de-cafe-rossio-int-12-nicola-7673508.html,accepted
+^capsulas de cafe nicola,8952235,capsulas de cafe rossio int 12 nicola,https://www.continente.pt/produto/capsulas-de-cafe-rossio-int-12-nicola-8952235.html,accepted
+^capsulas de cafe nicola,8952228,capsulas de cafe selecto int 10 nicola,https://www.continente.pt/produto/capsulas-de-cafe-selecto-int-10-nicola-8952228.html,accepted
+^capsulas de cafe nicola,7175906,capsulas de cafe selecto int 6 nicola,https://www.continente.pt/produto/capsulas-de-cafe-selecto-int-6-nicola-7175906.html,unavailable
+^capsulas de cafe nicola,6917697,capsulas de cafe selecto int 6 nicola,https://www.continente.pt/produto/capsulas-de-cafe-selecto-int-6-nicola-6917697.html,unavailable
+^capsulas de cafe nicola,7224020,capsulas de cafe selecto int 6 nicola,https://www.continente.pt/produto/capsulas-de-cafe-selecto-int-6-nicola-7224020.html,unavailable
+^granola,7941092,granola alfarroba e coco grand carob,https://www.continente.pt/produto/granola-alfarroba-e-coco-grand-carob-7941092.html,accepted
+^granola,7941134,granola alfarroba e morango grand carob,https://www.continente.pt/produto/granola-alfarroba-e-morango-grand-carob-7941134.html,accepted
+^granola,7941188,granola alfarroba laranja e amendoa grand carob,https://www.continente.pt/produto/granola-alfarroba-laranja-e-amendoa-grand-carob-7941188.html,accepted
+^granola,7158972,granola all bran amendoa e sementes de abobora kelloggs,https://www.continente.pt/produto/granola-all-bran-amendoa-e-sementes-de-abobora-kelloggs-7158972.html,unavailable
+^granola,7158969,granola all bran prebiotic classico kelloggs,https://www.continente.pt/produto/granola-all-bran-prebiotic-classico-kelloggs-7158969.html,unavailable
+^granola,7306188,granola amendoa e avela rude health,https://www.continente.pt/produto/granola-amendoa-e-avela-rude-health-7306188.html,accepted
+^granola,7131362,granola amendoa e sementes abobora origens bio,https://www.continente.pt/produto/granola-amendoa-e-sementes-abobora-origens-bio-7131362.html,accepted
+^granola,7306184,granola amendoas crocantes rude health,https://www.continente.pt/produto/granola-amendoas-crocantes-rude-health-7306184.html,accepted
+^granola,8968639,granola amendoim crunch fuel 10k,https://www.continente.pt/produto/granola-amendoim-crunch-fuel-10k-8968639.html,accepted
+^granola,8067447,granola antiox salutem,https://www.continente.pt/produto/granola-antiox-salutem-8067447.html,unavailable
+^granola,6811393,granola arandos e goji continente equilibrio,https://www.continente.pt/produto/granola-arandos-e-goji-continente-equilibrio-6811393.html,unavailable
+^granola,5931707,granola arandos e sementes de abobora fitness,https://www.continente.pt/produto/granola-arandos-e-sementes-de-abobora-fitness-5931707.html,accepted
+^granola,5895640,granola aveia barnhouse,https://www.continente.pt/produto/granola-aveia-barnhouse-5895640.html,unavailable
+^granola,7755054,granola aveia cacau e proteina de ervilha sport simple,https://www.continente.pt/produto/granola-aveia-cacau-e-proteina-de-ervilha-sport-simple-7755054.html,accepted
+^granola,5772641,granola aveia com chocolate cruesli quaker,https://www.continente.pt/produto/granola-aveia-com-chocolate-cruesli-quaker-5772641.html,accepted
+^granola,5772619,granola aveia com frutas cruesli quaker,https://www.continente.pt/produto/granola-aveia-com-frutas-cruesli-quaker-5772619.html,accepted
+^granola,5772642,granola aveia com frutos secos cruesli quaker,https://www.continente.pt/produto/granola-aveia-com-frutos-secos-cruesli-quaker-5772642.html,accepted
+^granola,8005946,granola aveia crocante morango e mirtilo quaker,https://www.continente.pt/produto/granola-aveia-crocante-morango-e-mirtilo-quaker-8005946.html,unavailable
+^granola,7619942,granola aveia e chocolate negro kelloggs,https://www.continente.pt/produto/granola-aveia-e-chocolate-negro-kelloggs-7619942.html,accepted
+^granola,7619937,granola aveia e frutos vermelhos kelloggs,https://www.continente.pt/produto/granola-aveia-e-frutos-vermelhos-kelloggs-7619937.html,unavailable
+^granola,5778947,granola aveia e mel fitness,https://www.continente.pt/produto/granola-aveia-e-mel-fitness-5778947.html,accepted
+^granola,8933063,granola aveia e mel fitness,https://www.continente.pt/produto/granola-aveia-e-mel-fitness-8933063.html,accepted
+^granola,6880519,granola aveia integral cem porcento,https://www.continente.pt/produto/granola-aveia-integral-cem-porcento-6880519.html,unavailable
+^granola,5778949,granola aveia trigo e chocolate fitness,https://www.continente.pt/produto/granola-aveia-trigo-e-chocolate-fitness-5778949.html,accepted
+^granola,6643102,granola aveia uva e amendoa jordans,https://www.continente.pt/produto/granola-aveia-uva-e-amendoa-jordans-6643102.html,unavailable
+^granola,8961976,granola berry com sementes e arandos nolita,https://www.continente.pt/produto/granola-berry-com-sementes-e-arandos-nolita-8961976.html,accepted
+^granola,8885525,granola bites cacau sem gluten sem adicao de acucar continente equilibrio,https://www.continente.pt/produto/granola-bites-cacau-sem-gluten-sem-adicao-de-acucar-continente-equilibrio-8885525.html,accepted
+^granola,8885528,granola bites maca e canela sem gluten sem adicao de acucar continente equilibrio,https://www.continente.pt/produto/granola-bites-maca-e-canela-sem-gluten-sem-adicao-de-acucar-continente-equilibrio-8885528.html,accepted
+^granola,8885527,granola bites manteiga de amendoim sem gluten sem adicao de acucar continente equilibrio,https://www.continente.pt/produto/granola-bites-manteiga-de-amendoim-sem-gluten-sem-adicao-de-acucar-continente-equilibrio-8885527.html,accepted
+^granola,7778845,granola cafe e chocolate extra barista kelloggs,https://www.continente.pt/produto/granola-cafe-e-chocolate-extra-barista-kelloggs-7778845.html,unavailable
+^granola,4228611,granola cem porcento,https://www.continente.pt/produto/granola-cem-porcento-4228611.html,accepted
+^granola,5515843,granola cereais dourados cem porcento,https://www.continente.pt/produto/granola-cereais-dourados-cem-porcento-5515843.html,unavailable
+^granola,8003345,granola cereais e frutos secos salutem,https://www.continente.pt/produto/granola-cereais-e-frutos-secos-salutem-8003345.html,unavailable
+^granola,8968638,granola chocolate chunks fuel 10k,https://www.continente.pt/produto/granola-chocolate-chunks-fuel-10k-8968638.html,accepted
+^granola,6863193,granola chocolate e amendoa continente bio,https://www.continente.pt/produto/granola-chocolate-e-amendoa-continente-bio-6863193.html,unavailable
+^granola,6996723,granola chocolate e avela kelloggs,https://www.continente.pt/produto/granola-chocolate-e-avela-kelloggs-6996723.html,unavailable
+^granola,8003339,granola chocolate e avela salutem,https://www.continente.pt/produto/granola-chocolate-e-avela-salutem-8003339.html,unavailable
+^granola,5515841,granola chocolate e coco cem porcento,https://www.continente.pt/produto/granola-chocolate-e-coco-cem-porcento-5515841.html,accepted
+^granola,7708640,granola chocolate e coco salutem,https://www.continente.pt/produto/granola-chocolate-e-coco-salutem-7708640.html,unavailable
+^granola,7084292,granola chocolate e coco sem gluten bjorg,https://www.continente.pt/produto/granola-chocolate-e-coco-sem-gluten-bjorg-7084292.html,unavailable
+^granola,7388333,granola chocolate e morango veggis,https://www.continente.pt/produto/granola-chocolate-e-morango-veggis-7388333.html,unavailable
+^granola,8014497,granola chocolate negro e coco salutem,https://www.continente.pt/produto/granola-chocolate-negro-e-coco-salutem-8014497.html,accepted
+^granola,6984678,granola chocolate origens bio,https://www.continente.pt/produto/granola-chocolate-origens-bio-6984678.html,accepted
+^granola,7443668,granola chocolate rude health,https://www.continente.pt/produto/granola-chocolate-rude-health-7443668.html,accepted
+^granola,8484478,granola chocolate salgado nacional,https://www.continente.pt/produto/granola-chocolate-salgado-nacional-8484478.html,accepted
+^granola,7132080,granola chocolate seara,https://www.continente.pt/produto/granola-chocolate-seara-7132080.html,accepted
+^granola,8372509,granola chocolate sem acucar why foods,https://www.continente.pt/produto/granola-chocolate-sem-acucar-why-foods-8372509.html,accepted
+^granola,6116899,granola coco e chia rude health,https://www.continente.pt/produto/granola-coco-e-chia-rude-health-6116899.html,unavailable
+^granola,7158974,granola coco e chocolate proteina kelloggs,https://www.continente.pt/produto/granola-coco-e-chocolate-proteina-kelloggs-7158974.html,unavailable
+^granola,7131363,granola coco e goji origens bio,https://www.continente.pt/produto/granola-coco-e-goji-origens-bio-7131363.html,accepted
+^granola,8372541,granola cookies sem acucar why foods,https://www.continente.pt/produto/granola-cookies-sem-acucar-why-foods-8372541.html,accepted
+^granola,6863078,granola crunchy chocolate continente bio,https://www.continente.pt/produto/granola-crunchy-chocolate-continente-bio-6863078.html,unavailable
+^granola,8961973,granola crunchy com sementes e avelas nolita,https://www.continente.pt/produto/granola-crunchy-com-sementes-e-avelas-nolita-8961973.html,accepted
+^granola,6863099,granola crunchy frutas continente bio,https://www.continente.pt/produto/granola-crunchy-frutas-continente-bio-6863099.html,unavailable
+^granola,6863110,granola crunchy frutos vermelhos continente bio,https://www.continente.pt/produto/granola-crunchy-frutos-vermelhos-continente-bio-6863110.html,unavailable
+^granola,8933048,granola crunchy oats fitness,https://www.continente.pt/produto/granola-crunchy-oats-fitness-8933048.html,accepted
+^granola,8958720,granola crunchy sementes e avela nolita,https://www.continente.pt/produto/granola-crunchy-sementes-e-avela-nolita-8958720.html,unavailable
+^granola,6462355,granola de aveia crocante com bagas de goji e mirtilos quaker,https://www.continente.pt/produto/granola-de-aveia-crocante-com-bagas-de-goji-e-mirtilos-quaker-6462355.html,unavailable
+^granola,6633091,granola de aveia crocante com nozes pecan quaker,https://www.continente.pt/produto/granola-de-aveia-crocante-com-nozes-pecan-quaker-6633091.html,unavailable
+^granola,7068471,granola de aveia integral com cacau e chocolate negro nacional,https://www.continente.pt/produto/granola-de-aveia-integral-com-cacau-e-chocolate-negro-nacional-7068471.html,unavailable
+^granola,7068487,granola de aveia integral e mel nacional,https://www.continente.pt/produto/granola-de-aveia-integral-e-mel-nacional-7068487.html,unavailable
+^granola,5515840,granola fruta e canela cem porcento,https://www.continente.pt/produto/granola-fruta-e-canela-cem-porcento-5515840.html,unavailable
+^granola,6643096,granola fruta e frutos secos jordans,https://www.continente.pt/produto/granola-fruta-e-frutos-secos-jordans-6643096.html,unavailable
+^granola,6938793,granola frutos secos cem porcento,https://www.continente.pt/produto/granola-frutos-secos-cem-porcento-6938793.html,accepted
+^granola,6863208,granola frutos secos e mel continente bio,https://www.continente.pt/produto/granola-frutos-secos-e-mel-continente-bio-6863208.html,unavailable
+^granola,8843156,granola frutos secos e sementes kelloggs,https://www.continente.pt/produto/granola-frutos-secos-e-sementes-kelloggs-8843156.html,accepted
+^granola,8484477,granola frutos secos e sementes nacional,https://www.continente.pt/produto/granola-frutos-secos-e-sementes-nacional-8484477.html,accepted
+^granola,6501280,granola frutos secos kelloggs,https://www.continente.pt/produto/granola-frutos-secos-kelloggs-6501280.html,unavailable
+^granola,6094241,granola frutos silvestres barnhouse,https://www.continente.pt/produto/granola-frutos-silvestres-barnhouse-6094241.html,unavailable
+^granola,5515856,granola frutos vermelhos cem porcento,https://www.continente.pt/produto/granola-frutos-vermelhos-cem-porcento-5515856.html,accepted
+^granola,6938780,granola frutos vermelhos cem porcento,https://www.continente.pt/produto/granola-frutos-vermelhos-cem-porcento-6938780.html,accepted
+^granola,6527491,granola frutos vermelhos forma,https://www.continente.pt/produto/granola-frutos-vermelhos-forma-6527491.html,unavailable
+^granola,8967521,granola frutos vermelhos fuel 10k,https://www.continente.pt/produto/granola-frutos-vermelhos-fuel-10k-8967521.html,accepted
+^granola,7443667,granola frutos vermelhos organica rude health,https://www.continente.pt/produto/granola-frutos-vermelhos-organica-rude-health-7443667.html,accepted
+^granola,6984708,granola frutos vermelhos origens bio,https://www.continente.pt/produto/granola-frutos-vermelhos-origens-bio-6984708.html,accepted
+^granola,8014496,granola frutos vermelhos salutem,https://www.continente.pt/produto/granola-frutos-vermelhos-salutem-8014496.html,accepted
+^granola,7264935,granola integral light salutem,https://www.continente.pt/produto/granola-integral-light-salutem-7264935.html,unavailable
+^granola,8014736,granola integral sementes e frutos secos salutem,https://www.continente.pt/produto/granola-integral-sementes-e-frutos-secos-salutem-8014736.html,accepted
+^granola,5895715,granola krunchy de avela  e chocolate negro barnhouse,https://www.continente.pt/produto/granola-krunchy-de-avela--e-chocolate-negro-barnhouse-5895715.html,accepted
+^granola,7844710,granola laranje chocolate e amendoim energy simple,https://www.continente.pt/produto/granola-laranje-chocolate-e-amendoim-energy-simple-7844710.html,unavailable
+^granola,4386656,granola maca e canela continente,https://www.continente.pt/produto/granola-maca-e-canela-continente-4386656.html,unavailable
+^granola,6116898,granola maca e especiarias rude health,https://www.continente.pt/produto/granola-maca-e-especiarias-rude-health-6116898.html,unavailable
+^granola,6996509,granola maca framboesa e cenoura kelloggs,https://www.continente.pt/produto/granola-maca-framboesa-e-cenoura-kelloggs-6996509.html,unavailable
+^granola,6116897,granola mel e frutos secos rude health,https://www.continente.pt/produto/granola-mel-e-frutos-secos-rude-health-6116897.html,unavailable
+^granola,6116903,granola morango e framboesa rude health,https://www.continente.pt/produto/granola-morango-e-framboesa-rude-health-6116903.html,unavailable
+^granola,7388364,granola multicereais veggis,https://www.continente.pt/produto/granola-multicereais-veggis-7388364.html,unavailable
+^granola,8961975,granola nutty com sementes e cajus nolita,https://www.continente.pt/produto/granola-nutty-com-sementes-e-cajus-nolita-8961975.html,accepted
+^granola,8958916,granola nutty sementes e caju nolita,https://www.continente.pt/produto/granola-nutty-sementes-e-caju-nolita-8958916.html,unavailable
+^granola,7158975,granola original proteina kelloggs,https://www.continente.pt/produto/granola-original-proteina-kelloggs-7158975.html,unavailable
+^granola,7394720,granola original sem gluten cem porcento,https://www.continente.pt/produto/granola-original-sem-gluten-cem-porcento-7394720.html,accepted
+^granola,7306192,granola passas rude health,https://www.continente.pt/produto/granola-passas-rude-health-7306192.html,unavailable
+^granola,7107069,granola portuguesa serramel,https://www.continente.pt/produto/granola-portuguesa-serramel-7107069.html,unavailable
+^granola,7394711,granola proteica cem porcento,https://www.continente.pt/produto/granola-proteica-cem-porcento-7394711.html,accepted
+^granola,7640422,granola proteica chocolate origens bio,https://www.continente.pt/produto/granola-proteica-chocolate-origens-bio-7640422.html,accepted
+^granola,7424570,granola proteica frutos do bosque prozis,https://www.continente.pt/produto/granola-proteica-frutos-do-bosque-prozis-7424570.html,accepted
+^granola,7434893,granola proteica nacional,https://www.continente.pt/produto/granola-proteica-nacional-7434893.html,unavailable
+^granola,7380483,granola proteina chocolate e avelas prozis,https://www.continente.pt/produto/granola-proteina-chocolate-e-avelas-prozis-7380483.html,accepted
+^granola,6902167,granola quinoa amendoas e chocolate fitness,https://www.continente.pt/produto/granola-quinoa-amendoas-e-chocolate-fitness-6902167.html,accepted
+^granola,5437495,granola salutem,https://www.continente.pt/produto/granola-salutem-5437495.html,unavailable
+^granola,5177128,granola seara,https://www.continente.pt/produto/granola-seara-5177128.html,accepted
+^granola,8061093,granola sem acucar why foods,https://www.continente.pt/produto/granola-sem-acucar-why-foods-8061093.html,accepted
+^granola,6811394,granola sementes continente equilibrio,https://www.continente.pt/produto/granola-sementes-continente-equilibrio-6811394.html,unavailable
+^granola,8843179,granola special k natural kelloggs,https://www.continente.pt/produto/granola-special-k-natural-kelloggs-8843179.html,accepted
+^granola,8962067,granola sporty com sementes e amendoas nolita,https://www.continente.pt/produto/granola-sporty-com-sementes-e-amendoas-nolita-8962067.html,accepted
+^granola,8959261,granola sporty sementes e amendoas nolita,https://www.continente.pt/produto/granola-sporty-sementes-e-amendoas-nolita-8959261.html,unavailable
+^granola,8014696,granola superior antiox salutem,https://www.continente.pt/produto/granola-superior-antiox-salutem-8014696.html,accepted
+^granola,8014724,granola superior integral frutos secos salutem,https://www.continente.pt/produto/granola-superior-integral-frutos-secos-salutem-8014724.html,accepted
+^granola,7306160,granola superior rude health,https://www.continente.pt/produto/granola-superior-rude-health-7306160.html,accepted
+^granola,7264933,granola superior salutem,https://www.continente.pt/produto/granola-superior-salutem-7264933.html,unavailable
+^granola,7626072,granola suprema 5 sementes e arando cem porcento,https://www.continente.pt/produto/granola-suprema-5-sementes-e-arando-cem-porcento-7626072.html,unavailable
+^granola,4386622,granola triplo chocolate continente,https://www.continente.pt/produto/granola-triplo-chocolate-continente-4386622.html,accepted
+^granola,6643043,granola tropical jordans,https://www.continente.pt/produto/granola-tropical-jordans-6643043.html,unavailable
+^granola,6643117,granola tropical serramel,https://www.continente.pt/produto/granola-tropical-serramel-6643117.html,unavailable
+^mirtilo,7751334,mirtilo,https://www.continente.pt/produto/mirtilo-7751334.html,accepted
+^mirtilo,8602519,mirtilo,https://www.continente.pt/produto/mirtilo-8602519.html,accepted
+^mirtilo,8794282,mirtilo beirabaga,https://www.continente.pt/produto/mirtilo-beirabaga-8794282.html,accepted
+^mirtilo,8420798,mirtilo biologico continente bio,https://www.continente.pt/produto/mirtilo-biologico-continente-bio-8420798.html,accepted
+^mirtilo,7465846,mirtilo biologico continente bio,https://www.continente.pt/produto/mirtilo-biologico-continente-bio-7465846.html,accepted
+^mirtilo,8501004,mirtilo biologico valmarques,https://www.continente.pt/produto/mirtilo-biologico-valmarques-8501004.html,accepted
+^mirtilo,7743468,mirtilo continente,https://www.continente.pt/produto/mirtilo-continente-7743468.html,accepted
+^mirtilo,8899242,mirtilo continente,https://www.continente.pt/produto/mirtilo-continente-8899242.html,accepted
+^mirtilo,7820134,mirtilo continente,https://www.continente.pt/produto/mirtilo-continente-7820134.html,accepted
+^mirtilo,8820987,mirtilo liofilizado summmer,https://www.continente.pt/produto/mirtilo-liofilizado-summmer-8820987.html,accepted
+^mirtilo,8521382,mirtilo sekoya continente,https://www.continente.pt/produto/mirtilo-sekoya-continente-8521382.html,accepted
+^mirtilo,8030020,mirtilo sekoya continente,https://www.continente.pt/produto/mirtilo-sekoya-continente-8030020.html,accepted
+^mirtilo,8440878,mirtilos continente,https://www.continente.pt/produto/mirtilos-continente-8440878.html,accepted
+^mirtilo,7594144,mirtilos origens bio,https://www.continente.pt/produto/mirtilos-origens-bio-7594144.html,accepted
+^mirtilo,6870044,mirtilo biocool bio 300g,https://www.continente.pt/produto/mirtilo-biocool-bio-300g-6870044.html,unavailable
+^mirtilo,7483736,mirtilo biologico continente bio,https://www.continente.pt/produto/mirtilo-biologico-continente-bio-7483736.html,unavailable
+^mirtilo,8416285,mirtilo continente,https://www.continente.pt/produto/mirtilo-continente-8416285.html,unavailable
+^mirtilo,5603656,mirtilo continente,https://www.continente.pt/produto/mirtilo-continente-5603656.html,unavailable
+^mirtilo,6868811,mirtilos continente 400g,https://www.continente.pt/produto/mirtilos-continente-400g-6868811.html,unavailable
+^mirtilo,8172987,mirtilos gelcampo,https://www.continente.pt/produto/mirtilos-gelcampo-8172987.html,unavailable
 arroz agulha,2769747,arroz agulha bom sucesso,https://www.continente.pt/produto/arroz-agulha-bom-sucesso-2769747.html,accepted
 arroz agulha,2005625,arroz agulha branqueado extra longo oriente,https://www.continente.pt/produto/arroz-agulha-branqueado-extra-longo-oriente-2005625.html,accepted
 arroz agulha,2305902,arroz agulha cigala,https://www.continente.pt/produto/arroz-agulha-cigala-2305902.html,accepted
 arroz agulha,6927230,arroz agulha continente,https://www.continente.pt/produto/arroz-agulha-continente-6927230.html,accepted
-arroz agulha,7828780,arroz agulha europa pack poupanca continente,https://www.continente.pt/produto/arroz-agulha-europa-pack-poupanca-continente-7828780.html,unavailable
 arroz agulha,2203036,arroz agulha extra longo cacarola,https://www.continente.pt/produto/arroz-agulha-extra-longo-cacarola-2203036.html,accepted
 arroz agulha,7830661,arroz agulha extra longo cacarola,https://www.continente.pt/produto/arroz-agulha-extra-longo-cacarola-7830661.html,accepted
-arroz agulha,2385145,arroz agulha insular,https://www.continente.pt/produto/arroz-agulha-insular-2385145.html,unavailable
 arroz agulha,7406754,arroz agulha integral cigala,https://www.continente.pt/produto/arroz-agulha-integral-cigala-7406754.html,accepted
-arroz agulha,6866579,arroz agulha longo continente bio,https://www.continente.pt/produto/arroz-agulha-longo-continente-bio-6866579.html,unavailable
 arroz agulha,7907491,arroz agulha oriente,https://www.continente.pt/produto/arroz-agulha-oriente-7907491.html,accepted
 arroz agulha,8252351,arroz agulha pack poupanca continente,https://www.continente.pt/produto/arroz-agulha-pack-poupanca-continente-8252351.html,accepted
-arroz agulha,8147045,arroz agulha pack poupanca continente,https://www.continente.pt/produto/arroz-agulha-pack-poupanca-continente-8147045.html,unavailable
-arroz agulha,7299943,arroz agulha pack poupanca continente,https://www.continente.pt/produto/arroz-agulha-pack-poupanca-continente-7299943.html,unavailable
 arroz agulha,2003658,arroz agulha pato real,https://www.continente.pt/produto/arroz-agulha-pato-real-2003658.html,accepted
 arroz agulha,7771393,arroz agulha pronto a comer cigala,https://www.continente.pt/produto/arroz-agulha-pronto-a-comer-cigala-7771393.html,accepted
-arroz agulha,8239317,arroz agulha pronto a comer louro,https://www.continente.pt/produto/arroz-agulha-pronto-a-comer-louro-8239317.html,unavailable
 arroz agulha,4613405,arroz agulha pronto a comer sem gluten continente,https://www.continente.pt/produto/arroz-agulha-pronto-a-comer-sem-gluten-continente-4613405.html,accepted
-arroz agulha,2609849,arroz agulha pronto a comer uncle bens,https://www.continente.pt/produto/arroz-agulha-pronto-a-comer-uncle-bens-2609849.html,unavailable
 arroz agulha,4837858,arroz agulha saludaes,https://www.continente.pt/produto/arroz-agulha-saludaes-4837858.html,accepted
 arroz agulha,4954132,arroz agulha selecionado continente,https://www.continente.pt/produto/arroz-agulha-selecionado-continente-4954132.html,accepted
+arroz agulha,7828780,arroz agulha europa pack poupanca continente,https://www.continente.pt/produto/arroz-agulha-europa-pack-poupanca-continente-7828780.html,unavailable
+arroz agulha,2385145,arroz agulha insular,https://www.continente.pt/produto/arroz-agulha-insular-2385145.html,unavailable
+arroz agulha,6866579,arroz agulha longo continente bio,https://www.continente.pt/produto/arroz-agulha-longo-continente-bio-6866579.html,unavailable
+arroz agulha,8147045,arroz agulha pack poupanca continente,https://www.continente.pt/produto/arroz-agulha-pack-poupanca-continente-8147045.html,unavailable
+arroz agulha,7299943,arroz agulha pack poupanca continente,https://www.continente.pt/produto/arroz-agulha-pack-poupanca-continente-7299943.html,unavailable
+arroz agulha,8239317,arroz agulha pronto a comer louro,https://www.continente.pt/produto/arroz-agulha-pronto-a-comer-louro-8239317.html,unavailable
+arroz agulha,2609849,arroz agulha pronto a comer uncle bens,https://www.continente.pt/produto/arroz-agulha-pronto-a-comer-uncle-bens-2609849.html,unavailable
 arroz agulha,7932443,arroz agulha selecionado pack poupanca continente,https://www.continente.pt/produto/arroz-agulha-selecionado-pack-poupanca-continente-7932443.html,unavailable
 arroz basmati,2699873,arroz basmati brajma cigala,https://www.continente.pt/produto/arroz-basmati-brajma-cigala-2699873.html,accepted
-arroz basmati,2700058,arroz basmati brajma pronto a comer sem gluten cigala,https://www.continente.pt/produto/arroz-basmati-brajma-pronto-a-comer-sem-gluten-cigala-2700058.html,accepted
 arroz basmati,2735673,arroz basmati cacarola,https://www.continente.pt/produto/arroz-basmati-cacarola-2735673.html,accepted
 arroz basmati,3040677,arroz basmati cacarola,https://www.continente.pt/produto/arroz-basmati-cacarola-3040677.html,accepted
 arroz basmati,7406680,arroz basmati cigala,https://www.continente.pt/produto/arroz-basmati-cigala-7406680.html,accepted
 arroz basmati,4949515,arroz basmati continente,https://www.continente.pt/produto/arroz-basmati-continente-4949515.html,accepted
-arroz basmati,8087992,arroz basmati continente,https://www.continente.pt/produto/arroz-basmati-continente-8087992.html,unavailable
 arroz basmati,2232813,arroz basmati extra longo cacarola,https://www.continente.pt/produto/arroz-basmati-extra-longo-cacarola-2232813.html,accepted
-arroz basmati,8984719,arroz basmati extra longo daawat,https://www.continente.pt/produto/arroz-basmati-extra-longo-daawat-8984719.html,unavailable
-arroz basmati,3699133,arroz basmati extra longo pato real,https://www.continente.pt/produto/arroz-basmati-extra-longo-pato-real-3699133.html,unavailable
 arroz basmati,7731772,arroz basmati himalaias origens bio,https://www.continente.pt/produto/arroz-basmati-himalaias-origens-bio-7731772.html,accepted
-arroz basmati,5453213,arroz basmati insular,https://www.continente.pt/produto/arroz-basmati-insular-5453213.html,unavailable
 arroz basmati,6368465,arroz basmati integral continente equilibrio,https://www.continente.pt/produto/arroz-basmati-integral-continente-equilibrio-6368465.html,accepted
 arroz basmati,6866580,arroz basmati longo continente bio,https://www.continente.pt/produto/arroz-basmati-longo-continente-bio-6866580.html,accepted
-arroz basmati,8821530,arroz basmati o passe,https://www.continente.pt/produto/arroz-basmati-o-passe-8821530.html,unavailable
 arroz basmati,7994153,arroz basmati oriente,https://www.continente.pt/produto/arroz-basmati-oriente-7994153.html,accepted
 arroz basmati,2605008,arroz basmati oriente,https://www.continente.pt/produto/arroz-basmati-oriente-2605008.html,accepted
-arroz basmati,7907490,arroz basmati oriente,https://www.continente.pt/produto/arroz-basmati-oriente-7907490.html,unavailable
 arroz basmati,8394456,arroz basmati oriente,https://www.continente.pt/produto/arroz-basmati-oriente-8394456.html,accepted
-arroz basmati,8984720,arroz basmati original daawat,https://www.continente.pt/produto/arroz-basmati-original-daawat-8984720.html,unavailable
 arroz basmati,8488866,arroz basmati pack poupanca continente,https://www.continente.pt/produto/arroz-basmati-pack-poupanca-continente-8488866.html,accepted
 arroz basmati,8186669,arroz basmati premium cacarola,https://www.continente.pt/produto/arroz-basmati-premium-cacarola-8186669.html,accepted
 arroz basmati,8118613,arroz basmati premium cacarola,https://www.continente.pt/produto/arroz-basmati-premium-cacarola-8118613.html,accepted
-arroz basmati,7804573,arroz basmati pronto a comer continente,https://www.continente.pt/produto/arroz-basmati-pronto-a-comer-continente-7804573.html,unavailable
-arroz basmati,8239322,arroz basmati pronto a comer louro,https://www.continente.pt/produto/arroz-basmati-pronto-a-comer-louro-8239322.html,accepted
 arroz basmati,4905373,arroz basmati saludaes,https://www.continente.pt/produto/arroz-basmati-saludaes-4905373.html,accepted
-arroz basmati,7221149,arroz basmati saludaes,https://www.continente.pt/produto/arroz-basmati-saludaes-7221149.html,unavailable
-arroz basmati,8211797,arroz basmati super long oriente,https://www.continente.pt/produto/arroz-basmati-super-long-oriente-8211797.html,unavailable
 arroz basmati,8769292,arroz basmati tilda,https://www.continente.pt/produto/arroz-basmati-tilda-8769292.html,accepted
 arroz basmati,8087989,arroz basmati vaporizado continente,https://www.continente.pt/produto/arroz-basmati-vaporizado-continente-8087989.html,accepted
+arroz basmati,2700058,arroz basmati brajma pronto a comer sem gluten cigala,https://www.continente.pt/produto/arroz-basmati-brajma-pronto-a-comer-sem-gluten-cigala-2700058.html,rejected
+arroz basmati,8239322,arroz basmati pronto a comer louro,https://www.continente.pt/produto/arroz-basmati-pronto-a-comer-louro-8239322.html,rejected
+arroz basmati,8087992,arroz basmati continente,https://www.continente.pt/produto/arroz-basmati-continente-8087992.html,unavailable
+arroz basmati,8984719,arroz basmati extra longo daawat,https://www.continente.pt/produto/arroz-basmati-extra-longo-daawat-8984719.html,unavailable
+arroz basmati,3699133,arroz basmati extra longo pato real,https://www.continente.pt/produto/arroz-basmati-extra-longo-pato-real-3699133.html,unavailable
+arroz basmati,5453213,arroz basmati insular,https://www.continente.pt/produto/arroz-basmati-insular-5453213.html,unavailable
+arroz basmati,8821530,arroz basmati o passe,https://www.continente.pt/produto/arroz-basmati-o-passe-8821530.html,unavailable
+arroz basmati,7907490,arroz basmati oriente,https://www.continente.pt/produto/arroz-basmati-oriente-7907490.html,unavailable
+arroz basmati,8984720,arroz basmati original daawat,https://www.continente.pt/produto/arroz-basmati-original-daawat-8984720.html,unavailable
+arroz basmati,7804573,arroz basmati pronto a comer continente,https://www.continente.pt/produto/arroz-basmati-pronto-a-comer-continente-7804573.html,unavailable
+arroz basmati,7221149,arroz basmati saludaes,https://www.continente.pt/produto/arroz-basmati-saludaes-7221149.html,unavailable
+arroz basmati,8211797,arroz basmati super long oriente,https://www.continente.pt/produto/arroz-basmati-super-long-oriente-8211797.html,unavailable
 arroz basmati,7404455,frango tikka masala com arroz basmati diet prozis,https://www.continente.pt/produto/frango-tikka-masala-com-arroz-basmati-diet-prozis-7404455.html,unavailable
 arroz basmati,8122132,thai curry frango com arroz basmati iglo,https://www.continente.pt/produto/thai-curry-frango-com-arroz-basmati-iglo-8122132.html,unavailable
 arroz basmati,8122088,tikka masala frango com arroz basmati iglo,https://www.continente.pt/produto/tikka-masala-frango-com-arroz-basmati-iglo-8122088.html,unavailable
-atum ao natural,6874403,atum albacora ao natural ribeira,https://www.continente.pt/produto/atum-albacora-ao-natural-ribeira-6874403.html,unavailable
 atum ao natural,6604602,atum ao natural continente equilibrio,https://www.continente.pt/produto/atum-ao-natural-continente-equilibrio-6604602.html,accepted
 atum ao natural,2546351,atum ao natural ramirez,https://www.continente.pt/produto/atum-ao-natural-ramirez-2546351.html,accepted
-atum ao natural,6674512,atum ao natural ribeira,https://www.continente.pt/produto/atum-ao-natural-ribeira-6674512.html,unavailable
-atum ao natural,6674511,atum ao natural ribeira,https://www.continente.pt/produto/atum-ao-natural-ribeira-6674511.html,unavailable
 atum ao natural,8061426,atum ao natural tritao,https://www.continente.pt/produto/atum-ao-natural-tritao-8061426.html,accepted
-atum ao natural,7314143,atum ao natural tritao,https://www.continente.pt/produto/atum-ao-natural-tritao-7314143.html,unavailable
-atum ao natural,7314138,atum ao natural tritao,https://www.continente.pt/produto/atum-ao-natural-tritao-7314138.html,unavailable
 atum ao natural,8613075,atum ao natural tritao,https://www.continente.pt/produto/atum-ao-natural-tritao-8613075.html,accepted
 atum ao natural,7743563,atum dos acores posta ao natural continente selecao,https://www.continente.pt/produto/atum-dos-acores-posta-ao-natural-continente-selecao-7743563.html,accepted
-atum ao natural,7157630,atum posta ao natural a poveira,https://www.continente.pt/produto/atum-posta-ao-natural-a-poveira-7157630.html,unavailable
-atum ao natural,7447071,atum posta ao natural a poveira,https://www.continente.pt/produto/atum-posta-ao-natural-a-poveira-7447071.html,unavailable
-atum ao natural,7279828,atum posta ao natural alva,https://www.continente.pt/produto/atum-posta-ao-natural-alva-7279828.html,unavailable
-atum ao natural,7803121,atum posta ao natural alva,https://www.continente.pt/produto/atum-posta-ao-natural-alva-7803121.html,unavailable
 atum ao natural,6818174,atum posta ao natural bolina,https://www.continente.pt/produto/atum-posta-ao-natural-bolina-6818174.html,accepted
-atum ao natural,6818168,atum posta ao natural bolina,https://www.continente.pt/produto/atum-posta-ao-natural-bolina-6818168.html,unavailable
 atum ao natural,2533100,atum posta ao natural bom petisco,https://www.continente.pt/produto/atum-posta-ao-natural-bom-petisco-2533100.html,accepted
 atum ao natural,6610285,atum posta ao natural bom petisco,https://www.continente.pt/produto/atum-posta-ao-natural-bom-petisco-6610285.html,accepted
 atum ao natural,6610286,atum posta ao natural bom petisco,https://www.continente.pt/produto/atum-posta-ao-natural-bom-petisco-6610286.html,accepted
 atum ao natural,8979958,atum posta ao natural bom petisco,https://www.continente.pt/produto/atum-posta-ao-natural-bom-petisco-8979958.html,accepted
-atum ao natural,3697795,atum posta ao natural continente equilibrio,https://www.continente.pt/produto/atum-posta-ao-natural-continente-equilibrio-3697795.html,unavailable
 atum ao natural,7241155,atum posta ao natural continente equilibrio,https://www.continente.pt/produto/atum-posta-ao-natural-continente-equilibrio-7241155.html,accepted
-atum ao natural,7241154,atum posta ao natural continente equilibrio,https://www.continente.pt/produto/atum-posta-ao-natural-continente-equilibrio-7241154.html,unavailable
 atum ao natural,8111047,atum posta ao natural minerva,https://www.continente.pt/produto/atum-posta-ao-natural-minerva-8111047.html,accepted
 atum ao natural,7535233,atum posta ao natural minerva,https://www.continente.pt/produto/atum-posta-ao-natural-minerva-7535233.html,accepted
+atum ao natural,4670909,atum posta ao natural santa catarina,https://www.continente.pt/produto/atum-posta-ao-natural-santa-catarina-4670909.html,accepted
+atum ao natural,2494482,atum posta ao natural santa catarina,https://www.continente.pt/produto/atum-posta-ao-natural-santa-catarina-2494482.html,accepted
+atum ao natural,7515069,filete de atum ao natural continente,https://www.continente.pt/produto/filete-de-atum-ao-natural-continente-7515069.html,accepted
+atum ao natural,8901245,filete de atum ao natural continente selecao,https://www.continente.pt/produto/filete-de-atum-ao-natural-continente-selecao-8901245.html,accepted
+atum ao natural,5000253,filete de atum ao natural santa catarina,https://www.continente.pt/produto/filete-de-atum-ao-natural-santa-catarina-5000253.html,accepted
+atum ao natural,5605327,filete de atum ao natural tenorio,https://www.continente.pt/produto/filete-de-atum-ao-natural-tenorio-5605327.html,accepted
+atum ao natural,5809344,filete de atum natural tenorio,https://www.continente.pt/produto/filete-de-atum-natural-tenorio-5809344.html,accepted
+atum ao natural,8028312,salada de atum e ovo go natural,https://www.continente.pt/produto/salada-de-atum-e-ovo-go-natural-8028312.html,rejected
+atum ao natural,6874403,atum albacora ao natural ribeira,https://www.continente.pt/produto/atum-albacora-ao-natural-ribeira-6874403.html,unavailable
+atum ao natural,6674512,atum ao natural ribeira,https://www.continente.pt/produto/atum-ao-natural-ribeira-6674512.html,unavailable
+atum ao natural,6674511,atum ao natural ribeira,https://www.continente.pt/produto/atum-ao-natural-ribeira-6674511.html,unavailable
+atum ao natural,7314143,atum ao natural tritao,https://www.continente.pt/produto/atum-ao-natural-tritao-7314143.html,unavailable
+atum ao natural,7314138,atum ao natural tritao,https://www.continente.pt/produto/atum-ao-natural-tritao-7314138.html,unavailable
+atum ao natural,7157630,atum posta ao natural a poveira,https://www.continente.pt/produto/atum-posta-ao-natural-a-poveira-7157630.html,unavailable
+atum ao natural,7447071,atum posta ao natural a poveira,https://www.continente.pt/produto/atum-posta-ao-natural-a-poveira-7447071.html,unavailable
+atum ao natural,7279828,atum posta ao natural alva,https://www.continente.pt/produto/atum-posta-ao-natural-alva-7279828.html,unavailable
+atum ao natural,7803121,atum posta ao natural alva,https://www.continente.pt/produto/atum-posta-ao-natural-alva-7803121.html,unavailable
+atum ao natural,6818168,atum posta ao natural bolina,https://www.continente.pt/produto/atum-posta-ao-natural-bolina-6818168.html,unavailable
+atum ao natural,3697795,atum posta ao natural continente equilibrio,https://www.continente.pt/produto/atum-posta-ao-natural-continente-equilibrio-3697795.html,unavailable
+atum ao natural,7241154,atum posta ao natural continente equilibrio,https://www.continente.pt/produto/atum-posta-ao-natural-continente-equilibrio-7241154.html,unavailable
 atum ao natural,7430617,atum posta ao natural minerva,https://www.continente.pt/produto/atum-posta-ao-natural-minerva-7430617.html,unavailable
 atum ao natural,7417521,atum posta ao natural pack poupanca continente equilibrio,https://www.continente.pt/produto/atum-posta-ao-natural-pack-poupanca-continente-equilibrio-7417521.html,unavailable
 atum ao natural,7134738,atum posta ao natural ribeira,https://www.continente.pt/produto/atum-posta-ao-natural-ribeira-7134738.html,unavailable
-atum ao natural,4670909,atum posta ao natural santa catarina,https://www.continente.pt/produto/atum-posta-ao-natural-santa-catarina-4670909.html,accepted
-atum ao natural,2494482,atum posta ao natural santa catarina,https://www.continente.pt/produto/atum-posta-ao-natural-santa-catarina-2494482.html,accepted
 atum ao natural,2609313,atum posta ao natural santa catarina,https://www.continente.pt/produto/atum-posta-ao-natural-santa-catarina-2609313.html,unavailable
 atum ao natural,6707789,filete atum ao natural continente 84g,https://www.continente.pt/produto/filete-atum-ao-natural-continente-84g-6707789.html,unavailable
-atum ao natural,7515069,filete de atum ao natural continente,https://www.continente.pt/produto/filete-de-atum-ao-natural-continente-7515069.html,accepted
-atum ao natural,8901245,filete de atum ao natural continente selecao,https://www.continente.pt/produto/filete-de-atum-ao-natural-continente-selecao-8901245.html,accepted
 atum ao natural,7523095,filete de atum ao natural ribeira,https://www.continente.pt/produto/filete-de-atum-ao-natural-ribeira-7523095.html,unavailable
-atum ao natural,5000253,filete de atum ao natural santa catarina,https://www.continente.pt/produto/filete-de-atum-ao-natural-santa-catarina-5000253.html,accepted
-atum ao natural,5605327,filete de atum ao natural tenorio,https://www.continente.pt/produto/filete-de-atum-ao-natural-tenorio-5605327.html,accepted
 atum ao natural,6919316,filete de atum natural bolina,https://www.continente.pt/produto/filete-de-atum-natural-bolina-6919316.html,unavailable
-atum ao natural,5809344,filete de atum natural tenorio,https://www.continente.pt/produto/filete-de-atum-natural-tenorio-5809344.html,accepted
 atum ao natural,7157637,filetes de atum ao natural a poveira,https://www.continente.pt/produto/filetes-de-atum-ao-natural-a-poveira-7157637.html,unavailable
-atum ao natural,8028312,salada de atum e ovo go natural,https://www.continente.pt/produto/salada-de-atum-e-ovo-go-natural-8028312.html,accepted
 leite meio gordo sem lactose,8527366,leite livre sem lactose meio gordo matinal,https://www.continente.pt/produto/leite-livre-sem-lactose-meio-gordo-matinal-8527366.html,accepted
 leite meio gordo sem lactose,5182928,leite meio gordo fresco sem lactose vigor,https://www.continente.pt/produto/leite-meio-gordo-fresco-sem-lactose-vigor-5182928.html,accepted
-leite meio gordo sem lactose,5442641,leite meio gordo infantil sem lactose 3a mimosa,https://www.continente.pt/produto/leite-meio-gordo-infantil-sem-lactose-3a-mimosa-5442641.html,unavailable
-leite meio gordo sem lactose,5434040,leite meio gordo infantil sem lactose 3a mimosa,https://www.continente.pt/produto/leite-meio-gordo-infantil-sem-lactose-3a-mimosa-5434040.html,unavailable
 leite meio gordo sem lactose,8163556,leite meio gordo sem lactose agros,https://www.continente.pt/produto/leite-meio-gordo-sem-lactose-agros-8163556.html,accepted
 leite meio gordo sem lactose,4422019,leite meio gordo sem lactose mimosa,https://www.continente.pt/produto/leite-meio-gordo-sem-lactose-mimosa-4422019.html,accepted
-leite meio gordo sem lactose,7091309,leite meio gordo sem lactose nova acores,https://www.continente.pt/produto/leite-meio-gordo-sem-lactose-nova-acores-7091309.html,unavailable
-leite meio gordo sem lactose,7266935,leite meio gordo sem lactose nova acores,https://www.continente.pt/produto/leite-meio-gordo-sem-lactose-nova-acores-7266935.html,unavailable
 leite meio gordo sem lactose,7630621,leite uht  meio gordo sem lactose gresso,https://www.continente.pt/produto/leite-uht--meio-gordo-sem-lactose-gresso-7630621.html,accepted
 leite meio gordo sem lactose,8079015,leite uht meio gordo manha levissima sem lactose parmalat,https://www.continente.pt/produto/leite-uht-meio-gordo-manha-levissima-sem-lactose-parmalat-8079015.html,accepted
 leite meio gordo sem lactose,8030114,leite uht meio gordo selecionado sem lactose livre matinal,https://www.continente.pt/produto/leite-uht-meio-gordo-selecionado-sem-lactose-livre-matinal-8030114.html,accepted
 leite meio gordo sem lactose,8696671,leite uht meio gordo sem lactose continente,https://www.continente.pt/produto/leite-uht-meio-gordo-sem-lactose-continente-8696671.html,accepted
 leite meio gordo sem lactose,7445624,leite uht meio gordo sem lactose continente,https://www.continente.pt/produto/leite-uht-meio-gordo-sem-lactose-continente-7445624.html,accepted
-leite meio gordo sem lactose,7445603,leite uht meio gordo sem lactose continente equilibrio,https://www.continente.pt/produto/leite-uht-meio-gordo-sem-lactose-continente-equilibrio-7445603.html,unavailable
 leite meio gordo sem lactose,8919918,leite uht meio gordo sem lactose gresso,https://www.continente.pt/produto/leite-uht-meio-gordo-sem-lactose-gresso-8919918.html,accepted
 leite meio gordo sem lactose,4064882,leite uht meio gordo sem lactose mimosa,https://www.continente.pt/produto/leite-uht-meio-gordo-sem-lactose-mimosa-4064882.html,accepted
 leite meio gordo sem lactose,4370473,leite uht meio gordo sem lactose mimosa,https://www.continente.pt/produto/leite-uht-meio-gordo-sem-lactose-mimosa-4370473.html,accepted
 leite meio gordo sem lactose,8198772,leite uht meio gordo sem lactose parmalat,https://www.continente.pt/produto/leite-uht-meio-gordo-sem-lactose-parmalat-8198772.html,accepted
+leite meio gordo sem lactose,5442641,leite meio gordo infantil sem lactose 3a mimosa,https://www.continente.pt/produto/leite-meio-gordo-infantil-sem-lactose-3a-mimosa-5442641.html,unavailable
+leite meio gordo sem lactose,5434040,leite meio gordo infantil sem lactose 3a mimosa,https://www.continente.pt/produto/leite-meio-gordo-infantil-sem-lactose-3a-mimosa-5434040.html,unavailable
+leite meio gordo sem lactose,7091309,leite meio gordo sem lactose nova acores,https://www.continente.pt/produto/leite-meio-gordo-sem-lactose-nova-acores-7091309.html,unavailable
+leite meio gordo sem lactose,7266935,leite meio gordo sem lactose nova acores,https://www.continente.pt/produto/leite-meio-gordo-sem-lactose-nova-acores-7266935.html,unavailable
+leite meio gordo sem lactose,7445603,leite uht meio gordo sem lactose continente equilibrio,https://www.continente.pt/produto/leite-uht-meio-gordo-sem-lactose-continente-equilibrio-7445603.html,unavailable
+ovos classe,7812059,ovos biologicos frescos classe m l continente bio,https://www.continente.pt/produto/ovos-biologicos-frescos-classe-m-l-continente-bio-7812059.html,accepted
+ovos classe,7975671,ovos classe l dona gema,https://www.continente.pt/produto/ovos-classe-l-dona-gema-7975671.html,accepted
+ovos classe,7630191,ovos classe m dona gema,https://www.continente.pt/produto/ovos-classe-m-dona-gema-7630191.html,accepted
+ovos classe,7377516,ovos classe m l matinados,https://www.continente.pt/produto/ovos-classe-m-l-matinados-7377516.html,accepted
+ovos classe,7696303,ovos classe m l ruby zezerovo,https://www.continente.pt/produto/ovos-classe-m-l-ruby-zezerovo-7696303.html,accepted
+ovos classe,8200641,ovos classe s casa do aido,https://www.continente.pt/produto/ovos-classe-s-casa-do-aido-8200641.html,accepted
+ovos classe,8660017,ovos de ar livre classe m l continente,https://www.continente.pt/produto/ovos-de-ar-livre-classe-m-l-continente-8660017.html,accepted
+ovos classe,6805484,ovos de ar livre classe m l continente,https://www.continente.pt/produto/ovos-de-ar-livre-classe-m-l-continente-6805484.html,accepted
+ovos classe,6664918,ovos de ar livre classe m l matinados,https://www.continente.pt/produto/ovos-de-ar-livre-classe-m-l-matinados-6664918.html,accepted
+ovos classe,2501358,ovos de ar livre classe m l matinados,https://www.continente.pt/produto/ovos-de-ar-livre-classe-m-l-matinados-2501358.html,accepted
+ovos classe,7074230,ovos de ar livre classe xl matinados,https://www.continente.pt/produto/ovos-de-ar-livre-classe-xl-matinados-7074230.html,accepted
+ovos classe,7066777,ovos de solo classe l continente,https://www.continente.pt/produto/ovos-de-solo-classe-l-continente-7066777.html,accepted
+ovos classe,6455492,ovos de solo classe l continente,https://www.continente.pt/produto/ovos-de-solo-classe-l-continente-6455492.html,accepted
+ovos classe,7284496,ovos de solo classe m continente,https://www.continente.pt/produto/ovos-de-solo-classe-m-continente-7284496.html,accepted
+ovos classe,6455524,ovos de solo classe m continente,https://www.continente.pt/produto/ovos-de-solo-classe-m-continente-6455524.html,accepted
+ovos classe,7725153,ovos de solo classe m l continente,https://www.continente.pt/produto/ovos-de-solo-classe-m-l-continente-7725153.html,accepted
+ovos classe,7109807,ovos de solo classe m l superovo,https://www.continente.pt/produto/ovos-de-solo-classe-m-l-superovo-7109807.html,accepted
+ovos classe,6903441,ovos de solo classe s continente,https://www.continente.pt/produto/ovos-de-solo-classe-s-continente-6903441.html,accepted
+ovos classe,6903601,ovos de solo classe xl continente,https://www.continente.pt/produto/ovos-de-solo-classe-xl-continente-6903601.html,accepted
 ovos classe,6900715,ovos ar livre classe m l balaios,https://www.continente.pt/produto/ovos-ar-livre-classe-m-l-balaios-6900715.html,unavailable
 ovos classe,4696358,ovos biologicos classe m natureeg 1 2dz,https://www.continente.pt/produto/ovos-biologicos-classe-m-natureeg-1-2dz-4696358.html,unavailable
-ovos classe,7812059,ovos biologicos frescos classe m l continente bio,https://www.continente.pt/produto/ovos-biologicos-frescos-classe-m-l-continente-bio-7812059.html,accepted
 ovos classe,8240887,ovos biologicos frescos classe m l continente bio,https://www.continente.pt/produto/ovos-biologicos-frescos-classe-m-l-continente-bio-8240887.html,unavailable
 ovos classe,6882460,ovos brancos saborosos classe l 1dz,https://www.continente.pt/produto/ovos-brancos-saborosos-classe-l-1dz-6882460.html,unavailable
 ovos classe,6907765,ovos classe l continente,https://www.continente.pt/produto/ovos-classe-l-continente-6907765.html,unavailable
 ovos classe,5872264,ovos classe l continente,https://www.continente.pt/produto/ovos-classe-l-continente-5872264.html,unavailable
-ovos classe,7975671,ovos classe l dona gema,https://www.continente.pt/produto/ovos-classe-l-dona-gema-7975671.html,accepted
 ovos classe,6849096,ovos classe l superovo 1dz,https://www.continente.pt/produto/ovos-classe-l-superovo-1dz-6849096.html,unavailable
 ovos classe,7161700,ovos classe m,https://www.continente.pt/produto/ovos-classe-m-7161700.html,unavailable
 ovos classe,4922203,ovos classe m casa do aido,https://www.continente.pt/produto/ovos-classe-m-casa-do-aido-4922203.html,unavailable
 ovos classe,5872262,ovos classe m continente,https://www.continente.pt/produto/ovos-classe-m-continente-5872262.html,unavailable
 ovos classe,6907747,ovos classe m continente,https://www.continente.pt/produto/ovos-classe-m-continente-6907747.html,unavailable
-ovos classe,7630191,ovos classe m dona gema,https://www.continente.pt/produto/ovos-classe-m-dona-gema-7630191.html,accepted
 ovos classe,8688123,ovos classe m dona gema,https://www.continente.pt/produto/ovos-classe-m-dona-gema-8688123.html,unavailable
 ovos classe,8237857,ovos classe m girao,https://www.continente.pt/produto/ovos-classe-m-girao-8237857.html,unavailable
-ovos classe,7377516,ovos classe m l matinados,https://www.continente.pt/produto/ovos-classe-m-l-matinados-7377516.html,accepted
-ovos classe,7696303,ovos classe m l ruby zezerovo,https://www.continente.pt/produto/ovos-classe-m-l-ruby-zezerovo-7696303.html,accepted
 ovos classe,6022955,ovos classe m primeiro preco,https://www.continente.pt/produto/ovos-classe-m-primeiro-preco-6022955.html,unavailable
 ovos classe,6637068,ovos classe m superovo 1dz,https://www.continente.pt/produto/ovos-classe-m-superovo-1dz-6637068.html,unavailable
-ovos classe,8200641,ovos classe s casa do aido,https://www.continente.pt/produto/ovos-classe-s-casa-do-aido-8200641.html,accepted
 ovos classe,5872267,ovos classe xl continente,https://www.continente.pt/produto/ovos-classe-xl-continente-5872267.html,unavailable
 ovos classe,2340554,ovos classe xl girao 1 2dz,https://www.continente.pt/produto/ovos-classe-xl-girao-1-2dz-2340554.html,unavailable
-ovos classe,8660017,ovos de ar livre classe m l continente,https://www.continente.pt/produto/ovos-de-ar-livre-classe-m-l-continente-8660017.html,accepted
 ovos classe,7411429,ovos de ar livre classe m l continente,https://www.continente.pt/produto/ovos-de-ar-livre-classe-m-l-continente-7411429.html,unavailable
-ovos classe,6805484,ovos de ar livre classe m l continente,https://www.continente.pt/produto/ovos-de-ar-livre-classe-m-l-continente-6805484.html,accepted
 ovos classe,7866168,ovos de ar livre classe m l continente,https://www.continente.pt/produto/ovos-de-ar-livre-classe-m-l-continente-7866168.html,unavailable
-ovos classe,6664918,ovos de ar livre classe m l matinados,https://www.continente.pt/produto/ovos-de-ar-livre-classe-m-l-matinados-6664918.html,accepted
-ovos classe,2501358,ovos de ar livre classe m l matinados,https://www.continente.pt/produto/ovos-de-ar-livre-classe-m-l-matinados-2501358.html,accepted
-ovos classe,7074230,ovos de ar livre classe xl matinados,https://www.continente.pt/produto/ovos-de-ar-livre-classe-xl-matinados-7074230.html,accepted
 ovos classe,2340584,ovos de gaiola classe l girao,https://www.continente.pt/produto/ovos-de-gaiola-classe-l-girao-2340584.html,unavailable
 ovos classe,2340567,ovos de gaiola classe l girao,https://www.continente.pt/produto/ovos-de-gaiola-classe-l-girao-2340567.html,unavailable
 ovos classe,2340563,ovos de gaiola classe l girao,https://www.continente.pt/produto/ovos-de-gaiola-classe-l-girao-2340563.html,unavailable
 ovos classe,2340562,ovos de gaiola classe m girao,https://www.continente.pt/produto/ovos-de-gaiola-classe-m-girao-2340562.html,unavailable
 ovos classe,2340582,ovos de gaiola classe m girao,https://www.continente.pt/produto/ovos-de-gaiola-classe-m-girao-2340582.html,unavailable
 ovos classe,2340576,ovos de gaiola classe xl girao,https://www.continente.pt/produto/ovos-de-gaiola-classe-xl-girao-2340576.html,unavailable
-ovos classe,7066777,ovos de solo classe l continente,https://www.continente.pt/produto/ovos-de-solo-classe-l-continente-7066777.html,accepted
-ovos classe,6455492,ovos de solo classe l continente,https://www.continente.pt/produto/ovos-de-solo-classe-l-continente-6455492.html,accepted
 ovos classe,7683724,ovos de solo classe l continente,https://www.continente.pt/produto/ovos-de-solo-classe-l-continente-7683724.html,unavailable
 ovos classe,8660038,ovos de solo classe l continente,https://www.continente.pt/produto/ovos-de-solo-classe-l-continente-8660038.html,unavailable
 ovos classe,6805482,ovos de solo classe l continente,https://www.continente.pt/produto/ovos-de-solo-classe-l-continente-6805482.html,unavailable
 ovos classe,7284484,ovos de solo classe l continente 1dz,https://www.continente.pt/produto/ovos-de-solo-classe-l-continente-1dz-7284484.html,unavailable
-ovos classe,7284496,ovos de solo classe m continente,https://www.continente.pt/produto/ovos-de-solo-classe-m-continente-7284496.html,accepted
-ovos classe,6455524,ovos de solo classe m continente,https://www.continente.pt/produto/ovos-de-solo-classe-m-continente-6455524.html,accepted
 ovos classe,7029313,ovos de solo classe m continente,https://www.continente.pt/produto/ovos-de-solo-classe-m-continente-7029313.html,unavailable
 ovos classe,7683751,ovos de solo classe m continente,https://www.continente.pt/produto/ovos-de-solo-classe-m-continente-7683751.html,unavailable
 ovos classe,6805478,ovos de solo classe m continente,https://www.continente.pt/produto/ovos-de-solo-classe-m-continente-6805478.html,unavailable
 ovos classe,6900697,ovos de solo classe m l arado,https://www.continente.pt/produto/ovos-de-solo-classe-m-l-arado-6900697.html,unavailable
-ovos classe,7725153,ovos de solo classe m l continente,https://www.continente.pt/produto/ovos-de-solo-classe-m-l-continente-7725153.html,accepted
 ovos classe,7430562,ovos de solo classe m l girao,https://www.continente.pt/produto/ovos-de-solo-classe-m-l-girao-7430562.html,unavailable
-ovos classe,7109807,ovos de solo classe m l superovo,https://www.continente.pt/produto/ovos-de-solo-classe-m-l-superovo-7109807.html,accepted
-ovos classe,6903441,ovos de solo classe s continente,https://www.continente.pt/produto/ovos-de-solo-classe-s-continente-6903441.html,accepted
-ovos classe,6903601,ovos de solo classe xl continente,https://www.continente.pt/produto/ovos-de-solo-classe-xl-continente-6903601.html,accepted
 ovos classe,7053454,ovos de solo classe xl continente,https://www.continente.pt/produto/ovos-de-solo-classe-xl-continente-7053454.html,unavailable
 ovos classe,7304678,ovos em gaiola classe l girao,https://www.continente.pt/produto/ovos-em-gaiola-classe-l-girao-7304678.html,unavailable
 ovos classe,6137020,ovos em gaiola classe s girao,https://www.continente.pt/produto/ovos-em-gaiola-classe-s-girao-6137020.html,unavailable
 ovos classe,7029317,ovos omega 3 classe m l continente,https://www.continente.pt/produto/ovos-omega-3-classe-m-l-continente-7029317.html,unavailable
 ovos classe,7621218,ovos solo classe s girao,https://www.continente.pt/produto/ovos-solo-classe-s-girao-7621218.html,unavailable
+ovos classe m,7812059,ovos biologicos frescos classe m l continente bio,https://www.continente.pt/produto/ovos-biologicos-frescos-classe-m-l-continente-bio-7812059.html,accepted
+ovos classe m,7630191,ovos classe m dona gema,https://www.continente.pt/produto/ovos-classe-m-dona-gema-7630191.html,accepted
+ovos classe m,7377516,ovos classe m l matinados,https://www.continente.pt/produto/ovos-classe-m-l-matinados-7377516.html,accepted
+ovos classe m,7696303,ovos classe m l ruby zezerovo,https://www.continente.pt/produto/ovos-classe-m-l-ruby-zezerovo-7696303.html,accepted
+ovos classe m,8660017,ovos de ar livre classe m l continente,https://www.continente.pt/produto/ovos-de-ar-livre-classe-m-l-continente-8660017.html,accepted
+ovos classe m,6805484,ovos de ar livre classe m l continente,https://www.continente.pt/produto/ovos-de-ar-livre-classe-m-l-continente-6805484.html,accepted
+ovos classe m,6664918,ovos de ar livre classe m l matinados,https://www.continente.pt/produto/ovos-de-ar-livre-classe-m-l-matinados-6664918.html,accepted
+ovos classe m,2501358,ovos de ar livre classe m l matinados,https://www.continente.pt/produto/ovos-de-ar-livre-classe-m-l-matinados-2501358.html,accepted
+ovos classe m,7284496,ovos de solo classe m continente,https://www.continente.pt/produto/ovos-de-solo-classe-m-continente-7284496.html,accepted
+ovos classe m,6455524,ovos de solo classe m continente,https://www.continente.pt/produto/ovos-de-solo-classe-m-continente-6455524.html,accepted
+ovos classe m,7725153,ovos de solo classe m l continente,https://www.continente.pt/produto/ovos-de-solo-classe-m-l-continente-7725153.html,accepted
+ovos classe m,7109807,ovos de solo classe m l superovo,https://www.continente.pt/produto/ovos-de-solo-classe-m-l-superovo-7109807.html,accepted
+ovos classe m,7074230,ovos de ar livre classe xl matinados,https://www.continente.pt/produto/ovos-de-ar-livre-classe-xl-matinados-7074230.html,rejected
+ovos classe m,6900715,ovos ar livre classe m l balaios,https://www.continente.pt/produto/ovos-ar-livre-classe-m-l-balaios-6900715.html,unavailable
+ovos classe m,4696358,ovos biologicos classe m natureeg 1 2dz,https://www.continente.pt/produto/ovos-biologicos-classe-m-natureeg-1-2dz-4696358.html,unavailable
+ovos classe m,8240887,ovos biologicos frescos classe m l continente bio,https://www.continente.pt/produto/ovos-biologicos-frescos-classe-m-l-continente-bio-8240887.html,unavailable
+ovos classe m,7161700,ovos classe m,https://www.continente.pt/produto/ovos-classe-m-7161700.html,unavailable
+ovos classe m,4922203,ovos classe m casa do aido,https://www.continente.pt/produto/ovos-classe-m-casa-do-aido-4922203.html,unavailable
+ovos classe m,5872262,ovos classe m continente,https://www.continente.pt/produto/ovos-classe-m-continente-5872262.html,unavailable
+ovos classe m,6907747,ovos classe m continente,https://www.continente.pt/produto/ovos-classe-m-continente-6907747.html,unavailable
+ovos classe m,8688123,ovos classe m dona gema,https://www.continente.pt/produto/ovos-classe-m-dona-gema-8688123.html,unavailable
+ovos classe m,8237857,ovos classe m girao,https://www.continente.pt/produto/ovos-classe-m-girao-8237857.html,unavailable
+ovos classe m,6022955,ovos classe m primeiro preco,https://www.continente.pt/produto/ovos-classe-m-primeiro-preco-6022955.html,unavailable
+ovos classe m,6637068,ovos classe m superovo 1dz,https://www.continente.pt/produto/ovos-classe-m-superovo-1dz-6637068.html,unavailable
+ovos classe m,7411429,ovos de ar livre classe m l continente,https://www.continente.pt/produto/ovos-de-ar-livre-classe-m-l-continente-7411429.html,unavailable
+ovos classe m,7866168,ovos de ar livre classe m l continente,https://www.continente.pt/produto/ovos-de-ar-livre-classe-m-l-continente-7866168.html,unavailable
+ovos classe m,2340562,ovos de gaiola classe m girao,https://www.continente.pt/produto/ovos-de-gaiola-classe-m-girao-2340562.html,unavailable
+ovos classe m,2340582,ovos de gaiola classe m girao,https://www.continente.pt/produto/ovos-de-gaiola-classe-m-girao-2340582.html,unavailable
+ovos classe m,7029313,ovos de solo classe m continente,https://www.continente.pt/produto/ovos-de-solo-classe-m-continente-7029313.html,unavailable
+ovos classe m,7683751,ovos de solo classe m continente,https://www.continente.pt/produto/ovos-de-solo-classe-m-continente-7683751.html,unavailable
+ovos classe m,6805478,ovos de solo classe m continente,https://www.continente.pt/produto/ovos-de-solo-classe-m-continente-6805478.html,unavailable
+ovos classe m,6900697,ovos de solo classe m l arado,https://www.continente.pt/produto/ovos-de-solo-classe-m-l-arado-6900697.html,unavailable
+ovos classe m,7430562,ovos de solo classe m l girao,https://www.continente.pt/produto/ovos-de-solo-classe-m-l-girao-7430562.html,unavailable
+ovos classe m,7029317,ovos omega 3 classe m l continente,https://www.continente.pt/produto/ovos-omega-3-classe-m-l-continente-7029317.html,unavailable

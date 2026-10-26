@@ -1,5 +1,8 @@
 item,quantity,exclude,notes
 leite meio gordo sem lactose,6, achocolatado; iogurte; bebida,
-atum ao natural,4,,
-arroz basmati,1, frango,
-ovos classe,12, caca; broinhas; bolachas,
+atum ao natural,4, salada,
+arroz basmati,1, frango; pronto a comer,
+ovos classe m,12, caca; broinhas; bolachas,
+^capsulas de cafe nicola,1,descafeinado; calendario,
+^granola,1,bolachas; chocolate,
+^mirtilo,1,,
