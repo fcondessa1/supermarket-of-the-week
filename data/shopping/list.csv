@@ -1,8 +1,8 @@
-item,quantity,exclude,notes
-leite meio gordo sem lactose,6, achocolatado; iogurte; bebida,
-atum ao natural,4, salada,
-arroz basmati,1, frango; pronto a comer,
-ovos classe m,12, caca; broinhas; bolachas,
-^capsulas de cafe nicola,1,descafeinado; calendario,
-^granola,1,bolachas; chocolate,
-^mirtilo,1,,
+item,quantity,unit,exclude,notes
+leite meio gordo sem lactose,6,l,achocolatado; iogurte; bebida,6 litres
+atum ao natural,0.48,kg,salada,4 tins of 120 g (total weight: tuna is compared on total weight when drained weight is missing)
+arroz basmati,1,kg,frango; pronto a comer,
+ovos classe m,12,unit,caca; broinhas; bolachas,12 eggs
+^capsulas de cafe nicola,30,unit,descafeinado; calendario,30 capsules
+^granola,0.5,kg,bolachas,
+^mirtilo,0.25,kg,,two 125 g punnets
