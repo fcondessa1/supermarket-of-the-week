@@ -45,7 +45,7 @@ HEADERS = {"User-Agent": "Mozilla/5.0 (supermarket-of-the-week; personal project
 DELAY_S = 1.0
 FIELDS = ["date", "item", "product_id", "name", "brand", "category", "price", "pre_discount_price",
           "discount", "on_promotion", "price_valid_until", "sold_by", "size_text", "weight_basis", "pack_quantity",
-          "unit_price", "unit", "page_unit_price", "check", "url", "note"]
+          "unit_price", "unit_price_total", "unit", "page_unit_price", "check", "url", "note"]
 
 
 # ---------- page parsing ----------
@@ -209,6 +209,19 @@ def parse_product_page(page: str, product_id: str) -> dict:
         unit_price, check = page_up, "page only"
         notes.append("unit price taken from the page")
 
+    # Price per TOTAL weight as well: needed when products in one item don't all state a drained weight
+    # (Atum Tritão at Continente; Lidl never states one), so they can be compared on the same basis.
+    unit_price_total = None
+    if price is not None:
+        if sold_by == "kg":
+            unit_price_total = price
+        elif drained:
+            total = parse_size(size_text)
+            if total and total[1] == unit:
+                unit_price_total = price / total[0]
+        else:
+            unit_price_total = unit_price
+
     if price is not None and pre and disc and abs(pre - disc - price) > 0.011:
         notes.append(f"price {price} != pre_discount_price - discount ({pre - disc:.2f})")
 
@@ -222,9 +235,22 @@ def parse_product_page(page: str, product_id: str) -> dict:
         "price_valid_until": offers.get("priceValidUntil", ""),
         "sold_by": sold_by, "size_text": size_text, "weight_basis": weight_basis,
         "pack_quantity": f"{pack_qty:g}" if pack_qty else "",
-        "unit_price": _fmt(unit_price, 3), "unit": unit, "page_unit_price": _fmt(page_up),
-        "check": check, "note": "; ".join(notes),
+        "unit_price": _fmt(unit_price, 3), "unit_price_total": _fmt(unit_price_total, 3), "unit": unit,
+        "page_unit_price": _fmt(page_up), "check": check, "note": "; ".join(notes),
     }
+
+
+def comparable_prices(rows: list[dict]) -> tuple[str, list[tuple[float, dict]]]:
+    """Unit prices for one item on a single, comparable basis.
+    If every priced product states a drained weight (or none does), use unit_price; if it's mixed,
+    use the price per total weight for all of them. Returns (basis label, sorted [(value, row)])."""
+    priced = [r for r in rows if r.get("unit_price")]
+    drained = [r for r in priced if r.get("weight_basis") == "drained"]
+    if drained and len(drained) < len(priced):
+        pairs = [(float(r["unit_price_total"]), r) for r in priced if r.get("unit_price_total")]
+        return "total weight (not all products state a drained weight)", sorted(pairs, key=lambda p: p[0])
+    basis = "drained weight" if drained else ""
+    return basis, sorted(((float(r["unit_price"]), r) for r in priced), key=lambda p: p[0])
 
 
 def _num(v) -> float | None:
@@ -319,26 +345,20 @@ def main() -> None:
     for r in rows:
         by_item[r["item"]].append(r)
     for item, rs in by_item.items():
-        priced = sorted((r for r in rs if r["unit_price"]), key=lambda r: float(r["unit_price"]))
-        print(f"\n== {item}: {len(priced)} of {len(rs)} products priced per {priced[0]['unit'] if priced else '?'}")
-        for r in priced[:3]:
+        basis, ranked = comparable_prices(rs)
+        unit = ranked[0][1]["unit"] if ranked else "?"
+        print(f"\n== {item}: {len(ranked)} of {len(rs)} products priced per {unit}"
+              + (f", compared on {basis}" if basis else ""))
+        for value, r in ranked[:3]:
             promo = ""
             if r["on_promotion"] == "yes":
                 promo = f"  PROMO was {r['pre_discount_price']}, {promo_end(r['price_valid_until'], today)}"
-            basis = " (drained)" if r.get("weight_basis") == "drained" else ""
-            print(f"   {float(r['unit_price']):7.2f} €/{r['unit']}{basis:<10} {r['price']:>6} € {r['name'][:50]}{promo}")
-        if len(priced) < len(rs):
-            print(f"   ({len(rs) - len(priced)} products without a unit price: see 'note' in the CSV)")
-        units = {r["unit"] for r in priced}
+            print(f"   {value:7.2f} €/{r['unit']:<5} {r['price']:>6} € {r['name'][:50]}{promo}")
+        if len(ranked) < len(rs):
+            print(f"   ({len(rs) - len(ranked)} products without a comparable unit price: see 'note' in the CSV)")
+        units = {r["unit"] for _, r in ranked}
         if len(units) > 1:
             print(f"   WARNING: mixed units {sorted(units)}: some products are compared per kg, others per L or unit")
-        # Drained vs total weight are not comparable (2026-10-22: Atum Tritão, no drained weight on its
-        # page, ranked first per total kg while the others were per drained kg, ~70% of the total).
-        if any(r.get("weight_basis") == "drained" for r in priced):
-            total_basis = [r for r in priced[:3] if r.get("weight_basis") != "drained"]
-            for r in total_basis:
-                print(f"   WARNING: {r['name'][:45]} is priced per TOTAL weight (no drained weight on its page); "
-                      f"the drained ones are per drained weight, so it looks cheaper than it is")
     save_decisions(decisions)
     no_price = [r for r in rows if not r["price"]]
     unavailable = sum(1 for d in decisions if d["decision"] == "unavailable")
