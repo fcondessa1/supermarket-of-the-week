@@ -19,8 +19,13 @@ How it decides:
        granola may mean buying a 375 g or 600 g pack.
     3. Plan A: everything at Continente. Plan B: each item where it is cheapest. B is recommended only if
        it saves more than the trip cost.
-Known limitation: lidl.pt lists only offers, so an item without a Lidl offer this week can only be
-bought at Continente in these plans, even if Lidl sells it at a regular price.
+Lidl's regular prices: lidl.pt lists only this week's offers (248 products on 2026-10-27, no lactose-free
+milk or basmati rice although Lidl sells both). Regular prices come from data/shopping/lidl_regular.csv,
+which I fill in by hand from the shelf or my Lidl Plus receipts:
+    item, product, price, quantity, unit, seen_on, notes
+    leite meio gordo sem lactose, Milbona ... 1 L, 0.95, 1, l, 2026-10-27,
+A price older than 60 days is still used but flagged as stale.
+With those, a third plan is possible: everything at Lidl.
 Cost: no LLM calls, no network.
 """
 
@@ -33,6 +38,8 @@ from continente_catalogue import candidates, normalise, tokens
 from fetch_continente_online import comparable_prices
 
 LIST = Path("data/shopping/list.csv")
+LIDL_REGULAR = Path("data/shopping/lidl_regular.csv")
+STALE_DAYS = 60
 PRICES = Path("data/prices")
 REPORTS = Path("data/reports")
 UNITS = {"l", "kg", "unit"}
@@ -56,6 +63,35 @@ def lidl_valid_today(r: dict, today: str) -> bool:
     return (not r.get("start_date") or r["start_date"] <= today) and (not r.get("end_date") or today <= r["end_date"])
 
 
+def lidl_regular_prices(today: str) -> tuple[dict[str, dict], list[str]]:
+    """item -> row shaped like a price row (unit price per l/kg/unit), from my hand-kept table."""
+    out, notes = {}, []
+    if not LIDL_REGULAR.exists():
+        return out, notes
+    with open(LIDL_REGULAR, encoding="utf-8") as f:
+        for r in csv.DictReader(f):
+            item = (r.get("item") or "").strip()
+            try:
+                price, qty = float(r["price"]), float(r["quantity"])
+            except (KeyError, TypeError, ValueError):
+                if item and (r.get("price") or "").strip():
+                    notes.append(f"lidl_regular.csv: '{item}' has a price or quantity that isn't a number")
+                continue
+            unit = (r.get("unit") or "").strip().lower()
+            seen = (r.get("seen_on") or "").strip()
+            try:
+                age = (date.fromisoformat(today) - date.fromisoformat(seen)).days
+            except ValueError:
+                age = None
+            if age is not None and age > STALE_DAYS:
+                notes.append(f"{item}: Lidl regular price is from {seen} ({age} days ago); check it again")
+            value = f"{price / qty:.3f}"
+            out[item] = {"store": "Lidl", "name": (r.get("product") or item).strip(), "price": f"{price:.2f}",
+                         "unit": unit, "unit_price": value, "unit_price_total": value, "weight_basis": "",
+                         "regular": seen or "date unknown"}
+    return out, notes
+
+
 def main() -> None:
     trip_cost = arg_value("--trip-cost", 3.0)
     use_plus = "--no-lidl-plus" not in sys.argv
@@ -77,68 +113,97 @@ def main() -> None:
         lidl_rows.append(r | {"store": "Lidl", "_tokens": tokens(r["name"]), "_norm": normalise(r["name"]),
                               "price": plus or r.get("shelf_price", ""), "app": "yes" if plus else ""})
 
+    regular, notes = lidl_regular_prices(today)
     lines = [f"# Where to shop, {today}", "",
-             f"Prices: Continente Online ({c_date or 'none'}), lidl.pt offers ({l_date or 'none'}). "
+             f"Prices: Continente Online ({c_date or 'none'}), lidl.pt offers ({l_date or 'none'}), "
+             f"Lidl regular prices from my own table ({len(regular)} items). "
              f"Trip cost for a second store: {trip_cost:.2f} €."
              + ("" if use_plus else " Lidl Plus prices ignored."), "",
-             "| Item | Quantity | Continente: cheapest | Lidl: cheapest offer | Buy at |",
+             "| Item | Quantity | Continente: cheapest | Lidl: cheapest (offer or regular) | Cheapest at |",
              "|---|---|---|---|---|"]
-    plan_a = plan_b = 0.0
-    split_items, notes = [], []
+    totals = {"Continente": 0.0, "Lidl": 0.0}
+    complete = {"Continente": True, "Lidl": True}
+    plan_split, split_lidl = 0.0, []
     for it in items:
         name = it["item"].strip()
         qty = float(it.get("quantity") or 1)
         unit = (it.get("unit") or "").strip().lower()
-        c_rows = [r | {"store": "Continente"} for r in cont if r.get("item") == name]
-        l_rows = candidates(lidl_rows, name, it.get("exclude") or "")
-        basis, ranked = comparable_prices(c_rows + l_rows)
         if unit and unit not in UNITS:
             notes.append(f"{name}: unit '{unit}' not understood (use l, kg or unit)")
             continue
+        c_rows = [r | {"store": "Continente"} for r in cont if r.get("item") == name]
+        l_rows = candidates(lidl_rows, name, it.get("exclude") or "")
+        if name in regular:
+            l_rows = l_rows + [regular[name]]
+        basis, ranked = comparable_prices(c_rows + l_rows)
         if unit:
             ranked = [(v, r) for v, r in ranked if r["unit"] == unit]
         best = {}
         for v, r in ranked:
             best.setdefault(r["store"], (v, r))
+        for store in totals:
+            if store in best:
+                totals[store] += best[store][0] * qty
+            else:
+                complete[store] = False
         if not best:
-            lines.append(f"| {name} | {qty:g} {unit} | no price | no offer | — |")
+            lines.append(f"| {name} | {qty:g} {unit} | no price | no price | — |")
             notes.append(f"{name}: no comparable price" + (f" in {unit}" if unit else ""))
             continue
         u = unit or next(iter(best.values()))[1]["unit"]
         if not unit:
             notes.append(f"{name}: no unit on the list; quantity {qty:g} read as {u}")
+        if "Lidl" not in best:
+            notes.append(f"{name}: no Lidl price (no offer this week, not in lidl_regular.csv)")
 
         def cell(store: str) -> str:
             if store not in best:
-                return "no offer" if store == "Lidl" else "no price"
+                return "no price"
             v, r = best[store]
-            extra = " (Lidl Plus)" if r.get("app") else (" (promo)" if r.get("on_promotion") == "yes" else "")
+            if r.get("regular"):
+                extra = f" (regular, seen {r['regular']})"
+            elif r.get("app"):
+                extra = " (Lidl Plus offer)" if store == "Lidl" else ""
+            elif store == "Lidl":
+                extra = " (offer)"
+            else:
+                extra = " (promo)" if r.get("on_promotion") == "yes" else ""
             return f"{v:.2f} €/{r['unit']} {r['name'][:40]}{extra}"
 
-        c_cost = best["Continente"][0] * qty if "Continente" in best else None
         cheapest_store, (cheapest_v, _) = min(best.items(), key=lambda kv: kv[1][0])
-        if c_cost is None:
-            notes.append(f"{name}: no Continente price, so plan A can't include it")
-        plan_a += c_cost or 0
-        plan_b += cheapest_v * qty
-        if cheapest_store != "Continente":
-            split_items.append((name, (c_cost or 0) - cheapest_v * qty if c_cost else None))
+        plan_split += cheapest_v * qty
+        if cheapest_store == "Lidl":
+            split_lidl.append(name)
         basis_note = " (total weight)" if basis.startswith("total") else ""
         lines.append(f"| {name}{basis_note} | {qty:g} {u} | {cell('Continente')} | {cell('Lidl')} | {cheapest_store} |")
 
-    saving = plan_a - plan_b
-    lines += ["", f"**Everything at Continente:** {plan_a:.2f} €  ",
-              f"**Each item where it's cheapest:** {plan_b:.2f} € (saves {saving:.2f} €)", ""]
-    if split_items and saving > trip_cost:
-        lines.append(f"**Recommendation: split.** Buy {', '.join(n for n, _ in split_items)} at Lidl, the rest at "
-                     f"Continente. Saves {saving:.2f} €, more than the {trip_cost:.2f} € trip cost.")
-    elif split_items:
-        lines.append(f"**Recommendation: Continente only.** Lidl would save {saving:.2f} € on "
-                     f"{', '.join(n for n, _ in split_items)}, less than the {trip_cost:.2f} € trip cost.")
+    # Plans: one store (only if it has a price for every item), or a split (only worth it above the trip cost).
+    plans = {}
+    for store in totals:
+        if complete[store]:
+            plans[f"Everything at {store}"] = totals[store]
+    uses_both = bool(split_lidl) and len(split_lidl) < len(items)
+    if uses_both:
+        plans["Split: each item where it's cheapest (+ trip cost)"] = plan_split + trip_cost
+    lines += [""]
+    for store in totals:
+        lines.append(f"**Everything at {store}:** " + (f"{totals[store]:.2f} €  " if complete[store]
+                     else f"not possible (no {store} price for some items)  "))
+    if uses_both:
+        lines.append(f"**Split:** {plan_split:.2f} € + {trip_cost:.2f} € trip cost = {plan_split + trip_cost:.2f} €  ")
+    lines.append("")
+    if plans:
+        choice = min(plans, key=plans.get)
+        if choice.startswith("Split"):
+            lines.append(f"**Recommendation: split.** Buy {', '.join(split_lidl)} at Lidl, the rest at Continente.")
+        else:
+            runner_up = sorted(plans.values())[1] if len(plans) > 1 else None
+            margin = f" It beats the next option by {runner_up - plans[choice]:.2f} €." if runner_up else ""
+            lines.append(f"**Recommendation: {choice[0].lower() + choice[1:]}.**{margin}")
     else:
-        lines.append("**Recommendation: Continente only.** No Lidl offer this week beats Continente.")
-    lines += ["", "Costs are unit price × quantity and ignore pack rounding. Lidl prices are this week's offers "
-              "only; items without an offer are priced at Continente. Continente prices are online prices."]
+        lines.append("**No recommendation:** neither store has a price for every item, and there's nothing to split.")
+    lines += ["", "Costs are unit price × quantity and ignore pack rounding. Continente prices are online prices. "
+              "Lidl prices are this week's lidl.pt offers, or my own record of the regular price when there's no offer."]
     if notes:
         lines += ["", "Notes:"] + [f"- {n}" for n in notes]
 

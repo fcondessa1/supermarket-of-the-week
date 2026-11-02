@@ -4,7 +4,7 @@ Tells me where to do this week's shopping. For each item on my list ("leite meio
 
 I built it because I use it. It is also a portfolio project: the parts that matter are measured against data I checked by hand, and the failures are documented next to the fixes.
 
-> **Status (2026-10-22, week 2 of 3):** Continente prices for my list are fetched from Continente Online and compared per kg/L across all brands, with a normalisation check against Continente's own figures. Lidl and Continente leaflets are downloaded automatically, and a page filter skips non-grocery Lidl pages. Not built yet: reading Lidl's leaflet with a vision model, Pingo Doce, the store recommendation and the weekly report.
+> **Status (2026-10-27, week 3 of 3):** Working end to end for Continente and Lidl: prices for every product that matches my list, compared per kg/L/unit across brands and stores, and a weekly recommendation (one store, or a split if it beats the trip cost). Not built yet: the scheduled weekly run, reading Lidl's leaflet with a vision model (scored against lidl.pt), Pingo Doce.
 
 ## How it works
 
@@ -21,11 +21,30 @@ Where the prices come from depends on what each store publishes:
 | Store | Source | Why | Status |
 |---|---|---|---|
 | Continente | Continente Online product pages | Gives the current price, the price before discount, the promotion's end date and pack size for every product, not only promoted ones | Working |
-| Lidl | Weekly leaflet, read by a vision model | Lidl Portugal has no online grocery shop, so the leaflet is the only source | Leaflets downloaded; extraction next |
+| Lidl | lidl.pt product pages for this week's offers, plus a small table of regular prices I keep by hand | lidl.pt lists only offers (248 products on 27 Oct 2026), not the regular range: no lactose-free milk or basmati rice, although Lidl sells both. The leaflet will be read by a vision model and scored against lidl.pt's prices | Offers working; leaflet extraction next |
 | Pingo Doce | Online shop, if it allows automated requests | The website blocked my first automated requests | Not started |
 | Intermarché | — | `robots.txt` disallows automated access | Not used |
 
-**Known limitation, by design:** for Lidl only promoted items have a known price. The report will say when an item has no Lidl price.
+**Known limitation:** Lidl's regular prices aren't published online. They come from `data/shopping/lidl_regular.csv`, which I fill in from the shelf or my Lidl Plus receipts. The report shows when a price came from there and flags it after 60 days.
+
+## The weekly recommendation
+
+`src/recommend.py` takes the latest price file of each store and, for every item on my list:
+
+1. finds the cheapest product per kg / L / unit at each store, on one basis across both stores. Lidl never states a drained weight, so tuna is compared on total weight everywhere.
+2. costs it as unit price × my quantity. Pack rounding is ignored: 0.5 kg of granola may mean a 375 g pack.
+
+Then it compares three plans: everything at Continente, everything at Lidl (only if Lidl has a price for every item), and each item where it's cheapest plus a trip cost (3 € by default) for going to two stores.
+
+From the first run, 27 October 2026, before I had recorded any Lidl regular prices:
+
+| Item | Continente: cheapest | Lidl: cheapest |
+|---|---|---|
+| Eggs, class M | 0.25 €/egg | **0.20 €/egg** (30-pack, offer) |
+| Canned tuna, total weight | 7.12 €/kg | **6.11 €/kg** (4-pack, Lidl Plus offer) |
+| Lactose-free milk, basmati, granola, coffee capsules, blueberries | — | not on lidl.pt |
+
+Lidl's two offers saved 1.07 € on my quantities, below the trip cost, so that week's answer was **Continente only**. That run is also what showed the gap: without Lidl's regular prices, the comparison was biased towards Continente, which is why the regular-price table exists.
 
 ## Continente: how an item becomes a ranked list
 
@@ -55,6 +74,7 @@ Why not fetch the price of every catalogue product: that would be one ~1.6 MB pa
 | What is measured | Against | Result |
 |---|---|---|
 | Unit price (normalisation): my €/kg or €/L vs Continente's own printed figure | 114 Continente products for 4 items, 22 Oct 2026 | Before fix: 28 agree, 18 differ. After fix: **42 agree, 4 differ**; 22 have no figure to compare (see below) |
+| Same check, larger list | 153 Continente products for 7 items, 27 Oct 2026 | **123 agree, 4 differ** (the known tuna cases); 14 are 1 kg/1 L packs, 12 not checkable |
 | Page filter v1: recall and precision | Hand labels, all 43 pages of the Lidl leaflet of 19–25 Oct 2026 (dev set) | Recall 0.97 (29 of 30 grocery pages kept), precision 0.88; 10 of 43 pages skipped |
 | Page filter v2 | Hand labels, Lidl leaflet of 12–18 Oct 2026 (held-out test set, 40 pages) | Recall 0.96 (27 of 28), precision 0.90; 10 of 40 pages skipped |
 | Page filter v3 | Next unseen Lidl leaflet (26 Oct–1 Nov 2026) | Pending |
@@ -112,6 +132,12 @@ python src/continente_catalogue.py build
 python src/continente_catalogue.py review
 python src/fetch_continente_online.py            # add --recheck about once a month
 
+# Lidl: this week's offers from lidl.pt
+python src/fetch_lidl_online.py
+
+# Where to shop (writes data/reports/<date>.md)
+python src/recommend.py                          # --trip-cost 5, --no-lidl-plus
+
 # Leaflets
 python src/fetch_lidl.py
 python src/fetch_continente.py
@@ -128,11 +154,16 @@ python src/classify_pages.py eval $FLYER
 ```
 src/continente_catalogue.py     catalogue from Continente's sitemaps; review which products count as each item
 src/fetch_continente_online.py  weekly prices, unit prices and checks for accepted products
+src/fetch_lidl_online.py        this week's Lidl offers from lidl.pt (decodes the pages' Nuxt data)
+src/recommend.py                cheapest store per item, plans, and the recommendation
+data/shopping/lidl_regular.csv  Lidl regular prices I record by hand (lidl.pt doesn't publish them)
+data/prices/lidl/               one Lidl price file per run (committed)
+data/reports/                   one recommendation per run (committed)
 src/fetch_lidl.py               download Lidl leaflet metadata and page images
 src/fetch_continente.py         download Continente leaflet page text, product hotspots and page images
 src/classify_pages.py           page filter: label template, keyword-rule predictions, evaluation
 src/make_offer_labels.py        blank offer-label files per leaflet page, and a format check
-data/shopping/list.csv          my list: item (plain words), quantity, exclude, notes
+data/shopping/list.csv          my list: item (plain words; ^ = first word anchored), quantity, unit, exclude, notes
 data/shopping/continente_products.csv   my decisions: which products count as each item
 data/prices/continente/         one price file per run (committed: the price history)
 data/labels/                    my hand labels and the predictions they are scored against
