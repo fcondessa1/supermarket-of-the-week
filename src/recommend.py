@@ -1,4 +1,4 @@
-"""Where to shop this week: compare my list across stores and recommend one store, or a split.
+"""Where to shop this week: compare my list across stores and recommend one store, or a split across two.
 
 Usage:
     python src/recommend.py                    # uses the latest price file of each store
@@ -8,17 +8,18 @@ Usage:
 Inputs:
     data/shopping/list.csv          item, quantity, unit (l / kg / unit), exclude, notes
     data/prices/continente/*.csv    latest file: every accepted product for each list item
+    data/prices/pingodoce/*.csv     same, for Pingo Doce (left out until its first price run)
     data/prices/lidl/*.csv          latest file: this week's Lidl offers (matched to items here, same word rules)
 Output:
     data/reports/<date>.md          the recommendation, in Markdown (also printed)
 
 How it decides:
     1. For each item and store, the cheapest product per kg / L / unit, on one comparable basis across
-       BOTH stores (if any product lacks a drained weight, all are compared on total weight).
+       ALL stores (if any product lacks a drained weight, all are compared on total weight).
     2. Cost of an item = unit price x the quantity on my list. This ignores pack rounding: 0.5 kg of
        granola may mean buying a 375 g or 600 g pack.
-    3. Plans, all costed on the same items: everything at Continente, everything at Lidl (each only if that
-       store has a price for all of them), or each item where it's cheapest plus the trip cost.
+    3. Plans, all costed on the same items: each store alone (only if it has a price for all of them), or
+       each pair of stores, every item at the cheaper of the two, plus the trip cost for the second store.
 Lidl's regular prices, two sources (all compared; the cheapest per unit wins, and the report says which):
     a) lidl.pt itself: every weekly file is kept, and each offer shows the price before the offer
        (old_price, or the shelf price when the offer is a Lidl Plus price). The latest one seen per product
@@ -30,7 +31,6 @@ which I fill in by hand from the shelf or my Lidl Plus receipts:
     item, product, price, quantity, unit, seen_on, notes
     leite meio gordo sem lactose, Milbona ... 1 L, 0.95, 1, l, 2026-10-27,
 A price older than 60 days is still used but flagged as stale.
-With those, a third plan is possible: everything at Lidl.
 Cost: no LLM calls, no network.
 """
 
@@ -39,7 +39,7 @@ import sys
 from datetime import date
 from pathlib import Path
 
-from continente_catalogue import candidates, normalise, tokens
+from catalogue import candidates, normalise, tokens
 from fetch_continente_online import comparable_prices
 
 LIST = Path("data/shopping/list.csv")
@@ -142,6 +142,13 @@ def lidl_history_regular(today: str) -> tuple[list[dict], int]:
     return list(latest_seen.values()), len(files)
 
 
+ONLINE_SHOPS = {"Continente": "continente", "Pingo Doce": "pingodoce"}   # same price-file format
+
+
+def plan_name(stores: tuple[str, ...]) -> str:
+    return f"Everything at {stores[0]}" if len(stores) == 1 else f"Split: {stores[0]} + {stores[1]}"
+
+
 def main() -> None:
     trip_cost = arg_value("--trip-cost", 3.0)
     use_plus = "--no-lidl-plus" not in sys.argv
@@ -149,7 +156,15 @@ def main() -> None:
 
     with open(LIST, encoding="utf-8") as f:
         items = [r for r in csv.DictReader(f) if (r.get("item") or "").strip()]
-    c_date, cont = latest("continente")
+
+    # Online shops (Continente, Pingo Doce): every accepted product per item, already tagged with the item.
+    # A shop without any price file yet is left out of the comparison.
+    shop_rows, sources = {}, []
+    for label, folder in ONLINE_SHOPS.items():
+        day, rows = latest(folder)
+        if rows:
+            shop_rows[label] = rows
+            sources.append(f"{label} Online ({day})")
     l_date, lidl = latest("lidl")
 
     # Lidl rows: this week's valid offers, with the price I would pay (Lidl Plus or not) as 'price'.
@@ -165,15 +180,15 @@ def main() -> None:
 
     regular, notes = lidl_regular_prices(today)
     history, n_files = lidl_history_regular(today)
+    stores = tuple(shop_rows) + ("Lidl",)
     lines = [f"# Where to shop, {today}", "",
-             f"Prices: Continente Online ({c_date or 'none'}), lidl.pt offers ({l_date or 'none'}), "
+             f"Prices: {', '.join(sources) or 'no online shop prices'}, lidl.pt offers ({l_date or 'none'}), "
              f"Lidl regular prices from my own table ({len(regular)} items) and from lidl.pt's price before offer "
              f"({len(history)} products seen in {n_files} weekly files). "
              f"Trip cost for a second store: {trip_cost:.2f} €."
              + ("" if use_plus else " Lidl Plus prices ignored."), "",
-             "| Item | Quantity | Continente: cheapest | Lidl: cheapest (offer or regular) | Cheapest at |",
-             "|---|---|---|---|---|"]
-    STORES = ("Continente", "Lidl")
+             "| Item | Quantity | " + " | ".join(f"{st}: cheapest" for st in stores) + " | Cheapest at |",
+             "|---|---|" + "---|" * len(stores) + "---|"]
     costs: dict[str, dict[str, float]] = {}       # item -> store -> cost of my quantity at its cheapest product
     for it in items:
         name = it["item"].strip()
@@ -182,19 +197,19 @@ def main() -> None:
         if unit and unit not in UNITS:
             notes.append(f"{name}: unit '{unit}' not understood (use l, kg or unit)")
             continue
-        c_rows = [r | {"store": "Continente"} for r in cont if r.get("item") == name]
+        rows = [r | {"store": label} for label, rs in shop_rows.items() for r in rs if r.get("item") == name]
         l_rows = candidates(lidl_rows, name, it.get("exclude") or "")
         l_rows += candidates(history, name, it.get("exclude") or "")
         if name in regular:
             l_rows = l_rows + [regular[name]]
-        basis, ranked = comparable_prices(c_rows + l_rows)
+        basis, ranked = comparable_prices(rows + l_rows)
         if unit:
             ranked = [(v, r) for v, r in ranked if r["unit"] == unit]
         best = {}
         for v, r in ranked:
             best.setdefault(r["store"], (v, r))
         if not best:
-            lines.append(f"| {name} | {qty:g} {unit} | no price | no price | — |")
+            lines.append(f"| {name} | {qty:g} {unit} | " + "no price | " * len(stores) + "— |")
             notes.append(f"{name}: no comparable price" + (f" in {unit}" if unit else ""))
             continue
         u = unit or next(iter(best.values()))[1]["unit"]
@@ -220,7 +235,7 @@ def main() -> None:
             elif r.get("regular"):
                 extra = f" (regular, my table, {r['regular']})"
             elif r.get("app"):
-                extra = " (Lidl Plus offer)" if store == "Lidl" else ""
+                extra = " (Lidl Plus offer)"
             elif store == "Lidl":
                 extra = " (offer)"
             else:
@@ -230,46 +245,57 @@ def main() -> None:
         costs[name] = {store: v * qty for store, (v, _) in best.items()}
         cheapest_store = min(best, key=lambda st: best[st][0])
         basis_note = " (total weight)" if basis.startswith("total") else ""
-        lines.append(f"| {name}{basis_note} | {qty:g} {u} | {cell('Continente')} | {cell('Lidl')} | {cheapest_store} |")
+        lines.append(f"| {name}{basis_note} | {qty:g} {u} | " + " | ".join(cell(st) for st in stores)
+                     + f" | {cheapest_store} |")
 
-    # Plans, all costed on the same items (those priced at one store at least).
-    # A one-store plan is possible only if that store has a price for every such item.
-    # The split pays the trip cost, so it wins only if it saves more than that.
+    # Plans, all costed on the same items (those priced at one store at least): each store alone, or each
+    # pair of stores with every item at the cheaper of the two, plus the trip cost. A plan is possible only
+    # if its store(s) have a price for every such item. At most two stores: a third trip is not worth it
+    # for a weekly list this size.
     plans: dict[str, float] = {}
-    for store in STORES:
-        if costs and all(store in c for c in costs.values()):
-            plans[f"Everything at {store}"] = sum(c[store] for c in costs.values())
-    at = {name: min(c, key=c.get) for name, c in costs.items()}
-    uses_both = len(set(at.values())) == 2
-    split_cost = sum(min(c.values()) for c in costs.values())
-    if uses_both:
-        plans["Split"] = split_cost + trip_cost
-    lines.append("")
-    for store in STORES:
-        key = f"Everything at {store}"
-        missing = [n for n, c in costs.items() if store not in c]
-        lines.append(f"**{key}:** " + (f"{plans[key]:.2f} €  " if key in plans
-                     else f"not possible (no {store} price for {', '.join(missing)})  "))
-    if uses_both:
-        lines.append(f"**Split:** {split_cost:.2f} € + {trip_cost:.2f} € trip cost = {plans['Split']:.2f} €  ")
-    lines.append("")
+    shown: list[str] = [""]
+    assignment: dict[str, dict[str, str]] = {}
+    combos = [(st,) for st in stores] + [(a, b) for i, a in enumerate(stores) for b in stores[i + 1:]]
+    for combo in combos:
+        key = plan_name(combo)
+        missing = [n for n, c in costs.items() if not any(st in c for st in combo)]
+        if not costs or missing:
+            if len(combo) == 1:
+                shown.append(f"**{key}:** not possible (no {combo[0]} price for {', '.join(missing) or 'any item'})  ")
+            continue
+        at = {n: min((st for st in combo if st in c), key=lambda st: c[st]) for n, c in costs.items()}
+        total = sum(costs[n][st] for n, st in at.items())
+        if len(combo) == 2:
+            if len(set(at.values())) < 2:
+                continue                       # one store does it all: that's the single-store plan
+            total += trip_cost
+            shown.append(f"**{key}:** {total - trip_cost:.2f} € + {trip_cost:.2f} € trip cost = {total:.2f} €  ")
+        else:
+            shown.append(f"**{key}:** {total:.2f} €  ")
+        plans[key] = total
+        assignment[key] = at
+    lines += shown + [""]
     if plans:
         choice = min(plans, key=plans.get)
         others = sorted(v for k, v in plans.items() if k != choice)
-        margin = f" It beats the next option by {others[0] - plans[choice]:.2f} €." if others else ""
-        if choice == "Split":
-            lidl_items = [n for n, st in at.items() if st == "Lidl"]
-            lines.append(f"**Recommendation: split.** Buy {', '.join(lidl_items)} at Lidl, the rest at Continente.{margin}")
+        margin = (f" It beats the next option by {others[0] - plans[choice]:.2f} €." if others
+                  else " It is the only plan with a price for every item.")
+        if choice.startswith("Split"):
+            by_store: dict[str, list[str]] = {}
+            for n, st in assignment[choice].items():
+                by_store.setdefault(st, []).append(n)
+            (a, a_items), (b, _) = sorted(by_store.items(), key=lambda kv: len(kv[1]))
+            lines.append(f"**Recommendation: split.** Buy {', '.join(a_items)} at {a}, the rest at {b}.{margin}")
         else:
             lines.append(f"**Recommendation: {choice[0].lower() + choice[1:]}.**{margin}")
     else:
-        lines.append("**No recommendation:** no item has a price at either store.")
+        lines.append("**No recommendation:** no store, or pair of stores, has a price for every item.")
     unpriced = [it["item"].strip() for it in items if it["item"].strip() not in costs]
     if unpriced:
-        lines.append(f"Not in any plan (no price at either store): {', '.join(unpriced)}.")
-    lines += ["", "Costs are unit price × quantity and ignore pack rounding. Continente prices are online prices. "
-              "Lidl prices are this week's lidl.pt offers, otherwise a regular price: my own record, or the price lidl.pt showed "
-              "before an earlier offer (the product may have been a limited-time item)."]
+        lines.append(f"Not in any plan (no price at any store): {', '.join(unpriced)}.")
+    lines += ["", "Costs are unit price × quantity and ignore pack rounding. Continente and Pingo Doce prices are "
+              "online prices. Lidl prices are this week's lidl.pt offers, otherwise a regular price: my own record, "
+              "or the price lidl.pt showed before an earlier offer (the product may have been a limited-time item)."]
     if notes:
         lines += ["", "Notes:"] + [f"- {n}" for n in notes]
 

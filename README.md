@@ -4,7 +4,7 @@ Tells me where to do this week's shopping. For each item on my list ("leite meio
 
 I built it because I use it. It is also a portfolio project: the parts that matter are measured against data I checked by hand, and the failures are documented next to the fixes.
 
-> **Status (2026-11-03):** Working end to end for Continente and Lidl: prices for every product that matches my list, compared per kg/L/unit across brands and stores, and a weekly recommendation (one store, or a split if it beats the trip cost). A GitHub Action runs it every Tuesday, commits the prices and posts the report as an issue. Not built: Pingo Doce. Dropped: reading the leaflets with a vision model (see below).
+> **Status (2026-11-03):** Working end to end for Continente, Pingo Doce and Lidl: prices for every product that matches my list, compared per kg/L/unit across brands and stores, and a weekly recommendation (one store, or a split across two if it beats the trip cost). A GitHub Action runs it every Tuesday, commits the prices and posts the report as an issue. Next: an LLM to judge product matches, measured against my own decisions. Dropped: reading the leaflets with a vision model (see below).
 
 ## How it works
 
@@ -22,7 +22,7 @@ Where the prices come from depends on what each store publishes:
 |---|---|---|---|
 | Continente | Continente Online product pages | Gives the current price, the price before discount, the promotion's end date and pack size for every product, not only promoted ones | Working |
 | Lidl | lidl.pt product pages for this week's offers; regular prices from lidl.pt's "price before offer" in past weeks, plus a small table I keep by hand | lidl.pt lists only offers (248 products on 27 Oct 2026), not the regular range: no basmati rice, although Lidl sells it | Working |
-| Pingo Doce | Online shop, if it allows automated requests | The website blocked my first automated requests | Not started |
+| Pingo Doce | Pingo Doce Online product pages | Same platform as Continente, so the catalogue, review and weekly run are shared; only reading a page differs. `robots.txt` allows product pages | Working since 3 Nov 2026 |
 | Intermarché | — | `robots.txt` disallows automated access | Not used |
 
 **Known limitation:** Lidl doesn't publish regular prices online. Two substitutes, both labelled in the report and flagged after 60 days:
@@ -80,6 +80,7 @@ Why not fetch the price of every catalogue product: that would be one ~1.6 MB pa
 |---|---|---|
 | Unit price (normalisation): my €/kg or €/L vs Continente's own printed figure | 114 Continente products for 4 items, 22 Oct 2026 | Before fix: 28 agree, 18 differ. After fix: **42 agree, 4 differ**; 22 have no figure to compare (see below) |
 | Same check, larger list | 153 Continente products for 7 items, 27 Oct 2026 | **123 agree, 4 differ** (the known tuna cases); 14 are 1 kg/1 L packs, 12 not checkable |
+| Same check, Pingo Doce | 97 Pingo Doce products for 7 items, 3 Nov 2026 | **64 agree, 0 differ**; 13 not checkable (no €/kg on the page); 20 without a price |
 | Page filter v1: recall and precision | Hand labels, all 43 pages of the Lidl leaflet of 19–25 Oct 2026 (dev set) | Recall 0.97 (29 of 30 grocery pages kept), precision 0.88; 10 of 43 pages skipped |
 | Page filter v2 | Hand labels, Lidl leaflet of 12–18 Oct 2026 (held-out test set, 40 pages) | Recall 0.96 (27 of 28), precision 0.90; 10 of 40 pages skipped |
 | Page filter v3 | — | Not scored: leaflet extraction dropped |
@@ -92,6 +93,12 @@ Why not fetch the price of every catalogue product: that would be one ~1.6 MB pa
 - **A wrong product, caught by the check.** The fourth disagreement was a tuna-and-egg salad that I had accepted under "atum ao natural" during review.
 - **22 not checkable.** The page shows no per-kg figure. The ones I inspected were all 1 kg packs, where the unit price is the price; these are now labelled as such.
 - **A parser bug.** The first version looked for the product's analytics entry by its discount field, so it missed every product without a discount (86 of 114 rows had a note).
+
+### Pingo Doce: what went wrong and what changed
+
+- **A price of 0 is not a price.** In the first run, most products had `"price": 0` in the page's analytics data, and the script took it at face value: "everything at Pingo Doce for 0.00 €". Zero now means no price, and unit prices of 0 are ignored for every store. 20 of 97 products had no price; why (out of stock, or not sold online) is not yet checked.
+- **Weights written as counts.** Pingo Doce gives some pack sizes as "1.5 Un" (a 1.5 kg bag of rice) or "0.084 Un" (84 g of tuna). A count with decimals is treated as unknown: the page's own €/kg is used if it prints one, otherwise the product is left out, rather than guessing kg (which would be wrong for anything sold by the litre).
+- **Matching shows its limits.** Words alone accept frozen blueberries and cranberries ("mirtilos vermelhos") for "mirtilo". The review catches them; the LLM step is meant to catch them for offers that are never reviewed.
 
 ### Products the catalogue lists but Continente doesn't sell
 
@@ -124,6 +131,7 @@ The first plan was to read Lidl's weekly leaflet with a vision model and score i
 |---|---|---|
 | Continente catalogue | €0 | 7 requests, when rebuilt |
 | Continente weekly prices | €0 | one request per accepted product (68 this week), one per second |
+| Pingo Doce weekly prices | €0 | one request per accepted product (97), one per second |
 | Leaflet downloads (not part of the weekly run) | €0 | one leaflet per store, when run |
 | Page filter | €0 | none (keyword rules) |
 | Weekly GitHub Action | €0 (free minutes, about 8 per run) | the two weekly price runs above |
@@ -139,6 +147,11 @@ pip install -r requirements.txt
 python src/continente_catalogue.py build
 python src/continente_catalogue.py review
 python src/fetch_continente_online.py            # add --recheck about once a month
+
+# Pingo Doce: the same steps
+python src/catalogue.py pingodoce build
+python src/catalogue.py pingodoce review
+python src/fetch_pingodoce_online.py
 
 # Lidl: this week's offers from lidl.pt
 python src/fetch_lidl_online.py
@@ -161,7 +174,9 @@ python src/classify_pages.py eval $FLYER
 
 ```
 .github/workflows/weekly.yml    every Tuesday: prices, recommendation, commit, report as an issue
-src/continente_catalogue.py     catalogue from Continente's sitemaps; review which products count as each item
+src/catalogue.py                catalogue from a store's sitemaps (continente, pingodoce); review which products count as each item
+src/continente_catalogue.py     the same for Continente (older commands)
+src/fetch_pingodoce_online.py   weekly Pingo Doce prices: reads its product pages, reuses Continente's run
 src/fetch_continente_online.py  weekly prices, unit prices and checks for accepted products
 src/fetch_lidl_online.py        this week's Lidl offers from lidl.pt (decodes the pages' Nuxt data)
 src/recommend.py                cheapest store per item, plans, and the recommendation
@@ -173,7 +188,7 @@ src/fetch_continente.py         download Continente leaflet page text, product h
 src/classify_pages.py           page filter: label template, keyword-rule predictions, evaluation
 src/make_offer_labels.py        blank offer-label files per leaflet page, and a format check
 data/shopping/list.csv          my list: item (plain words; ^ = first word anchored), quantity, unit, exclude, notes
-data/shopping/continente_products.csv   my decisions: which products count as each item
+data/shopping/<store>_products.csv      my decisions: which products count as each item
 data/prices/continente/         one price file per run (committed: the price history)
 data/labels/                    my hand labels and the predictions they are scored against
 data/raw/, data/catalogue/      downloads (not committed; leaflet images are the stores' material)

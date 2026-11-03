@@ -2,7 +2,8 @@
 converted to price per kg / L / unit, and the cheapest options per item.
 
 Usage:
-    python src/fetch_continente_online.py
+    python src/fetch_continente_online.py            # add --recheck about once a month
+    (Pingo Doce, same platform: python src/fetch_pingodoce_online.py, which reuses this run.)
 
 Input:  data/shopping/continente_products.csv (accepted products, from `continente_catalogue.py review`)
 Output: data/prices/continente/<YYYY-MM-DD>.csv, one row per product, and a summary per item.
@@ -39,7 +40,7 @@ import requests
 PRODUCTS = Path("data/shopping/continente_products.csv")
 LIST = Path("data/shopping/list.csv")
 OUT = Path("data/prices/continente")
-FAILED_PAGES = Path("scratch/failed_pages")          # first 3 pages without a price, for inspection (not committed)
+FAILED_PAGES = Path("scratch/failed_pages")          # first 3 pages without a price per store (not committed)
 PROMO_END_HORIZON_DAYS = 45                          # a "valid until" further away than this is shown as no end date
 HEADERS = {"User-Agent": "Mozilla/5.0 (supermarket-of-the-week; personal project)"}
 DELAY_S = 1.0
@@ -244,10 +245,10 @@ def comparable_prices(rows: list[dict]) -> tuple[str, list[tuple[float, dict]]]:
     """Unit prices for one item on a single, comparable basis.
     If every priced product states a drained weight (or none does), use unit_price; if it's mixed,
     use the price per total weight for all of them. Returns (basis label, sorted [(value, row)])."""
-    priced = [r for r in rows if r.get("unit_price")]
+    priced = [r for r in rows if _num(r.get("unit_price"))]          # a 0 or missing unit price is no price
     drained = [r for r in priced if r.get("weight_basis") == "drained"]
     if drained and len(drained) < len(priced):
-        pairs = [(float(r["unit_price_total"]), r) for r in priced if r.get("unit_price_total")]
+        pairs = [(float(r["unit_price_total"]), r) for r in priced if _num(r.get("unit_price_total"))]
         return "total weight (not all products state a drained weight)", sorted(pairs, key=lambda p: p[0])
     basis = "drained weight" if drained else ""
     return basis, sorted(((float(r["unit_price"]), r) for r in priced), key=lambda p: p[0])
@@ -266,19 +267,24 @@ def _fmt(v: float | None, decimals: int = 2) -> str:
 
 # ---------- run ----------
 
-def save_decisions(decisions: list[dict]) -> None:
-    with open(PRODUCTS, "w", newline="", encoding="utf-8") as f:
+def save_decisions(decisions: list[dict], path: Path = PRODUCTS) -> None:
+    with open(path, "w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=["item", "product_id", "name", "url", "decision"])
         w.writeheader()
         w.writerows(decisions)
 
 
-def main() -> None:
+def main(store: str = "continente", parse_page=None, label: str = "Continente") -> None:
     """--recheck also fetches products marked 'unavailable' (redirected to the home page on an earlier
-    run), and puts them back to 'accepted' if they have a price again. Run it about once a month."""
-    if not PRODUCTS.exists():
-        sys.exit(f"{PRODUCTS} not found. Run: python src/continente_catalogue.py review")
-    with open(PRODUCTS, encoding="utf-8") as f:
+    run), and puts them back to 'accepted' if they have a price again. Run it about once a month.
+    store/parse_page: the same run for another shop on the same platform (src/fetch_pingodoce_online.py)."""
+    products = Path(f"data/shopping/{store}_products.csv")
+    out_dir = Path(f"data/prices/{store}")
+    parse_page = parse_page or parse_product_page
+    review = f"python src/catalogue.py {store} review"
+    if not products.exists():
+        sys.exit(f"{products} not found. Run: {review}")
+    with open(products, encoding="utf-8") as f:
         decisions = list(csv.DictReader(f))
     # The list decides what gets priced: decisions for items no longer on the list are kept (in case the
     # item comes back) but not fetched; list items without decisions need a review first.
@@ -287,7 +293,7 @@ def main() -> None:
     decided = {d["item"] for d in decisions}
     for item in list_items:
         if item not in decided:
-            print(f"'{item}': not reviewed yet -> run: python src/continente_catalogue.py review")
+            print(f"'{item}': not reviewed yet -> run: {review}")
         elif not any(d["item"] == item and d["decision"] == "accepted" for d in decisions):
             print(f"'{item}': no accepted products (all rejected or unavailable)")
     dropped = sorted(decided - set(list_items))
@@ -296,7 +302,7 @@ def main() -> None:
     wanted = {"accepted", "unavailable"} if "--recheck" in sys.argv else {"accepted"}
     accepted = [r for r in decisions if r["decision"] in wanted and r["item"] in list_items]
     if not accepted:
-        sys.exit("No accepted products for the items on the list. Run: python src/continente_catalogue.py review")
+        sys.exit(f"No accepted products for the items on the list. Run: {review}")
 
     today = date.today().isoformat()
     print(f"Fetching {len(accepted)} product pages (about {len(accepted) * (DELAY_S + 0.5) / 60:.0f} min)...")
@@ -308,7 +314,7 @@ def main() -> None:
             resp = requests.get(p["url"], headers=HEADERS, timeout=60)
             redirected_home = urlsplit(resp.url).path in ("", "/") and resp.url.split("?")[0] != p["url"]
             resp.raise_for_status()
-            row = parse_product_page(resp.text, p["product_id"])
+            row = parse_page(resp.text, p["product_id"])
             if not row["price"]:
                 # Say why there's no price: a redirect (product no longer sold online?) or a different page.
                 title = re.search(r"<title>\s*(.*?)\s*</title>", resp.text, re.S)
@@ -318,13 +324,13 @@ def main() -> None:
                     why.insert(0, f"redirected to {resp.url[:80]}")
                 row["note"] = "; ".join(filter(None, [row["note"], "no price: " + ", ".join(why)]))
                 if saved_failures < 3:
-                    FAILED_PAGES.mkdir(parents=True, exist_ok=True)
-                    (FAILED_PAGES / f"{p['product_id']}.html").write_text(resp.text, encoding="utf-8")
+                    (FAILED_PAGES / store).mkdir(parents=True, exist_ok=True)
+                    (FAILED_PAGES / store / f"{p['product_id']}.html").write_text(resp.text, encoding="utf-8")
                     saved_failures += 1
         except requests.RequestException as e:
             row = {k: "" for k in FIELDS} | {"product_id": p["product_id"], "name": p["name"], "note": f"request failed: {e}"}
         rows.append(row | {"date": today, "item": p["item"], "url": p["url"]})
-        # Products that redirect to the home page are listed in Continente's sitemap but not sold online
+        # Products that redirect to the home page are listed in the store's sitemap but not sold online
         # (46 of 114 on 2026-10-22). Skip them in weekly runs; --recheck looks at them again.
         if redirected_home and not row["price"]:
             p["decision"] = "unavailable"
@@ -334,8 +340,8 @@ def main() -> None:
             print(f"  {i}/{len(accepted)}")
         time.sleep(DELAY_S)
 
-    OUT.mkdir(parents=True, exist_ok=True)
-    out_path = OUT / f"{today}.csv"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    out_path = out_dir / f"{today}.csv"
     with open(out_path, "w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=FIELDS)
         w.writeheader()
@@ -359,13 +365,13 @@ def main() -> None:
         units = {r["unit"] for _, r in ranked}
         if len(units) > 1:
             print(f"   WARNING: mixed units {sorted(units)}: some products are compared per kg, others per L or unit")
-    save_decisions(decisions)
+    save_decisions(decisions, products)
     no_price = [r for r in rows if not r["price"]]
     unavailable = sum(1 for d in decisions if d["decision"] == "unavailable")
     print(f"\n{len(rows)} products -> {out_path}")
     print(f"priced: {len(rows) - len(no_price)}, no price: {len(no_price)} "
           f"({unavailable} marked unavailable: skipped next week, see --recheck)")
-    print(f"unit price vs Continente's own figure: {sum(r['check'] == 'ok' for r in rows)} agree, "
+    print(f"unit price vs {label}'s own figure: {sum(r['check'] == 'ok' for r in rows)} agree, "
           f"{sum(r['check'] == 'differs' for r in rows)} differ, "
           f"{sum(r['check'] == '1 kg/1 L pack' for r in rows)} are 1 kg/1 L packs (nothing to check), "
           f"{sum(r['check'] == '' and bool(r['unit_price']) for r in rows)} not checkable")
@@ -374,7 +380,7 @@ def main() -> None:
         for r in no_price:
             reasons["redirected" if "redirected" in r["note"] else "request failed" if "request failed" in r["note"]
                     else "page without price"] += 1
-        print(f"why no price: {dict(reasons)}; first pages saved in {FAILED_PAGES}/")
+        print(f"why no price: {dict(reasons)}; first pages saved in {FAILED_PAGES / store}/")
 
 
 def promo_end(valid_until: str, today: str) -> str:
