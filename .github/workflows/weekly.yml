@@ -1,0 +1,70 @@
+# Every Tuesday: fetch this week's Continente and Lidl prices, write the recommendation,
+# commit the price files and report (the price history), and post the report as a GitHub issue.
+# Also runs on demand: Actions tab -> "Weekly prices" -> "Run workflow".
+name: Weekly prices
+
+on:
+  schedule:
+    - cron: "23 7 * * 2"        # Tuesday 07:23 UTC (07:23 in Lisbon in winter, 08:23 in summer)
+  workflow_dispatch:
+    inputs:
+      trip_cost:
+        description: "Trip cost for a second store, in euros"
+        default: "3"
+
+permissions:
+  contents: write                # commit the price files and report
+  issues: write                  # post the report
+
+jobs:
+  weekly:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install -r requirements.txt
+
+      # A blocked or broken store must not stop the other one: each fetch may fail,
+      # and the report says which one did.
+      - name: Continente prices
+        id: continente
+        continue-on-error: true
+        run: |
+          # first Tuesday of the month: also re-check products that were unavailable
+          if [ "$(date +%d)" -le 7 ]; then python src/fetch_continente_online.py --recheck
+          else python src/fetch_continente_online.py; fi
+
+      - name: Lidl prices
+        id: lidl
+        continue-on-error: true
+        run: python src/fetch_lidl_online.py
+
+      - name: Recommendation
+        run: |
+          python src/recommend.py --trip-cost "${{ inputs.trip_cost || '3' }}"
+          REPORT="data/reports/$(date +%F).md"
+          {
+            echo
+            echo "---"
+            echo "Run: Continente fetch ${{ steps.continente.outcome }}, Lidl fetch ${{ steps.lidl.outcome }}."
+            echo "If a fetch failed, its prices above are from an earlier week. Log: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          } >> "$REPORT"
+          echo "REPORT=$REPORT" >> "$GITHUB_ENV"
+
+      - name: Commit prices and report
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898732+github-actions[bot]@users.noreply.github.com"
+          git add data/prices data/reports
+          git diff --cached --quiet || git commit -m "Weekly prices and recommendation $(date +%F)"
+          git push
+
+      - name: Post the report as an issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh issue create --title "Where to shop, $(date +%F)" --body-file "$REPORT"
