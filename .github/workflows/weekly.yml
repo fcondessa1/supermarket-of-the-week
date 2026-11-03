@@ -1,4 +1,4 @@
-# Every Tuesday: fetch this week's Continente and Lidl prices, write the recommendation,
+# Every Tuesday: fetch this week's Continente, Pingo Doce and Lidl prices, write the recommendation,
 # commit the price files and report (the price history), and post the report as a GitHub issue.
 # Also runs on demand: Actions tab -> "Weekly prices" -> "Run workflow".
 name: Weekly prices
@@ -39,6 +39,16 @@ jobs:
           if [ "$(date +%d)" -le 7 ]; then python src/fetch_continente_online.py --recheck
           else python src/fetch_continente_online.py; fi
 
+      - name: Pingo Doce prices
+        id: pingodoce
+        continue-on-error: true
+        run: |
+          if [ ! -f data/shopping/pingodoce_products.csv ]; then
+            echo "No Pingo Doce products reviewed yet: run 'python src/catalogue.py pingodoce review'"; exit 0
+          fi
+          if [ "$(date +%d)" -le 7 ]; then python src/fetch_pingodoce_online.py --recheck
+          else python src/fetch_pingodoce_online.py; fi
+
       - name: Lidl prices
         id: lidl
         continue-on-error: true
@@ -51,7 +61,7 @@ jobs:
           {
             echo
             echo "---"
-            echo "Run: Continente fetch ${{ steps.continente.outcome }}, Lidl fetch ${{ steps.lidl.outcome }}."
+            echo "Run: Continente fetch ${{ steps.continente.outcome }}, Pingo Doce fetch ${{ steps.pingodoce.outcome }}, Lidl fetch ${{ steps.lidl.outcome }}."
             echo "If a fetch failed, its prices above are from an earlier week. Log: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           } >> "$REPORT"
           echo "REPORT=$REPORT" >> "$GITHUB_ENV"
@@ -60,7 +70,8 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898732+github-actions[bot]@users.noreply.github.com"
-          git add data/prices data/reports
+          # the price runs also mark products that are no longer sold online as "unavailable"
+          git add data/prices data/reports data/shopping/*_products.csv
           git diff --cached --quiet || git commit -m "Weekly prices and recommendation $(date +%F)"
           git push
 
