@@ -4,7 +4,7 @@ Tells me where to do this week's shopping. For each item on my list ("leite meio
 
 I built it because I use it. It is also a portfolio project: the parts that matter are measured against data I checked by hand, and the failures are documented next to the fixes.
 
-> **Status (2026-10-27, week 3 of 3):** Working end to end for Continente and Lidl: prices for every product that matches my list, compared per kg/L/unit across brands and stores, and a weekly recommendation (one store, or a split if it beats the trip cost). Not built yet: the scheduled weekly run, reading Lidl's leaflet with a vision model (scored against lidl.pt), Pingo Doce.
+> **Status (2026-11-03):** Working end to end for Continente and Lidl: prices for every product that matches my list, compared per kg/L/unit across brands and stores, and a weekly recommendation (one store, or a split if it beats the trip cost). A GitHub Action runs it every Tuesday, commits the prices and posts the report as an issue. Not built: Pingo Doce. Dropped: reading the leaflets with a vision model (see below).
 
 ## How it works
 
@@ -21,7 +21,7 @@ Where the prices come from depends on what each store publishes:
 | Store | Source | Why | Status |
 |---|---|---|---|
 | Continente | Continente Online product pages | Gives the current price, the price before discount, the promotion's end date and pack size for every product, not only promoted ones | Working |
-| Lidl | lidl.pt product pages for this week's offers; regular prices from lidl.pt's "price before offer" in past weeks, plus a small table I keep by hand | lidl.pt lists only offers (248 products on 27 Oct 2026), not the regular range: no lactose-free milk or basmati rice, although Lidl sells both. The leaflet will be read by a vision model and scored against lidl.pt's prices | Offers working; leaflet extraction next |
+| Lidl | lidl.pt product pages for this week's offers; regular prices from lidl.pt's "price before offer" in past weeks, plus a small table I keep by hand | lidl.pt lists only offers (248 products on 27 Oct 2026), not the regular range: no basmati rice, although Lidl sells it | Working |
 | Pingo Doce | Online shop, if it allows automated requests | The website blocked my first automated requests | Not started |
 | Intermarché | — | `robots.txt` disallows automated access | Not used |
 
@@ -82,8 +82,7 @@ Why not fetch the price of every catalogue product: that would be one ~1.6 MB pa
 | Same check, larger list | 153 Continente products for 7 items, 27 Oct 2026 | **123 agree, 4 differ** (the known tuna cases); 14 are 1 kg/1 L packs, 12 not checkable |
 | Page filter v1: recall and precision | Hand labels, all 43 pages of the Lidl leaflet of 19–25 Oct 2026 (dev set) | Recall 0.97 (29 of 30 grocery pages kept), precision 0.88; 10 of 43 pages skipped |
 | Page filter v2 | Hand labels, Lidl leaflet of 12–18 Oct 2026 (held-out test set, 40 pages) | Recall 0.96 (27 of 28), precision 0.90; 10 of 40 pages skipped |
-| Page filter v3 | Next unseen Lidl leaflet (26 Oct–1 Nov 2026) | Pending |
-| Lidl extraction: offers found and field accuracy (price, pack size, condition) | Hand-labelled Lidl pages | Pending |
+| Page filter v3 | — | Not scored: leaflet extraction dropped |
 | Matching Lidl offers to list items | Hand-labelled matches | Pending |
 
 ### Unit prices: what went wrong and what changed
@@ -107,6 +106,10 @@ Lidl leaflets have many non-food pages, so a free keyword filter on the leaflet'
 - **v3** fixes a general bug: short stems matched longer words ("bolo" matched "bolor", "nata" would match "Natal"). It also adds sweets and drops pet food, which isn't on my list. Both leaflets shaped it, so it is scored on the next unseen one.
 - **Left in on purpose.** Three errors would need rules for single phrases: a charity page whose description omits its products, a pet "bolsa de snacks", and "produtos de limpeza Dirt Devil" (gadgets).
 
+## Why the leaflets aren't read by a model
+
+The first plan was to read Lidl's weekly leaflet with a vision model and score it against hand labels and lidl.pt. I dropped it: lidl.pt already gives this week's offers as structured data, and Continente Online gives every product's price, so the leaflet would add only in-store-only offers, at an API cost per page and with a model error rate to manage. The leaflet downloaders and the page filter (scored above) stay in the repository as the groundwork, but the weekly run doesn't use them.
+
 ## Things the stores' data does that the code has to handle
 
 - **Conditional prices.** "-20% em Lidl Plus" or a card price is not the shelf price. Lidl offers get a `condition` field.
@@ -121,9 +124,9 @@ Lidl leaflets have many non-food pages, so a free keyword filter on the leaflet'
 |---|---|---|
 | Continente catalogue | €0 | 7 requests, when rebuilt |
 | Continente weekly prices | €0 | one request per accepted product (68 this week), one per second |
-| Leaflet downloads | €0 | one leaflet per store per week |
+| Leaflet downloads (not part of the weekly run) | €0 | one leaflet per store, when run |
 | Page filter | €0 | none (keyword rules) |
-| Lidl extraction | To be measured per page | none |
+| Weekly GitHub Action | €0 (free minutes, about 8 per run) | the two weekly price runs above |
 
 ## Run it
 
@@ -157,6 +160,7 @@ python src/classify_pages.py eval $FLYER
 ## Repository layout
 
 ```
+.github/workflows/weekly.yml    every Tuesday: prices, recommendation, commit, report as an issue
 src/continente_catalogue.py     catalogue from Continente's sitemaps; review which products count as each item
 src/fetch_continente_online.py  weekly prices, unit prices and checks for accepted products
 src/fetch_lidl_online.py        this week's Lidl offers from lidl.pt (decodes the pages' Nuxt data)
