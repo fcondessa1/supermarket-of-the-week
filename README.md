@@ -21,11 +21,16 @@ Where the prices come from depends on what each store publishes:
 | Store | Source | Why | Status |
 |---|---|---|---|
 | Continente | Continente Online product pages | Gives the current price, the price before discount, the promotion's end date and pack size for every product, not only promoted ones | Working |
-| Lidl | lidl.pt product pages for this week's offers, plus a small table of regular prices I keep by hand | lidl.pt lists only offers (248 products on 27 Oct 2026), not the regular range: no lactose-free milk or basmati rice, although Lidl sells both. The leaflet will be read by a vision model and scored against lidl.pt's prices | Offers working; leaflet extraction next |
+| Lidl | lidl.pt product pages for this week's offers; regular prices from lidl.pt's "price before offer" in past weeks, plus a small table I keep by hand | lidl.pt lists only offers (248 products on 27 Oct 2026), not the regular range: no lactose-free milk or basmati rice, although Lidl sells both. The leaflet will be read by a vision model and scored against lidl.pt's prices | Offers working; leaflet extraction next |
 | Pingo Doce | Online shop, if it allows automated requests | The website blocked my first automated requests | Not started |
 | Intermarché | — | `robots.txt` disallows automated access | Not used |
 
-**Known limitation:** Lidl's regular prices aren't published online. They come from `data/shopping/lidl_regular.csv`, which I fill in from the shelf or my Lidl Plus receipts. The report shows when a price came from there and flags it after 60 days.
+**Known limitation:** Lidl doesn't publish regular prices online. Two substitutes, both labelled in the report and flagged after 60 days:
+
+- **lidl.pt's own price before the offer.** Every weekly file is kept, and each offer shows the price without it: the crossed-out price, or the shelf price when the offer needs Lidl Plus. The latest one seen per product is reused after the offer ends, so the coverage grows every week. A shelf price on its own isn't used, since it may itself be the offer price. Some offers are limited-time products, so a price before offer doesn't prove the product is still sold.
+- **My own table**, `data/shopping/lidl_regular.csv`, for what lidl.pt never shows, filled in from the shelf or my Lidl Plus receipts.
+
+All of them are compared, and the cheapest per kg/L/unit wins.
 
 ## The weekly recommendation
 
@@ -34,7 +39,7 @@ Where the prices come from depends on what each store publishes:
 1. finds the cheapest product per kg / L / unit at each store, on one basis across both stores. Lidl never states a drained weight, so tuna is compared on total weight everywhere.
 2. costs it as unit price × my quantity. Pack rounding is ignored: 0.5 kg of granola may mean a 375 g pack.
 
-Then it compares three plans: everything at Continente, everything at Lidl (only if Lidl has a price for every item), and each item where it's cheapest plus a trip cost (3 € by default) for going to two stores.
+Then it compares three plans, all costed on the same items: everything at Continente, everything at Lidl (each only if that store has a price for all of them), and each item where it's cheapest plus a trip cost (3 € by default) for going to two stores. Items with no price at either store are listed, not silently dropped. An earlier version recommended a split whenever neither store had every item, which on test data meant a trip to Lidl to save 0.42 € on milk; that is fixed.
 
 From the first run, 27 October 2026, before I had recorded any Lidl regular prices:
 
