@@ -12,6 +12,8 @@ on:
         description: "Trip cost for a second store, in euros"
         default: "3"
 
+concurrency: weekly               # never two runs at once
+
 permissions:
   contents: write                # commit the price files and report
   issues: write                  # post the report
@@ -19,11 +21,11 @@ permissions:
 jobs:
   weekly:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45            # ~25 min on a first Tuesday (re-checks unavailable products)
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
 
@@ -73,9 +75,16 @@ jobs:
           # the price runs also mark products that are no longer sold online as "unavailable"
           git add data/prices data/reports data/shopping/*_products.csv
           git diff --cached --quiet || git commit -m "Weekly prices and recommendation $(date +%F)"
-          git push
+          # The run takes ~20 minutes; if I pushed meanwhile, put this commit on top of mine and retry.
+          # (2026-11-03: the first run's push was rejected for exactly this reason.)
+          for attempt in 1 2 3; do
+            git pull --rebase -X theirs && git push && exit 0
+            echo "push failed (attempt $attempt), retrying"; sleep 10
+          done
+          exit 1
 
       - name: Post the report as an issue
+        if: always() && env.REPORT != ''       # also when the commit failed: the report is still worth having
         env:
           GH_TOKEN: ${{ github.token }}
         run: gh issue create --title "Where to shop, $(date +%F)" --body-file "$REPORT"
