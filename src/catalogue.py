@@ -5,6 +5,8 @@ Usage (store = continente or pingodoce):
     python src/catalogue.py pingodoce search leite meio    # look up products by words
     python src/catalogue.py pingodoce review               # for each list item, decide once which
                                                             # products count as that item (all brands, all sizes)
+    python src/catalogue.py pingodoce review --redo        # decide again for every item (all products shown)
+    python src/catalogue.py pingodoce review --redo ^granola   # ... or for one item
     (python src/continente_catalogue.py build/search/review still works: it is this script for Continente.)
 
 Shopping list: data/shopping/list.csv with the columns
@@ -29,6 +31,7 @@ data/catalogue/ is not committed (rebuilt on demand). Cost: no LLM calls.
 """
 
 import csv
+import shutil
 import re
 import sys
 import time
@@ -189,11 +192,28 @@ def save_decisions(rows: list[dict]) -> None:
         w.writerows(sorted(rows, key=lambda r: (r["item"], r["decision"], r["name"])))
 
 
-def cmd_review() -> None:
+def cmd_review(redo: str | None = None) -> None:
+    """redo: '' = every list item, or one item's exact text. Its old decisions are dropped and every
+    matching product is shown again, accepted ones included (backup of the file first). Products that
+    were marked unavailable and are accepted again stay unavailable, so weekly runs keep skipping them."""
     catalogue = load_catalogue()
     with open(LIST, encoding="utf-8") as f:
         items = [r for r in csv.DictReader(f) if (r.get("item") or "").strip()]
     decisions = load_decisions()
+    was_unavailable = set()
+    if redo is not None:
+        names = [r["item"].strip() for r in items]
+        if redo and redo not in names:
+            sys.exit(f"'{redo}' is not an item on {LIST}. Items: {', '.join(names)}")
+        backup = decisions_path().with_suffix(".before-redo.csv")
+        shutil.copy(decisions_path(), backup)
+        print(f"backup of your decisions: {backup}")
+        redo_items = {redo} if redo else set(names)
+        was_unavailable = {(d["item"], d["product_id"]) for d in decisions
+                           if d["item"] in redo_items and d["decision"] == "unavailable"}
+        old = {it: [d for d in decisions if d["item"] == it] for it in redo_items}
+        decisions = [d for d in decisions if d["item"] not in redo_items]
+        items = [r for r in items if r["item"].strip() in redo_items]
     for row in items:
         item, exclude = row["item"].strip(), (row.get("exclude") or "").strip()
         # Accepted products must still match the item's CURRENT words and exclusions: an exclusion added
@@ -235,10 +255,17 @@ def cmd_review() -> None:
                 break
             print("   not understood, try again")
         if rejected is None:
+            if redo is not None:                  # skipped during a redo: keep the old decisions
+                decisions += old.get(item, [])
+                save_decisions(decisions)
+                print("   skipped: old decisions kept")
             continue
         for i, r in enumerate(new, 1):
+            decision = "rejected" if i in rejected else "accepted"
+            if decision == "accepted" and (item, r["product_id"]) in was_unavailable:
+                decision = "unavailable"
             decisions.append({"item": item, "product_id": r["product_id"], "name": r["name"], "url": r["url"],
-                              "decision": "rejected" if i in rejected else "accepted"})
+                              "decision": decision})
         save_decisions(decisions)
         print(f"   saved: {len(new) - len(rejected)} accepted, {len(rejected)} rejected")
     total = sum(1 for d in decisions if d["decision"] == "accepted")
@@ -257,6 +284,8 @@ def main(argv: list[str] | None = None) -> None:
         cmd_search(" ".join(args[1:]))
     elif args == ["review"]:
         cmd_review()
+    elif len(args) >= 2 and args[:2] == ["review", "--redo"]:
+        cmd_review(" ".join(args[2:]))
     else:
         sys.exit(__doc__)
 

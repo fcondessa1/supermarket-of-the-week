@@ -1,94 +1,120 @@
 item,product_id,name,url,decision
 ^capsulas de cafe nicola,7620731,capsulas de cafe 100  arabica int 10 nicola,https://www.continente.pt/produto/capsulas-de-cafe-100--arabica-int-10-nicola-7620731.html,accepted
-^capsulas de cafe nicola,7813575,capsulas de cafe 100  arabica int 10 nicola,https://www.continente.pt/produto/capsulas-de-cafe-100--arabica-int-10-nicola-7813575.html,unavailable
 ^capsulas de cafe nicola,7620744,capsulas de cafe alma brasil int 10 nicola,https://www.continente.pt/produto/capsulas-de-cafe-alma-brasil-int-10-nicola-7620744.html,accepted
-^capsulas de cafe nicola,5915273,capsulas de cafe alma brasil int 9 nicola,https://www.continente.pt/produto/capsulas-de-cafe-alma-brasil-int-9-nicola-5915273.html,unavailable
-^capsulas de cafe nicola,5915275,capsulas de cafe alma colombia int 8 nicola,https://www.continente.pt/produto/capsulas-de-cafe-alma-colombia-int-8-nicola-5915275.html,unavailable
-^capsulas de cafe nicola,7201322,capsulas de cafe alma india int 11 nicola,https://www.continente.pt/produto/capsulas-de-cafe-alma-india-int-11-nicola-7201322.html,unavailable
 ^capsulas de cafe nicola,7620748,capsulas de cafe alma peru int 9 nicola,https://www.continente.pt/produto/capsulas-de-cafe-alma-peru-int-9-nicola-7620748.html,accepted
-^capsulas de cafe nicola,7201270,capsulas de cafe alma peru int 9 nicola,https://www.continente.pt/produto/capsulas-de-cafe-alma-peru-int-9-nicola-7201270.html,unavailable
-^capsulas de cafe nicola,5915270,capsulas de cafe alma quenia int 10 nicola,https://www.continente.pt/produto/capsulas-de-cafe-alma-quenia-int-10-nicola-5915270.html,unavailable
 ^capsulas de cafe nicola,7620735,capsulas de cafe alma quenia int 11 nicola,https://www.continente.pt/produto/capsulas-de-cafe-alma-quenia-int-11-nicola-7620735.html,accepted
-^capsulas de cafe nicola,6649632,capsulas de cafe aroma baunilha int 8 nicola,https://www.continente.pt/produto/capsulas-de-cafe-aroma-baunilha-int-8-nicola-6649632.html,unavailable
 ^capsulas de cafe nicola,5740056,capsulas de cafe bocage int 11 nicola,https://www.continente.pt/produto/capsulas-de-cafe-bocage-int-11-nicola-5740056.html,accepted
 ^capsulas de cafe nicola,7673478,capsulas de cafe bocage int 11 nicola,https://www.continente.pt/produto/capsulas-de-cafe-bocage-int-11-nicola-7673478.html,accepted
 ^capsulas de cafe nicola,8952219,capsulas de cafe bocage int 11 nicola,https://www.continente.pt/produto/capsulas-de-cafe-bocage-int-11-nicola-8952219.html,accepted
-^capsulas de cafe nicola,7224012,capsulas de cafe bocage int 7 nicola,https://www.continente.pt/produto/capsulas-de-cafe-bocage-int-7-nicola-7224012.html,unavailable
-^capsulas de cafe nicola,7175905,capsulas de cafe bocage int 7 nicola,https://www.continente.pt/produto/capsulas-de-cafe-bocage-int-7-nicola-7175905.html,unavailable
 ^capsulas de cafe nicola,7620728,capsulas de cafe encorpado int 11 nicola,https://www.continente.pt/produto/capsulas-de-cafe-encorpado-int-11-nicola-7620728.html,accepted
 ^capsulas de cafe nicola,7848382,capsulas de cafe encorpado int 11 nicola,https://www.continente.pt/produto/capsulas-de-cafe-encorpado-int-11-nicola-7848382.html,accepted
-^capsulas de cafe nicola,7813577,capsulas de cafe encorpado int 11 nicola,https://www.continente.pt/produto/capsulas-de-cafe-encorpado-int-11-nicola-7813577.html,unavailable
 ^capsulas de cafe nicola,7620722,capsulas de cafe intenso int 12 nicola,https://www.continente.pt/produto/capsulas-de-cafe-intenso-int-12-nicola-7620722.html,accepted
 ^capsulas de cafe nicola,7848384,capsulas de cafe intenso int 12 nicola,https://www.continente.pt/produto/capsulas-de-cafe-intenso-int-12-nicola-7848384.html,accepted
-^capsulas de cafe nicola,7813578,capsulas de cafe intenso int 12 nicola,https://www.continente.pt/produto/capsulas-de-cafe-intenso-int-12-nicola-7813578.html,unavailable
 ^capsulas de cafe nicola,6917694,capsulas de cafe mundi int 9 nicola,https://www.continente.pt/produto/capsulas-de-cafe-mundi-int-9-nicola-6917694.html,accepted
 ^capsulas de cafe nicola,7673486,capsulas de cafe mundi int 9 nicola,https://www.continente.pt/produto/capsulas-de-cafe-mundi-int-9-nicola-7673486.html,accepted
-^capsulas de cafe nicola,7175907,capsulas de cafe mundi int 9 nicola,https://www.continente.pt/produto/capsulas-de-cafe-mundi-int-9-nicola-7175907.html,unavailable
-^capsulas de cafe nicola,7175908,capsulas de cafe rossio int 10 nicola,https://www.continente.pt/produto/capsulas-de-cafe-rossio-int-10-nicola-7175908.html,unavailable
-^capsulas de cafe nicola,7224036,capsulas de cafe rossio int 10 nicola,https://www.continente.pt/produto/capsulas-de-cafe-rossio-int-10-nicola-7224036.html,unavailable
 ^capsulas de cafe nicola,5740053,capsulas de cafe rossio int 12 nicola,https://www.continente.pt/produto/capsulas-de-cafe-rossio-int-12-nicola-5740053.html,accepted
 ^capsulas de cafe nicola,7673508,capsulas de cafe rossio int 12 nicola,https://www.continente.pt/produto/capsulas-de-cafe-rossio-int-12-nicola-7673508.html,accepted
 ^capsulas de cafe nicola,8952235,capsulas de cafe rossio int 12 nicola,https://www.continente.pt/produto/capsulas-de-cafe-rossio-int-12-nicola-8952235.html,accepted
 ^capsulas de cafe nicola,8952228,capsulas de cafe selecto int 10 nicola,https://www.continente.pt/produto/capsulas-de-cafe-selecto-int-10-nicola-8952228.html,accepted
+^capsulas de cafe nicola,7813575,capsulas de cafe 100  arabica int 10 nicola,https://www.continente.pt/produto/capsulas-de-cafe-100--arabica-int-10-nicola-7813575.html,unavailable
+^capsulas de cafe nicola,5915273,capsulas de cafe alma brasil int 9 nicola,https://www.continente.pt/produto/capsulas-de-cafe-alma-brasil-int-9-nicola-5915273.html,unavailable
+^capsulas de cafe nicola,5915275,capsulas de cafe alma colombia int 8 nicola,https://www.continente.pt/produto/capsulas-de-cafe-alma-colombia-int-8-nicola-5915275.html,unavailable
+^capsulas de cafe nicola,7201322,capsulas de cafe alma india int 11 nicola,https://www.continente.pt/produto/capsulas-de-cafe-alma-india-int-11-nicola-7201322.html,unavailable
+^capsulas de cafe nicola,7201270,capsulas de cafe alma peru int 9 nicola,https://www.continente.pt/produto/capsulas-de-cafe-alma-peru-int-9-nicola-7201270.html,unavailable
+^capsulas de cafe nicola,5915270,capsulas de cafe alma quenia int 10 nicola,https://www.continente.pt/produto/capsulas-de-cafe-alma-quenia-int-10-nicola-5915270.html,unavailable
+^capsulas de cafe nicola,6649632,capsulas de cafe aroma baunilha int 8 nicola,https://www.continente.pt/produto/capsulas-de-cafe-aroma-baunilha-int-8-nicola-6649632.html,unavailable
+^capsulas de cafe nicola,7224012,capsulas de cafe bocage int 7 nicola,https://www.continente.pt/produto/capsulas-de-cafe-bocage-int-7-nicola-7224012.html,unavailable
+^capsulas de cafe nicola,7175905,capsulas de cafe bocage int 7 nicola,https://www.continente.pt/produto/capsulas-de-cafe-bocage-int-7-nicola-7175905.html,unavailable
+^capsulas de cafe nicola,7813577,capsulas de cafe encorpado int 11 nicola,https://www.continente.pt/produto/capsulas-de-cafe-encorpado-int-11-nicola-7813577.html,unavailable
+^capsulas de cafe nicola,7813578,capsulas de cafe intenso int 12 nicola,https://www.continente.pt/produto/capsulas-de-cafe-intenso-int-12-nicola-7813578.html,unavailable
+^capsulas de cafe nicola,7175907,capsulas de cafe mundi int 9 nicola,https://www.continente.pt/produto/capsulas-de-cafe-mundi-int-9-nicola-7175907.html,unavailable
+^capsulas de cafe nicola,7175908,capsulas de cafe rossio int 10 nicola,https://www.continente.pt/produto/capsulas-de-cafe-rossio-int-10-nicola-7175908.html,unavailable
+^capsulas de cafe nicola,7224036,capsulas de cafe rossio int 10 nicola,https://www.continente.pt/produto/capsulas-de-cafe-rossio-int-10-nicola-7224036.html,unavailable
 ^capsulas de cafe nicola,7175906,capsulas de cafe selecto int 6 nicola,https://www.continente.pt/produto/capsulas-de-cafe-selecto-int-6-nicola-7175906.html,unavailable
 ^capsulas de cafe nicola,6917697,capsulas de cafe selecto int 6 nicola,https://www.continente.pt/produto/capsulas-de-cafe-selecto-int-6-nicola-6917697.html,unavailable
 ^capsulas de cafe nicola,7224020,capsulas de cafe selecto int 6 nicola,https://www.continente.pt/produto/capsulas-de-cafe-selecto-int-6-nicola-7224020.html,unavailable
 ^granola,7941092,granola alfarroba e coco grand carob,https://www.continente.pt/produto/granola-alfarroba-e-coco-grand-carob-7941092.html,accepted
 ^granola,7941134,granola alfarroba e morango grand carob,https://www.continente.pt/produto/granola-alfarroba-e-morango-grand-carob-7941134.html,accepted
 ^granola,7941188,granola alfarroba laranja e amendoa grand carob,https://www.continente.pt/produto/granola-alfarroba-laranja-e-amendoa-grand-carob-7941188.html,accepted
-^granola,7158972,granola all bran amendoa e sementes de abobora kelloggs,https://www.continente.pt/produto/granola-all-bran-amendoa-e-sementes-de-abobora-kelloggs-7158972.html,unavailable
-^granola,7158969,granola all bran prebiotic classico kelloggs,https://www.continente.pt/produto/granola-all-bran-prebiotic-classico-kelloggs-7158969.html,unavailable
 ^granola,7306188,granola amendoa e avela rude health,https://www.continente.pt/produto/granola-amendoa-e-avela-rude-health-7306188.html,accepted
 ^granola,7131362,granola amendoa e sementes abobora origens bio,https://www.continente.pt/produto/granola-amendoa-e-sementes-abobora-origens-bio-7131362.html,accepted
 ^granola,7306184,granola amendoas crocantes rude health,https://www.continente.pt/produto/granola-amendoas-crocantes-rude-health-7306184.html,accepted
 ^granola,8968639,granola amendoim crunch fuel 10k,https://www.continente.pt/produto/granola-amendoim-crunch-fuel-10k-8968639.html,accepted
-^granola,8067447,granola antiox salutem,https://www.continente.pt/produto/granola-antiox-salutem-8067447.html,unavailable
-^granola,6811393,granola arandos e goji continente equilibrio,https://www.continente.pt/produto/granola-arandos-e-goji-continente-equilibrio-6811393.html,unavailable
 ^granola,5931707,granola arandos e sementes de abobora fitness,https://www.continente.pt/produto/granola-arandos-e-sementes-de-abobora-fitness-5931707.html,accepted
-^granola,5895640,granola aveia barnhouse,https://www.continente.pt/produto/granola-aveia-barnhouse-5895640.html,unavailable
 ^granola,7755054,granola aveia cacau e proteina de ervilha sport simple,https://www.continente.pt/produto/granola-aveia-cacau-e-proteina-de-ervilha-sport-simple-7755054.html,accepted
 ^granola,5772641,granola aveia com chocolate cruesli quaker,https://www.continente.pt/produto/granola-aveia-com-chocolate-cruesli-quaker-5772641.html,accepted
 ^granola,5772619,granola aveia com frutas cruesli quaker,https://www.continente.pt/produto/granola-aveia-com-frutas-cruesli-quaker-5772619.html,accepted
 ^granola,5772642,granola aveia com frutos secos cruesli quaker,https://www.continente.pt/produto/granola-aveia-com-frutos-secos-cruesli-quaker-5772642.html,accepted
-^granola,8005946,granola aveia crocante morango e mirtilo quaker,https://www.continente.pt/produto/granola-aveia-crocante-morango-e-mirtilo-quaker-8005946.html,unavailable
 ^granola,7619942,granola aveia e chocolate negro kelloggs,https://www.continente.pt/produto/granola-aveia-e-chocolate-negro-kelloggs-7619942.html,accepted
-^granola,7619937,granola aveia e frutos vermelhos kelloggs,https://www.continente.pt/produto/granola-aveia-e-frutos-vermelhos-kelloggs-7619937.html,unavailable
 ^granola,5778947,granola aveia e mel fitness,https://www.continente.pt/produto/granola-aveia-e-mel-fitness-5778947.html,accepted
 ^granola,8933063,granola aveia e mel fitness,https://www.continente.pt/produto/granola-aveia-e-mel-fitness-8933063.html,accepted
-^granola,6880519,granola aveia integral cem porcento,https://www.continente.pt/produto/granola-aveia-integral-cem-porcento-6880519.html,unavailable
 ^granola,5778949,granola aveia trigo e chocolate fitness,https://www.continente.pt/produto/granola-aveia-trigo-e-chocolate-fitness-5778949.html,accepted
-^granola,6643102,granola aveia uva e amendoa jordans,https://www.continente.pt/produto/granola-aveia-uva-e-amendoa-jordans-6643102.html,unavailable
 ^granola,8961976,granola berry com sementes e arandos nolita,https://www.continente.pt/produto/granola-berry-com-sementes-e-arandos-nolita-8961976.html,accepted
-^granola,8885525,granola bites cacau sem gluten sem adicao de acucar continente equilibrio,https://www.continente.pt/produto/granola-bites-cacau-sem-gluten-sem-adicao-de-acucar-continente-equilibrio-8885525.html,accepted
-^granola,8885528,granola bites maca e canela sem gluten sem adicao de acucar continente equilibrio,https://www.continente.pt/produto/granola-bites-maca-e-canela-sem-gluten-sem-adicao-de-acucar-continente-equilibrio-8885528.html,accepted
-^granola,8885527,granola bites manteiga de amendoim sem gluten sem adicao de acucar continente equilibrio,https://www.continente.pt/produto/granola-bites-manteiga-de-amendoim-sem-gluten-sem-adicao-de-acucar-continente-equilibrio-8885527.html,accepted
-^granola,7778845,granola cafe e chocolate extra barista kelloggs,https://www.continente.pt/produto/granola-cafe-e-chocolate-extra-barista-kelloggs-7778845.html,unavailable
 ^granola,4228611,granola cem porcento,https://www.continente.pt/produto/granola-cem-porcento-4228611.html,accepted
-^granola,5515843,granola cereais dourados cem porcento,https://www.continente.pt/produto/granola-cereais-dourados-cem-porcento-5515843.html,unavailable
-^granola,8003345,granola cereais e frutos secos salutem,https://www.continente.pt/produto/granola-cereais-e-frutos-secos-salutem-8003345.html,unavailable
 ^granola,8968638,granola chocolate chunks fuel 10k,https://www.continente.pt/produto/granola-chocolate-chunks-fuel-10k-8968638.html,accepted
-^granola,6863193,granola chocolate e amendoa continente bio,https://www.continente.pt/produto/granola-chocolate-e-amendoa-continente-bio-6863193.html,unavailable
-^granola,6996723,granola chocolate e avela kelloggs,https://www.continente.pt/produto/granola-chocolate-e-avela-kelloggs-6996723.html,unavailable
-^granola,8003339,granola chocolate e avela salutem,https://www.continente.pt/produto/granola-chocolate-e-avela-salutem-8003339.html,unavailable
 ^granola,5515841,granola chocolate e coco cem porcento,https://www.continente.pt/produto/granola-chocolate-e-coco-cem-porcento-5515841.html,accepted
-^granola,7708640,granola chocolate e coco salutem,https://www.continente.pt/produto/granola-chocolate-e-coco-salutem-7708640.html,unavailable
-^granola,7084292,granola chocolate e coco sem gluten bjorg,https://www.continente.pt/produto/granola-chocolate-e-coco-sem-gluten-bjorg-7084292.html,unavailable
-^granola,7388333,granola chocolate e morango veggis,https://www.continente.pt/produto/granola-chocolate-e-morango-veggis-7388333.html,unavailable
 ^granola,8014497,granola chocolate negro e coco salutem,https://www.continente.pt/produto/granola-chocolate-negro-e-coco-salutem-8014497.html,accepted
 ^granola,6984678,granola chocolate origens bio,https://www.continente.pt/produto/granola-chocolate-origens-bio-6984678.html,accepted
 ^granola,7443668,granola chocolate rude health,https://www.continente.pt/produto/granola-chocolate-rude-health-7443668.html,accepted
 ^granola,8484478,granola chocolate salgado nacional,https://www.continente.pt/produto/granola-chocolate-salgado-nacional-8484478.html,accepted
 ^granola,7132080,granola chocolate seara,https://www.continente.pt/produto/granola-chocolate-seara-7132080.html,accepted
 ^granola,8372509,granola chocolate sem acucar why foods,https://www.continente.pt/produto/granola-chocolate-sem-acucar-why-foods-8372509.html,accepted
-^granola,6116899,granola coco e chia rude health,https://www.continente.pt/produto/granola-coco-e-chia-rude-health-6116899.html,unavailable
-^granola,7158974,granola coco e chocolate proteina kelloggs,https://www.continente.pt/produto/granola-coco-e-chocolate-proteina-kelloggs-7158974.html,unavailable
 ^granola,7131363,granola coco e goji origens bio,https://www.continente.pt/produto/granola-coco-e-goji-origens-bio-7131363.html,accepted
 ^granola,8372541,granola cookies sem acucar why foods,https://www.continente.pt/produto/granola-cookies-sem-acucar-why-foods-8372541.html,accepted
-^granola,6863078,granola crunchy chocolate continente bio,https://www.continente.pt/produto/granola-crunchy-chocolate-continente-bio-6863078.html,unavailable
 ^granola,8961973,granola crunchy com sementes e avelas nolita,https://www.continente.pt/produto/granola-crunchy-com-sementes-e-avelas-nolita-8961973.html,accepted
+^granola,8933048,granola crunchy oats fitness,https://www.continente.pt/produto/granola-crunchy-oats-fitness-8933048.html,accepted
+^granola,6938793,granola frutos secos cem porcento,https://www.continente.pt/produto/granola-frutos-secos-cem-porcento-6938793.html,accepted
+^granola,8843156,granola frutos secos e sementes kelloggs,https://www.continente.pt/produto/granola-frutos-secos-e-sementes-kelloggs-8843156.html,accepted
+^granola,8484477,granola frutos secos e sementes nacional,https://www.continente.pt/produto/granola-frutos-secos-e-sementes-nacional-8484477.html,accepted
+^granola,5515856,granola frutos vermelhos cem porcento,https://www.continente.pt/produto/granola-frutos-vermelhos-cem-porcento-5515856.html,accepted
+^granola,6938780,granola frutos vermelhos cem porcento,https://www.continente.pt/produto/granola-frutos-vermelhos-cem-porcento-6938780.html,accepted
+^granola,8967521,granola frutos vermelhos fuel 10k,https://www.continente.pt/produto/granola-frutos-vermelhos-fuel-10k-8967521.html,accepted
+^granola,7443667,granola frutos vermelhos organica rude health,https://www.continente.pt/produto/granola-frutos-vermelhos-organica-rude-health-7443667.html,accepted
+^granola,6984708,granola frutos vermelhos origens bio,https://www.continente.pt/produto/granola-frutos-vermelhos-origens-bio-6984708.html,accepted
+^granola,8014496,granola frutos vermelhos salutem,https://www.continente.pt/produto/granola-frutos-vermelhos-salutem-8014496.html,accepted
+^granola,8014736,granola integral sementes e frutos secos salutem,https://www.continente.pt/produto/granola-integral-sementes-e-frutos-secos-salutem-8014736.html,accepted
+^granola,5895715,granola krunchy de avela  e chocolate negro barnhouse,https://www.continente.pt/produto/granola-krunchy-de-avela--e-chocolate-negro-barnhouse-5895715.html,accepted
+^granola,8961975,granola nutty com sementes e cajus nolita,https://www.continente.pt/produto/granola-nutty-com-sementes-e-cajus-nolita-8961975.html,accepted
+^granola,7394720,granola original sem gluten cem porcento,https://www.continente.pt/produto/granola-original-sem-gluten-cem-porcento-7394720.html,accepted
+^granola,7394711,granola proteica cem porcento,https://www.continente.pt/produto/granola-proteica-cem-porcento-7394711.html,accepted
+^granola,7640422,granola proteica chocolate origens bio,https://www.continente.pt/produto/granola-proteica-chocolate-origens-bio-7640422.html,accepted
+^granola,7424570,granola proteica frutos do bosque prozis,https://www.continente.pt/produto/granola-proteica-frutos-do-bosque-prozis-7424570.html,accepted
+^granola,7380483,granola proteina chocolate e avelas prozis,https://www.continente.pt/produto/granola-proteina-chocolate-e-avelas-prozis-7380483.html,accepted
+^granola,6902167,granola quinoa amendoas e chocolate fitness,https://www.continente.pt/produto/granola-quinoa-amendoas-e-chocolate-fitness-6902167.html,accepted
+^granola,5177128,granola seara,https://www.continente.pt/produto/granola-seara-5177128.html,accepted
+^granola,8061093,granola sem acucar why foods,https://www.continente.pt/produto/granola-sem-acucar-why-foods-8061093.html,accepted
+^granola,8843179,granola special k natural kelloggs,https://www.continente.pt/produto/granola-special-k-natural-kelloggs-8843179.html,accepted
+^granola,8962067,granola sporty com sementes e amendoas nolita,https://www.continente.pt/produto/granola-sporty-com-sementes-e-amendoas-nolita-8962067.html,accepted
+^granola,8014696,granola superior antiox salutem,https://www.continente.pt/produto/granola-superior-antiox-salutem-8014696.html,accepted
+^granola,8014724,granola superior integral frutos secos salutem,https://www.continente.pt/produto/granola-superior-integral-frutos-secos-salutem-8014724.html,accepted
+^granola,7306160,granola superior rude health,https://www.continente.pt/produto/granola-superior-rude-health-7306160.html,accepted
+^granola,4386622,granola triplo chocolate continente,https://www.continente.pt/produto/granola-triplo-chocolate-continente-4386622.html,accepted
+^granola,8885525,granola bites cacau sem gluten sem adicao de acucar continente equilibrio,https://www.continente.pt/produto/granola-bites-cacau-sem-gluten-sem-adicao-de-acucar-continente-equilibrio-8885525.html,rejected
+^granola,8885528,granola bites maca e canela sem gluten sem adicao de acucar continente equilibrio,https://www.continente.pt/produto/granola-bites-maca-e-canela-sem-gluten-sem-adicao-de-acucar-continente-equilibrio-8885528.html,rejected
+^granola,8885527,granola bites manteiga de amendoim sem gluten sem adicao de acucar continente equilibrio,https://www.continente.pt/produto/granola-bites-manteiga-de-amendoim-sem-gluten-sem-adicao-de-acucar-continente-equilibrio-8885527.html,rejected
+^granola,7778845,granola cafe e chocolate extra barista kelloggs,https://www.continente.pt/produto/granola-cafe-e-chocolate-extra-barista-kelloggs-7778845.html,rejected
+^granola,7158972,granola all bran amendoa e sementes de abobora kelloggs,https://www.continente.pt/produto/granola-all-bran-amendoa-e-sementes-de-abobora-kelloggs-7158972.html,unavailable
+^granola,7158969,granola all bran prebiotic classico kelloggs,https://www.continente.pt/produto/granola-all-bran-prebiotic-classico-kelloggs-7158969.html,unavailable
+^granola,8067447,granola antiox salutem,https://www.continente.pt/produto/granola-antiox-salutem-8067447.html,unavailable
+^granola,6811393,granola arandos e goji continente equilibrio,https://www.continente.pt/produto/granola-arandos-e-goji-continente-equilibrio-6811393.html,unavailable
+^granola,5895640,granola aveia barnhouse,https://www.continente.pt/produto/granola-aveia-barnhouse-5895640.html,unavailable
+^granola,8005946,granola aveia crocante morango e mirtilo quaker,https://www.continente.pt/produto/granola-aveia-crocante-morango-e-mirtilo-quaker-8005946.html,unavailable
+^granola,7619937,granola aveia e frutos vermelhos kelloggs,https://www.continente.pt/produto/granola-aveia-e-frutos-vermelhos-kelloggs-7619937.html,unavailable
+^granola,6880519,granola aveia integral cem porcento,https://www.continente.pt/produto/granola-aveia-integral-cem-porcento-6880519.html,unavailable
+^granola,6643102,granola aveia uva e amendoa jordans,https://www.continente.pt/produto/granola-aveia-uva-e-amendoa-jordans-6643102.html,unavailable
+^granola,5515843,granola cereais dourados cem porcento,https://www.continente.pt/produto/granola-cereais-dourados-cem-porcento-5515843.html,unavailable
+^granola,8003345,granola cereais e frutos secos salutem,https://www.continente.pt/produto/granola-cereais-e-frutos-secos-salutem-8003345.html,unavailable
+^granola,6863193,granola chocolate e amendoa continente bio,https://www.continente.pt/produto/granola-chocolate-e-amendoa-continente-bio-6863193.html,unavailable
+^granola,6996723,granola chocolate e avela kelloggs,https://www.continente.pt/produto/granola-chocolate-e-avela-kelloggs-6996723.html,unavailable
+^granola,8003339,granola chocolate e avela salutem,https://www.continente.pt/produto/granola-chocolate-e-avela-salutem-8003339.html,unavailable
+^granola,7708640,granola chocolate e coco salutem,https://www.continente.pt/produto/granola-chocolate-e-coco-salutem-7708640.html,unavailable
+^granola,7084292,granola chocolate e coco sem gluten bjorg,https://www.continente.pt/produto/granola-chocolate-e-coco-sem-gluten-bjorg-7084292.html,unavailable
+^granola,7388333,granola chocolate e morango veggis,https://www.continente.pt/produto/granola-chocolate-e-morango-veggis-7388333.html,unavailable
+^granola,6116899,granola coco e chia rude health,https://www.continente.pt/produto/granola-coco-e-chia-rude-health-6116899.html,unavailable
+^granola,7158974,granola coco e chocolate proteina kelloggs,https://www.continente.pt/produto/granola-coco-e-chocolate-proteina-kelloggs-7158974.html,unavailable
+^granola,6863078,granola crunchy chocolate continente bio,https://www.continente.pt/produto/granola-crunchy-chocolate-continente-bio-6863078.html,unavailable
 ^granola,6863099,granola crunchy frutas continente bio,https://www.continente.pt/produto/granola-crunchy-frutas-continente-bio-6863099.html,unavailable
 ^granola,6863110,granola crunchy frutos vermelhos continente bio,https://www.continente.pt/produto/granola-crunchy-frutos-vermelhos-continente-bio-6863110.html,unavailable
-^granola,8933048,granola crunchy oats fitness,https://www.continente.pt/produto/granola-crunchy-oats-fitness-8933048.html,accepted
 ^granola,8958720,granola crunchy sementes e avela nolita,https://www.continente.pt/produto/granola-crunchy-sementes-e-avela-nolita-8958720.html,unavailable
 ^granola,6462355,granola de aveia crocante com bagas de goji e mirtilos quaker,https://www.continente.pt/produto/granola-de-aveia-crocante-com-bagas-de-goji-e-mirtilos-quaker-6462355.html,unavailable
 ^granola,6633091,granola de aveia crocante com nozes pecan quaker,https://www.continente.pt/produto/granola-de-aveia-crocante-com-nozes-pecan-quaker-6633091.html,unavailable
@@ -96,22 +122,11 @@ item,product_id,name,url,decision
 ^granola,7068487,granola de aveia integral e mel nacional,https://www.continente.pt/produto/granola-de-aveia-integral-e-mel-nacional-7068487.html,unavailable
 ^granola,5515840,granola fruta e canela cem porcento,https://www.continente.pt/produto/granola-fruta-e-canela-cem-porcento-5515840.html,unavailable
 ^granola,6643096,granola fruta e frutos secos jordans,https://www.continente.pt/produto/granola-fruta-e-frutos-secos-jordans-6643096.html,unavailable
-^granola,6938793,granola frutos secos cem porcento,https://www.continente.pt/produto/granola-frutos-secos-cem-porcento-6938793.html,accepted
 ^granola,6863208,granola frutos secos e mel continente bio,https://www.continente.pt/produto/granola-frutos-secos-e-mel-continente-bio-6863208.html,unavailable
-^granola,8843156,granola frutos secos e sementes kelloggs,https://www.continente.pt/produto/granola-frutos-secos-e-sementes-kelloggs-8843156.html,accepted
-^granola,8484477,granola frutos secos e sementes nacional,https://www.continente.pt/produto/granola-frutos-secos-e-sementes-nacional-8484477.html,accepted
 ^granola,6501280,granola frutos secos kelloggs,https://www.continente.pt/produto/granola-frutos-secos-kelloggs-6501280.html,unavailable
 ^granola,6094241,granola frutos silvestres barnhouse,https://www.continente.pt/produto/granola-frutos-silvestres-barnhouse-6094241.html,unavailable
-^granola,5515856,granola frutos vermelhos cem porcento,https://www.continente.pt/produto/granola-frutos-vermelhos-cem-porcento-5515856.html,accepted
-^granola,6938780,granola frutos vermelhos cem porcento,https://www.continente.pt/produto/granola-frutos-vermelhos-cem-porcento-6938780.html,accepted
 ^granola,6527491,granola frutos vermelhos forma,https://www.continente.pt/produto/granola-frutos-vermelhos-forma-6527491.html,unavailable
-^granola,8967521,granola frutos vermelhos fuel 10k,https://www.continente.pt/produto/granola-frutos-vermelhos-fuel-10k-8967521.html,accepted
-^granola,7443667,granola frutos vermelhos organica rude health,https://www.continente.pt/produto/granola-frutos-vermelhos-organica-rude-health-7443667.html,accepted
-^granola,6984708,granola frutos vermelhos origens bio,https://www.continente.pt/produto/granola-frutos-vermelhos-origens-bio-6984708.html,accepted
-^granola,8014496,granola frutos vermelhos salutem,https://www.continente.pt/produto/granola-frutos-vermelhos-salutem-8014496.html,accepted
 ^granola,7264935,granola integral light salutem,https://www.continente.pt/produto/granola-integral-light-salutem-7264935.html,unavailable
-^granola,8014736,granola integral sementes e frutos secos salutem,https://www.continente.pt/produto/granola-integral-sementes-e-frutos-secos-salutem-8014736.html,accepted
-^granola,5895715,granola krunchy de avela  e chocolate negro barnhouse,https://www.continente.pt/produto/granola-krunchy-de-avela--e-chocolate-negro-barnhouse-5895715.html,accepted
 ^granola,7844710,granola laranje chocolate e amendoim energy simple,https://www.continente.pt/produto/granola-laranje-chocolate-e-amendoim-energy-simple-7844710.html,unavailable
 ^granola,4386656,granola maca e canela continente,https://www.continente.pt/produto/granola-maca-e-canela-continente-4386656.html,unavailable
 ^granola,6116898,granola maca e especiarias rude health,https://www.continente.pt/produto/granola-maca-e-especiarias-rude-health-6116898.html,unavailable
@@ -119,31 +134,16 @@ item,product_id,name,url,decision
 ^granola,6116897,granola mel e frutos secos rude health,https://www.continente.pt/produto/granola-mel-e-frutos-secos-rude-health-6116897.html,unavailable
 ^granola,6116903,granola morango e framboesa rude health,https://www.continente.pt/produto/granola-morango-e-framboesa-rude-health-6116903.html,unavailable
 ^granola,7388364,granola multicereais veggis,https://www.continente.pt/produto/granola-multicereais-veggis-7388364.html,unavailable
-^granola,8961975,granola nutty com sementes e cajus nolita,https://www.continente.pt/produto/granola-nutty-com-sementes-e-cajus-nolita-8961975.html,accepted
 ^granola,8958916,granola nutty sementes e caju nolita,https://www.continente.pt/produto/granola-nutty-sementes-e-caju-nolita-8958916.html,unavailable
 ^granola,7158975,granola original proteina kelloggs,https://www.continente.pt/produto/granola-original-proteina-kelloggs-7158975.html,unavailable
-^granola,7394720,granola original sem gluten cem porcento,https://www.continente.pt/produto/granola-original-sem-gluten-cem-porcento-7394720.html,accepted
 ^granola,7306192,granola passas rude health,https://www.continente.pt/produto/granola-passas-rude-health-7306192.html,unavailable
 ^granola,7107069,granola portuguesa serramel,https://www.continente.pt/produto/granola-portuguesa-serramel-7107069.html,unavailable
-^granola,7394711,granola proteica cem porcento,https://www.continente.pt/produto/granola-proteica-cem-porcento-7394711.html,accepted
-^granola,7640422,granola proteica chocolate origens bio,https://www.continente.pt/produto/granola-proteica-chocolate-origens-bio-7640422.html,accepted
-^granola,7424570,granola proteica frutos do bosque prozis,https://www.continente.pt/produto/granola-proteica-frutos-do-bosque-prozis-7424570.html,accepted
 ^granola,7434893,granola proteica nacional,https://www.continente.pt/produto/granola-proteica-nacional-7434893.html,unavailable
-^granola,7380483,granola proteina chocolate e avelas prozis,https://www.continente.pt/produto/granola-proteina-chocolate-e-avelas-prozis-7380483.html,accepted
-^granola,6902167,granola quinoa amendoas e chocolate fitness,https://www.continente.pt/produto/granola-quinoa-amendoas-e-chocolate-fitness-6902167.html,accepted
 ^granola,5437495,granola salutem,https://www.continente.pt/produto/granola-salutem-5437495.html,unavailable
-^granola,5177128,granola seara,https://www.continente.pt/produto/granola-seara-5177128.html,accepted
-^granola,8061093,granola sem acucar why foods,https://www.continente.pt/produto/granola-sem-acucar-why-foods-8061093.html,accepted
 ^granola,6811394,granola sementes continente equilibrio,https://www.continente.pt/produto/granola-sementes-continente-equilibrio-6811394.html,unavailable
-^granola,8843179,granola special k natural kelloggs,https://www.continente.pt/produto/granola-special-k-natural-kelloggs-8843179.html,accepted
-^granola,8962067,granola sporty com sementes e amendoas nolita,https://www.continente.pt/produto/granola-sporty-com-sementes-e-amendoas-nolita-8962067.html,accepted
 ^granola,8959261,granola sporty sementes e amendoas nolita,https://www.continente.pt/produto/granola-sporty-sementes-e-amendoas-nolita-8959261.html,unavailable
-^granola,8014696,granola superior antiox salutem,https://www.continente.pt/produto/granola-superior-antiox-salutem-8014696.html,accepted
-^granola,8014724,granola superior integral frutos secos salutem,https://www.continente.pt/produto/granola-superior-integral-frutos-secos-salutem-8014724.html,accepted
-^granola,7306160,granola superior rude health,https://www.continente.pt/produto/granola-superior-rude-health-7306160.html,accepted
 ^granola,7264933,granola superior salutem,https://www.continente.pt/produto/granola-superior-salutem-7264933.html,unavailable
 ^granola,7626072,granola suprema 5 sementes e arando cem porcento,https://www.continente.pt/produto/granola-suprema-5-sementes-e-arando-cem-porcento-7626072.html,unavailable
-^granola,4386622,granola triplo chocolate continente,https://www.continente.pt/produto/granola-triplo-chocolate-continente-4386622.html,accepted
 ^granola,6643043,granola tropical jordans,https://www.continente.pt/produto/granola-tropical-jordans-6643043.html,unavailable
 ^granola,6643117,granola tropical serramel,https://www.continente.pt/produto/granola-tropical-serramel-6643117.html,unavailable
 ^mirtilo,7751334,mirtilo,https://www.continente.pt/produto/mirtilo-7751334.html,accepted
@@ -155,11 +155,11 @@ item,product_id,name,url,decision
 ^mirtilo,7743468,mirtilo continente,https://www.continente.pt/produto/mirtilo-continente-7743468.html,accepted
 ^mirtilo,8899242,mirtilo continente,https://www.continente.pt/produto/mirtilo-continente-8899242.html,accepted
 ^mirtilo,7820134,mirtilo continente,https://www.continente.pt/produto/mirtilo-continente-7820134.html,accepted
-^mirtilo,8820987,mirtilo liofilizado summmer,https://www.continente.pt/produto/mirtilo-liofilizado-summmer-8820987.html,accepted
 ^mirtilo,8521382,mirtilo sekoya continente,https://www.continente.pt/produto/mirtilo-sekoya-continente-8521382.html,accepted
 ^mirtilo,8030020,mirtilo sekoya continente,https://www.continente.pt/produto/mirtilo-sekoya-continente-8030020.html,accepted
 ^mirtilo,8440878,mirtilos continente,https://www.continente.pt/produto/mirtilos-continente-8440878.html,accepted
 ^mirtilo,7594144,mirtilos origens bio,https://www.continente.pt/produto/mirtilos-origens-bio-7594144.html,accepted
+^mirtilo,8820987,mirtilo liofilizado summmer,https://www.continente.pt/produto/mirtilo-liofilizado-summmer-8820987.html,rejected
 ^mirtilo,6870044,mirtilo biocool bio 300g,https://www.continente.pt/produto/mirtilo-biocool-bio-300g-6870044.html,unavailable
 ^mirtilo,7483736,mirtilo biologico continente bio,https://www.continente.pt/produto/mirtilo-biologico-continente-bio-7483736.html,unavailable
 ^mirtilo,8416285,mirtilo continente,https://www.continente.pt/produto/mirtilo-continente-8416285.html,unavailable
@@ -206,8 +206,6 @@ arroz basmati,8118613,arroz basmati premium cacarola,https://www.continente.pt/p
 arroz basmati,4905373,arroz basmati saludaes,https://www.continente.pt/produto/arroz-basmati-saludaes-4905373.html,accepted
 arroz basmati,8769292,arroz basmati tilda,https://www.continente.pt/produto/arroz-basmati-tilda-8769292.html,accepted
 arroz basmati,8087989,arroz basmati vaporizado continente,https://www.continente.pt/produto/arroz-basmati-vaporizado-continente-8087989.html,accepted
-arroz basmati,2700058,arroz basmati brajma pronto a comer sem gluten cigala,https://www.continente.pt/produto/arroz-basmati-brajma-pronto-a-comer-sem-gluten-cigala-2700058.html,rejected
-arroz basmati,8239322,arroz basmati pronto a comer louro,https://www.continente.pt/produto/arroz-basmati-pronto-a-comer-louro-8239322.html,rejected
 arroz basmati,8087992,arroz basmati continente,https://www.continente.pt/produto/arroz-basmati-continente-8087992.html,unavailable
 arroz basmati,8984719,arroz basmati extra longo daawat,https://www.continente.pt/produto/arroz-basmati-extra-longo-daawat-8984719.html,unavailable
 arroz basmati,3699133,arroz basmati extra longo pato real,https://www.continente.pt/produto/arroz-basmati-extra-longo-pato-real-3699133.html,unavailable
@@ -215,12 +213,8 @@ arroz basmati,5453213,arroz basmati insular,https://www.continente.pt/produto/ar
 arroz basmati,8821530,arroz basmati o passe,https://www.continente.pt/produto/arroz-basmati-o-passe-8821530.html,unavailable
 arroz basmati,7907490,arroz basmati oriente,https://www.continente.pt/produto/arroz-basmati-oriente-7907490.html,unavailable
 arroz basmati,8984720,arroz basmati original daawat,https://www.continente.pt/produto/arroz-basmati-original-daawat-8984720.html,unavailable
-arroz basmati,7804573,arroz basmati pronto a comer continente,https://www.continente.pt/produto/arroz-basmati-pronto-a-comer-continente-7804573.html,unavailable
 arroz basmati,7221149,arroz basmati saludaes,https://www.continente.pt/produto/arroz-basmati-saludaes-7221149.html,unavailable
 arroz basmati,8211797,arroz basmati super long oriente,https://www.continente.pt/produto/arroz-basmati-super-long-oriente-8211797.html,unavailable
-arroz basmati,7404455,frango tikka masala com arroz basmati diet prozis,https://www.continente.pt/produto/frango-tikka-masala-com-arroz-basmati-diet-prozis-7404455.html,unavailable
-arroz basmati,8122132,thai curry frango com arroz basmati iglo,https://www.continente.pt/produto/thai-curry-frango-com-arroz-basmati-iglo-8122132.html,unavailable
-arroz basmati,8122088,tikka masala frango com arroz basmati iglo,https://www.continente.pt/produto/tikka-masala-frango-com-arroz-basmati-iglo-8122088.html,unavailable
 atum ao natural,6604602,atum ao natural continente equilibrio,https://www.continente.pt/produto/atum-ao-natural-continente-equilibrio-6604602.html,accepted
 atum ao natural,2546351,atum ao natural ramirez,https://www.continente.pt/produto/atum-ao-natural-ramirez-2546351.html,accepted
 atum ao natural,8061426,atum ao natural tritao,https://www.continente.pt/produto/atum-ao-natural-tritao-8061426.html,accepted
@@ -241,7 +235,6 @@ atum ao natural,8901245,filete de atum ao natural continente selecao,https://www
 atum ao natural,5000253,filete de atum ao natural santa catarina,https://www.continente.pt/produto/filete-de-atum-ao-natural-santa-catarina-5000253.html,accepted
 atum ao natural,5605327,filete de atum ao natural tenorio,https://www.continente.pt/produto/filete-de-atum-ao-natural-tenorio-5605327.html,accepted
 atum ao natural,5809344,filete de atum natural tenorio,https://www.continente.pt/produto/filete-de-atum-natural-tenorio-5809344.html,accepted
-atum ao natural,8028312,salada de atum e ovo go natural,https://www.continente.pt/produto/salada-de-atum-e-ovo-go-natural-8028312.html,rejected
 atum ao natural,6874403,atum albacora ao natural ribeira,https://www.continente.pt/produto/atum-albacora-ao-natural-ribeira-6874403.html,unavailable
 atum ao natural,6674512,atum ao natural ribeira,https://www.continente.pt/produto/atum-ao-natural-ribeira-6674512.html,unavailable
 atum ao natural,6674511,atum ao natural ribeira,https://www.continente.pt/produto/atum-ao-natural-ribeira-6674511.html,unavailable
@@ -350,7 +343,6 @@ ovos classe m,7284496,ovos de solo classe m continente,https://www.continente.pt
 ovos classe m,6455524,ovos de solo classe m continente,https://www.continente.pt/produto/ovos-de-solo-classe-m-continente-6455524.html,accepted
 ovos classe m,7725153,ovos de solo classe m l continente,https://www.continente.pt/produto/ovos-de-solo-classe-m-l-continente-7725153.html,accepted
 ovos classe m,7109807,ovos de solo classe m l superovo,https://www.continente.pt/produto/ovos-de-solo-classe-m-l-superovo-7109807.html,accepted
-ovos classe m,7074230,ovos de ar livre classe xl matinados,https://www.continente.pt/produto/ovos-de-ar-livre-classe-xl-matinados-7074230.html,rejected
 ovos classe m,6900715,ovos ar livre classe m l balaios,https://www.continente.pt/produto/ovos-ar-livre-classe-m-l-balaios-6900715.html,unavailable
 ovos classe m,4696358,ovos biologicos classe m natureeg 1 2dz,https://www.continente.pt/produto/ovos-biologicos-classe-m-natureeg-1-2dz-4696358.html,unavailable
 ovos classe m,8240887,ovos biologicos frescos classe m l continente bio,https://www.continente.pt/produto/ovos-biologicos-frescos-classe-m-l-continente-bio-8240887.html,unavailable
@@ -372,3 +364,32 @@ ovos classe m,6805478,ovos de solo classe m continente,https://www.continente.pt
 ovos classe m,6900697,ovos de solo classe m l arado,https://www.continente.pt/produto/ovos-de-solo-classe-m-l-arado-6900697.html,unavailable
 ovos classe m,7430562,ovos de solo classe m l girao,https://www.continente.pt/produto/ovos-de-solo-classe-m-l-girao-7430562.html,unavailable
 ovos classe m,7029317,ovos omega 3 classe m l continente,https://www.continente.pt/produto/ovos-omega-3-classe-m-l-continente-7029317.html,unavailable
+peito frango,8623213,peito de frango ao natural continente equilibrio,https://www.continente.pt/produto/peito-de-frango-ao-natural-continente-equilibrio-8623213.html,accepted
+peito frango,6874632,peito de frango ao natural ribeira,https://www.continente.pt/produto/peito-de-frango-ao-natural-ribeira-6874632.html,accepted
+peito frango,7795052,peito de frango com mac and cheese prozis,https://www.continente.pt/produto/peito-de-frango-com-mac-and-cheese-prozis-7795052.html,accepted
+peito frango,7069674,peito de frango continente,https://www.continente.pt/produto/peito-de-frango-continente-7069674.html,accepted
+peito frango,7069729,peito de frango continente,https://www.continente.pt/produto/peito-de-frango-continente-7069729.html,accepted
+peito frango,2818798,peito de frango do campo continente selecao,https://www.continente.pt/produto/peito-de-frango-do-campo-continente-selecao-2818798.html,accepted
+peito frango,6950358,peito de frango em vacuo continente,https://www.continente.pt/produto/peito-de-frango-em-vacuo-continente-6950358.html,accepted
+peito frango,4611349,peito de frango em vacuo continente,https://www.continente.pt/produto/peito-de-frango-em-vacuo-continente-4611349.html,accepted
+peito frango,7794971,peito proteina vegan sabor a frango the vegetarian butcher,https://www.continente.pt/produto/peito-proteina-vegan-sabor-a-frango-the-vegetarian-butcher-7794971.html,accepted
+peito frango,7295971,fiambre de peito de frango fatiado baixo teor de sal continente,https://www.continente.pt/produto/fiambre-de-peito-de-frango-fatiado-baixo-teor-de-sal-continente-7295971.html,rejected
+peito frango,7310431,fiambre de peito de frango fatiado continente,https://www.continente.pt/produto/fiambre-de-peito-de-frango-fatiado-continente-7310431.html,rejected
+peito frango,3639638,fiambre de peito de frango fatiado no balcao campofrio,https://www.continente.pt/produto/fiambre-de-peito-de-frango-fatiado-no-balcao-campofrio-3639638.html,rejected
+peito frango,4738689,fiambre de peito de frango fatiado no balcao continente,https://www.continente.pt/produto/fiambre-de-peito-de-frango-fatiado-no-balcao-continente-4738689.html,rejected
+peito frango,8199989,fiambre de peito de frango fatiado pack familiar continente,https://www.continente.pt/produto/fiambre-de-peito-de-frango-fatiado-pack-familiar-continente-8199989.html,rejected
+peito frango,8888459,fiambre de peito de frango fatiado proteina elpozo,https://www.continente.pt/produto/fiambre-de-peito-de-frango-fatiado-proteina-elpozo-8888459.html,rejected
+peito frango,7930559,fiambre de peito de frango fatiado proteina elpozo,https://www.continente.pt/produto/fiambre-de-peito-de-frango-fatiado-proteina-elpozo-7930559.html,rejected
+peito frango,8909638,fiambre de peito de frango fatiado sem aditivos elpozo,https://www.continente.pt/produto/fiambre-de-peito-de-frango-fatiado-sem-aditivos-elpozo-8909638.html,rejected
+peito frango,5508722,fiambre de peito de frango fatias finas cuida t nobre,https://www.continente.pt/produto/fiambre-de-peito-de-frango-fatias-finas-cuida-t-nobre-5508722.html,rejected
+peito frango,7558909,fiambre de peito de frango fatias finas nobre,https://www.continente.pt/produto/fiambre-de-peito-de-frango-fatias-finas-nobre-7558909.html,rejected
+peito frango,7926942,fiambre de peito de frango fatias finas noel,https://www.continente.pt/produto/fiambre-de-peito-de-frango-fatias-finas-noel-7926942.html,rejected
+peito frango,5031534,fiambre de peito de frango forno de lenha fatiado campofrio,https://www.continente.pt/produto/fiambre-de-peito-de-frango-forno-de-lenha-fatiado-campofrio-5031534.html,rejected
+peito frango,7274434,fiambre de peito de frango forno de lenha fatiado continente,https://www.continente.pt/produto/fiambre-de-peito-de-frango-forno-de-lenha-fatiado-continente-7274434.html,rejected
+peito frango,4954272,fiambre de peito de frango forno de lenha fatiado no balcao campofrio,https://www.continente.pt/produto/fiambre-de-peito-de-frango-forno-de-lenha-fatiado-no-balcao-campofrio-4954272.html,rejected
+peito frango,5031504,fiambre de peito de frango forno de lenha fatias finas campofrio,https://www.continente.pt/produto/fiambre-de-peito-de-frango-forno-de-lenha-fatias-finas-campofrio-5031504.html,rejected
+peito frango,8282656,fiambre de peito de frango forno de lenha fatias finas campofrio,https://www.continente.pt/produto/fiambre-de-peito-de-frango-forno-de-lenha-fatias-finas-campofrio-8282656.html,rejected
+peito frango,7162650,fiambre peito de frango forno a lenha izidoro,https://www.continente.pt/produto/fiambre-peito-de-frango-forno-a-lenha-izidoro-7162650.html,rejected
+peito frango,8529347,nuggets de peito de frango continente,https://www.continente.pt/produto/nuggets-de-peito-de-frango-continente-8529347.html,rejected
+peito frango,7308156,nuggets de peito de frango pack poupanca continente,https://www.continente.pt/produto/nuggets-de-peito-de-frango-pack-poupanca-continente-7308156.html,rejected
+peito frango,8820866,ratatouille com peito de frango o passe,https://www.continente.pt/produto/ratatouille-com-peito-de-frango-o-passe-8820866.html,rejected
