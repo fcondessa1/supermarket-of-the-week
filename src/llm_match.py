@@ -12,6 +12,7 @@ Usage:
     python src/llm_match.py eval pingodoce --model haiku       # held-out test set: score once, don't tune on it
     (--model sonnet for the larger model)
 
+The model sees each item's words and its `rule` column in data/shopping/list.csv, never `notes`.
 Test cases: for each item on data/shopping/list.csv, every catalogue product with the item's words (see
 cases() for the labels: my review decisions, and my exclusions for products they removed before review).
 The model is not told the exclusions. Baselines: the word rules alone (accept every case), and the word
@@ -44,7 +45,7 @@ MODELS = {  # name -> (model id, $ per million input tokens, $ per million outpu
     "sonnet": ("claude-sonnet-5-5", 2.00, 10.00),
 }
 BATCH = 40                    # products per request
-PROMPT_VERSION = "v3"         # change when the prompt changes, so old cached answers aren't reused
+PROMPT_VERSION = "v4"         # change when the prompt changes, so old cached answers aren't reused
 
 SYSTEM = """You help a shopper in Portugal compare supermarket prices. The shopper's list says what they need, \
 in Portuguese, in plain words. A product counts as the item only if buying it would satisfy that need: any \
@@ -53,15 +54,21 @@ a flavoured or processed version, a ready meal or a dish that includes it, a sna
 clusters sold as a snack), a drink made from it, a children's or infant version, a plant-based imitation, \
 a different variety or form (e.g. frozen instead of fresh) when the item implies otherwise, or a different \
 fruit with a similar name.
-When the shopper gives a rule for the item, it decides: follow it even where you would judge otherwise.
-Product names come from shop catalogues and may be lowercase without accents. Brand names can be a clue \
-(e.g. a brand known for frozen food).
+Pack size, count and quantity never matter: the shopper compares prices per kg, litre or unit.
+When the shopper gives a rule for the item, it decides: follow every part of it, even where you would \
+judge otherwise.
+Product names come from shop catalogues and may be lowercase without accents. Judge from the name; don't \
+guess what a brand sells.
 Judge every product you are given. Keep each reason under 15 words, in English."""
 
 # v1 (2026-11-04): exclusions in the prompt, so the test had no wrong products.
 # v2 (2026-11-04): no exclusions; Continente 278/287, 28 of 32 wrong products caught, 5 good ones rejected.
 #     Misses: granola bites (snack form), a frozen-food brand, infant milk, a ready meal, a vegan imitation.
-# v3 (2026-11-05): names those kinds of product, and makes the shopper's notes a rule.
+# v3 (2026-11-05): names those kinds of product, and makes the shopper's notes a rule. WORSE: 247/287; 37 good
+#     products rejected, because the notes also hold quantities ("12 eggs", "two 125 g punnets") and the
+#     model applied them as rules. Its brand hint also produced an invented claim (Sekoya "frozen-fruit brand").
+# v4 (2026-11-05): rules in their own column of list.csv (notes are never sent); pack size never matters;
+#     no brand guessing.
 
 SCHEMA = {
     "type": "object",
@@ -124,17 +131,17 @@ def cases(store: str) -> list[dict]:
                 label, source = False, "exclusion"
             else:
                 continue
-            out.append({"item": item, "exclude": "", "notes": (it.get("notes") or "").strip(),
+            out.append({"item": item, "exclude": "", "rule": (it.get("rule") or "").strip(),
                         "product_id": r["product_id"], "name": r["name"], "label": label, "source": source})
     return out
 
 
-def describe(item: str, exclude: str, notes: str) -> str:
+def describe(item: str, exclude: str, rule: str) -> str:
     text = f"The shopper needs: \"{item.lstrip('^').strip()}\""
     if item.startswith("^"):
         text += f" (the product is a \"{tokens(item.lstrip('^'))[0]}\" itself, not something containing it)"
-    if notes:
-        text += f". Their rule for this item: {notes}"
+    if rule:
+        text += f". Their rule for this item: {rule}"
     if exclude:
         text += f". Already excluded by the shopper: {exclude}"
     return text + "."
@@ -143,7 +150,7 @@ def describe(item: str, exclude: str, notes: str) -> str:
 # ---------- model ----------
 
 def cache_key(model: str, c: dict) -> str:
-    raw = json.dumps([model, PROMPT_VERSION, c["item"], c["exclude"], c["notes"], c["name"]], ensure_ascii=False)
+    raw = json.dumps([model, PROMPT_VERSION, c["item"], c["exclude"], c["rule"], c["name"]], ensure_ascii=False)
     return hashlib.sha256(raw.encode("utf-8")).hexdigest()[:20]
 
 
@@ -157,7 +164,7 @@ def load_cache() -> dict:
 def ask(client, model_id: str, batch: list[dict]) -> tuple[dict[int, dict], dict]:
     first = batch[0]
     lines = "\n".join(f"{i}. {c['name']}" for i, c in enumerate(batch, 1))
-    prompt = f"{describe(first['item'], first['exclude'], first['notes'])}\n\nProducts:\n{lines}"
+    prompt = f"{describe(first['item'], first['exclude'], first['rule'])}\n\nProducts:\n{lines}"
     resp = client.messages.create(
         model=model_id, max_tokens=4000, system=SYSTEM,
         messages=[{"role": "user", "content": prompt}],
