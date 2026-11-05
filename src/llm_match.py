@@ -20,7 +20,7 @@ rules with my exclusions.
 Outputs:
     data/llm/cache.jsonl                       every model answer, keyed by model + prompt version + item + product
                                                 (re-running costs nothing; committed with the results)
-    data/llm/eval_<store>_<model>.csv          one row per case: my label, the model's answer, its reason
+    data/llm/eval_<store>_<model>_<prompt>.csv  one row per case: my label, the model's answer, its reason
 Needs ANTHROPIC_API_KEY in the environment (a Codespaces / Actions secret, never in a file).
 Cost: Claude Haiku 5.5 $0.10 / $0.50 per million input / output tokens; Sonnet 5.5 $2 / $10 (pricing page,
 2026-11-04). The script prints the measured cost of every run from the API's token counts.
@@ -44,15 +44,24 @@ MODELS = {  # name -> (model id, $ per million input tokens, $ per million outpu
     "sonnet": ("claude-sonnet-5-5", 2.00, 10.00),
 }
 BATCH = 40                    # products per request
-PROMPT_VERSION = "v2"         # change when the prompt changes, so old cached answers aren't reused
+PROMPT_VERSION = "v3"         # change when the prompt changes, so old cached answers aren't reused
 
 SYSTEM = """You help a shopper in Portugal compare supermarket prices. The shopper's list says what they need, \
 in Portuguese, in plain words. A product counts as the item only if buying it would satisfy that need: any \
 brand and any pack size count. It does not count if it is a different product that merely contains the words: \
-a flavoured or processed version, a ready meal, a snack, a drink made from it, a different variety or form \
-(e.g. frozen instead of fresh) when the item implies otherwise, or a different fruit with a similar name.
-Product names come from shop catalogues and may be lowercase without accents.
+a flavoured or processed version, a ready meal or a dish that includes it, a snack form (bars, bites, \
+clusters sold as a snack), a drink made from it, a children's or infant version, a plant-based imitation, \
+a different variety or form (e.g. frozen instead of fresh) when the item implies otherwise, or a different \
+fruit with a similar name.
+When the shopper gives a rule for the item, it decides: follow it even where you would judge otherwise.
+Product names come from shop catalogues and may be lowercase without accents. Brand names can be a clue \
+(e.g. a brand known for frozen food).
 Judge every product you are given. Keep each reason under 15 words, in English."""
+
+# v1 (2026-11-04): exclusions in the prompt, so the test had no wrong products.
+# v2 (2026-11-04): no exclusions; Continente 278/287, 28 of 32 wrong products caught, 5 good ones rejected.
+#     Misses: granola bites (snack form), a frozen-food brand, infant milk, a ready meal, a vegan imitation.
+# v3 (2026-11-05): names those kinds of product, and makes the shopper's notes a rule.
 
 SCHEMA = {
     "type": "object",
@@ -125,7 +134,7 @@ def describe(item: str, exclude: str, notes: str) -> str:
     if item.startswith("^"):
         text += f" (the product is a \"{tokens(item.lstrip('^'))[0]}\" itself, not something containing it)"
     if notes:
-        text += f". Their note: {notes}"
+        text += f". Their rule for this item: {notes}"
     if exclude:
         text += f". Already excluded by the shopper: {exclude}"
     return text + "."
@@ -227,7 +236,7 @@ def cmd_eval(store: str, model: str, dry_run: bool) -> None:
                      "model": "" if a["match"] is None else ("match" if a["match"] else "no match"),
                      "verdict": verdict, "reason": a["reason"]})
     OUT.mkdir(parents=True, exist_ok=True)
-    out_path = OUT / f"eval_{store}_{model}.csv"
+    out_path = OUT / f"eval_{store}_{model}_{PROMPT_VERSION}.csv"
     with open(out_path, "w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=list(rows[0]))
         w.writeheader()

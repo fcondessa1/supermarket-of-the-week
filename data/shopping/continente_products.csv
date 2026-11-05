@@ -155,17 +155,17 @@ item,product_id,name,url,decision
 ^mirtilo,7743468,mirtilo continente,https://www.continente.pt/produto/mirtilo-continente-7743468.html,accepted
 ^mirtilo,8899242,mirtilo continente,https://www.continente.pt/produto/mirtilo-continente-8899242.html,accepted
 ^mirtilo,7820134,mirtilo continente,https://www.continente.pt/produto/mirtilo-continente-7820134.html,accepted
+^mirtilo,8820987,mirtilo liofilizado summmer,https://www.continente.pt/produto/mirtilo-liofilizado-summmer-8820987.html,accepted
 ^mirtilo,8521382,mirtilo sekoya continente,https://www.continente.pt/produto/mirtilo-sekoya-continente-8521382.html,accepted
 ^mirtilo,8030020,mirtilo sekoya continente,https://www.continente.pt/produto/mirtilo-sekoya-continente-8030020.html,accepted
 ^mirtilo,8440878,mirtilos continente,https://www.continente.pt/produto/mirtilos-continente-8440878.html,accepted
 ^mirtilo,7594144,mirtilos origens bio,https://www.continente.pt/produto/mirtilos-origens-bio-7594144.html,accepted
-^mirtilo,8820987,mirtilo liofilizado summmer,https://www.continente.pt/produto/mirtilo-liofilizado-summmer-8820987.html,rejected
+^mirtilo,8172987,mirtilos gelcampo,https://www.continente.pt/produto/mirtilos-gelcampo-8172987.html,rejected
 ^mirtilo,6870044,mirtilo biocool bio 300g,https://www.continente.pt/produto/mirtilo-biocool-bio-300g-6870044.html,unavailable
 ^mirtilo,7483736,mirtilo biologico continente bio,https://www.continente.pt/produto/mirtilo-biologico-continente-bio-7483736.html,unavailable
 ^mirtilo,8416285,mirtilo continente,https://www.continente.pt/produto/mirtilo-continente-8416285.html,unavailable
 ^mirtilo,5603656,mirtilo continente,https://www.continente.pt/produto/mirtilo-continente-5603656.html,unavailable
 ^mirtilo,6868811,mirtilos continente 400g,https://www.continente.pt/produto/mirtilos-continente-400g-6868811.html,unavailable
-^mirtilo,8172987,mirtilos gelcampo,https://www.continente.pt/produto/mirtilos-gelcampo-8172987.html,unavailable
 arroz agulha,2769747,arroz agulha bom sucesso,https://www.continente.pt/produto/arroz-agulha-bom-sucesso-2769747.html,accepted
 arroz agulha,2005625,arroz agulha branqueado extra longo oriente,https://www.continente.pt/produto/arroz-agulha-branqueado-extra-longo-oriente-2005625.html,accepted
 arroz agulha,2305902,arroz agulha cigala,https://www.continente.pt/produto/arroz-agulha-cigala-2305902.html,accepted
@@ -255,8 +255,6 @@ atum ao natural,6707789,filete atum ao natural continente 84g,https://www.contin
 atum ao natural,7523095,filete de atum ao natural ribeira,https://www.continente.pt/produto/filete-de-atum-ao-natural-ribeira-7523095.html,unavailable
 atum ao natural,6919316,filete de atum natural bolina,https://www.continente.pt/produto/filete-de-atum-natural-bolina-6919316.html,unavailable
 atum ao natural,7157637,filetes de atum ao natural a poveira,https://www.continente.pt/produto/filetes-de-atum-ao-natural-a-poveira-7157637.html,unavailable
-leite meio gordo sem lactose,8527366,leite livre sem lactose meio gordo matinal,https://www.continente.pt/produto/leite-livre-sem-lactose-meio-gordo-matinal-8527366.html,accepted
-leite meio gordo sem lactose,5182928,leite meio gordo fresco sem lactose vigor,https://www.continente.pt/produto/leite-meio-gordo-fresco-sem-lactose-vigor-5182928.html,accepted
 leite meio gordo sem lactose,8163556,leite meio gordo sem lactose agros,https://www.continente.pt/produto/leite-meio-gordo-sem-lactose-agros-8163556.html,accepted
 leite meio gordo sem lactose,4422019,leite meio gordo sem lactose mimosa,https://www.continente.pt/produto/leite-meio-gordo-sem-lactose-mimosa-4422019.html,accepted
 leite meio gordo sem lactose,7630621,leite uht  meio gordo sem lactose gresso,https://www.continente.pt/produto/leite-uht--meio-gordo-sem-lactose-gresso-7630621.html,accepted
@@ -268,8 +266,10 @@ leite meio gordo sem lactose,8919918,leite uht meio gordo sem lactose gresso,htt
 leite meio gordo sem lactose,4064882,leite uht meio gordo sem lactose mimosa,https://www.continente.pt/produto/leite-uht-meio-gordo-sem-lactose-mimosa-4064882.html,accepted
 leite meio gordo sem lactose,4370473,leite uht meio gordo sem lactose mimosa,https://www.continente.pt/produto/leite-uht-meio-gordo-sem-lactose-mimosa-4370473.html,accepted
 leite meio gordo sem lactose,8198772,leite uht meio gordo sem lactose parmalat,https://www.continente.pt/produto/leite-uht-meio-gordo-sem-lactose-parmalat-8198772.html,accepted
-leite meio gordo sem lactose,5442641,leite meio gordo infantil sem lactose 3a mimosa,https://www.continente.pt/produto/leite-meio-gordo-infantil-sem-lactose-3a-mimosa-5442641.html,unavailable
-leite meio gordo sem lactose,5434040,leite meio gordo infantil sem lactose 3a mimosa,https://www.continente.pt/produto/leite-meio-gordo-infantil-sem-lactose-3a-mimosa-5434040.html,unavailable
+leite meio gordo sem lactose,8527366,leite livre sem lactose meio gordo matinal,https://www.continente.pt/produto/leite-livre-sem-lactose-meio-gordo-matinal-8527366.html,rejected
+leite meio gordo sem lactose,5182928,leite meio gordo fresco sem lactose vigor,https://www.continente.pt/produto/leite-meio-gordo-fresco-sem-lactose-vigor-5182928.html,rejected
+leite meio gordo sem lactose,5442641,leite meio gordo infantil sem lactose 3a mimosa,https://www.continente.pt/produto/leite-meio-gordo-infantil-sem-lactose-3a-mimosa-5442641.html,rejected
+leite meio gordo sem lactose,5434040,leite meio gordo infantil sem lactose 3a mimosa,https://www.continente.pt/produto/leite-meio-gordo-infantil-sem-lactose-3a-mimosa-5434040.html,rejected
 leite meio gordo sem lactose,7091309,leite meio gordo sem lactose nova acores,https://www.continente.pt/produto/leite-meio-gordo-sem-lactose-nova-acores-7091309.html,unavailable
 leite meio gordo sem lactose,7266935,leite meio gordo sem lactose nova acores,https://www.continente.pt/produto/leite-meio-gordo-sem-lactose-nova-acores-7266935.html,unavailable
 leite meio gordo sem lactose,7445603,leite uht meio gordo sem lactose continente equilibrio,https://www.continente.pt/produto/leite-uht-meio-gordo-sem-lactose-continente-equilibrio-7445603.html,unavailable
@@ -366,13 +366,11 @@ ovos classe m,7430562,ovos de solo classe m l girao,https://www.continente.pt/pr
 ovos classe m,7029317,ovos omega 3 classe m l continente,https://www.continente.pt/produto/ovos-omega-3-classe-m-l-continente-7029317.html,unavailable
 peito frango,8623213,peito de frango ao natural continente equilibrio,https://www.continente.pt/produto/peito-de-frango-ao-natural-continente-equilibrio-8623213.html,accepted
 peito frango,6874632,peito de frango ao natural ribeira,https://www.continente.pt/produto/peito-de-frango-ao-natural-ribeira-6874632.html,accepted
-peito frango,7795052,peito de frango com mac and cheese prozis,https://www.continente.pt/produto/peito-de-frango-com-mac-and-cheese-prozis-7795052.html,accepted
 peito frango,7069674,peito de frango continente,https://www.continente.pt/produto/peito-de-frango-continente-7069674.html,accepted
 peito frango,7069729,peito de frango continente,https://www.continente.pt/produto/peito-de-frango-continente-7069729.html,accepted
 peito frango,2818798,peito de frango do campo continente selecao,https://www.continente.pt/produto/peito-de-frango-do-campo-continente-selecao-2818798.html,accepted
 peito frango,6950358,peito de frango em vacuo continente,https://www.continente.pt/produto/peito-de-frango-em-vacuo-continente-6950358.html,accepted
 peito frango,4611349,peito de frango em vacuo continente,https://www.continente.pt/produto/peito-de-frango-em-vacuo-continente-4611349.html,accepted
-peito frango,7794971,peito proteina vegan sabor a frango the vegetarian butcher,https://www.continente.pt/produto/peito-proteina-vegan-sabor-a-frango-the-vegetarian-butcher-7794971.html,accepted
 peito frango,7295971,fiambre de peito de frango fatiado baixo teor de sal continente,https://www.continente.pt/produto/fiambre-de-peito-de-frango-fatiado-baixo-teor-de-sal-continente-7295971.html,rejected
 peito frango,7310431,fiambre de peito de frango fatiado continente,https://www.continente.pt/produto/fiambre-de-peito-de-frango-fatiado-continente-7310431.html,rejected
 peito frango,3639638,fiambre de peito de frango fatiado no balcao campofrio,https://www.continente.pt/produto/fiambre-de-peito-de-frango-fatiado-no-balcao-campofrio-3639638.html,rejected
@@ -392,4 +390,6 @@ peito frango,8282656,fiambre de peito de frango forno de lenha fatias finas camp
 peito frango,7162650,fiambre peito de frango forno a lenha izidoro,https://www.continente.pt/produto/fiambre-peito-de-frango-forno-a-lenha-izidoro-7162650.html,rejected
 peito frango,8529347,nuggets de peito de frango continente,https://www.continente.pt/produto/nuggets-de-peito-de-frango-continente-8529347.html,rejected
 peito frango,7308156,nuggets de peito de frango pack poupanca continente,https://www.continente.pt/produto/nuggets-de-peito-de-frango-pack-poupanca-continente-7308156.html,rejected
+peito frango,7795052,peito de frango com mac and cheese prozis,https://www.continente.pt/produto/peito-de-frango-com-mac-and-cheese-prozis-7795052.html,rejected
+peito frango,7794971,peito proteina vegan sabor a frango the vegetarian butcher,https://www.continente.pt/produto/peito-proteina-vegan-sabor-a-frango-the-vegetarian-butcher-7794971.html,rejected
 peito frango,8820866,ratatouille com peito de frango o passe,https://www.continente.pt/produto/ratatouille-com-peito-de-frango-o-passe-8820866.html,rejected

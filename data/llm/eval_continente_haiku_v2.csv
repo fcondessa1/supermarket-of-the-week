@@ -1,0 +1,288 @@
+item,product,my_decision,label_source,model,verdict,reason
+^granola,granola bites cacau sem gluten sem adicao de acucar continente equilibrio,no match,review,match,false_accept,"Cacao granola bites; bite-sized granola clusters, a granola product."
+^granola,granola bites maca e canela sem gluten sem adicao de acucar continente equilibrio,no match,review,match,false_accept,Apple and cinnamon granola bites; bite-sized granola clusters.
+^granola,granola bites manteiga de amendoim sem gluten sem adicao de acucar continente equilibrio,no match,review,match,false_accept,Peanut butter granola bites; bite-sized granola clusters.
+^granola,granola cafe e chocolate extra barista kelloggs,no match,review,match,false_accept,Coffee and chocolate granola; a granola product.
+^mirtilo,mirtilos gelcampo,match,review,no match,false_reject,"Gelcampo is a frozen fruit brand; likely frozen, not fresh."
+leite meio gordo sem lactose,leite meio gordo infantil sem lactose 3a mimosa,match,review,no match,false_reject,"Infant growing-up milk is a different product, not everyday semi-skimmed milk."
+leite meio gordo sem lactose,leite meio gordo infantil sem lactose 3a mimosa,match,review,no match,false_reject,"Infant growing-up milk is a different product, not everyday semi-skimmed milk."
+peito frango,peito de frango com mac and cheese prozis,match,review,no match,false_reject,"Chicken breast with mac and cheese, a ready meal, not plain breast."
+peito frango,peito proteina vegan sabor a frango the vegetarian butcher,match,review,no match,false_reject,"Vegan plant protein with chicken flavour, not real chicken breast."
+^granola,granola alfarroba e coco grand carob,match,review,match,agree,"Carob and coconut granola; a granola product, flavour is fine."
+^granola,granola alfarroba e morango grand carob,match,review,match,agree,"Carob and strawberry granola; a granola product, flavour is fine."
+^granola,granola alfarroba laranja e amendoa grand carob,match,review,match,agree,"Carob, orange and almond granola; a granola product, flavour is fine."
+^granola,granola all bran amendoa e sementes de abobora kelloggs,match,review,match,agree,All Bran granola with almond and pumpkin seeds; a granola product.
+^granola,granola all bran prebiotic classico kelloggs,match,review,match,agree,All Bran prebiotic classic granola; a granola product.
+^granola,granola amendoa e avela rude health,match,review,match,agree,Almond and hazelnut granola; a granola product.
+^granola,granola amendoa e sementes abobora origens bio,match,review,match,agree,Organic almond and pumpkin seed granola; a granola product.
+^granola,granola amendoas crocantes rude health,match,review,match,agree,Crunchy almond granola; a granola product.
+^granola,granola amendoim crunch fuel 10k,match,review,match,agree,Peanut crunch granola from Fuel 10K; a granola product.
+^granola,granola antiox salutem,match,review,match,agree,Antiox granola; a granola product.
+^granola,granola arandos e goji continente equilibrio,match,review,match,agree,Cranberry and goji granola; a granola product.
+^granola,granola arandos e sementes de abobora fitness,match,review,match,agree,Cranberry and pumpkin seed granola; a granola product.
+^granola,granola aveia barnhouse,match,review,match,agree,Oat granola from Barnhouse; a granola product.
+^granola,granola aveia cacau e proteina de ervilha sport simple,match,review,match,agree,"Oat, cacao and pea protein sport granola; a granola product."
+^granola,granola aveia com chocolate cruesli quaker,match,review,match,agree,Oat granola with chocolate; a granola product.
+^granola,granola aveia com frutas cruesli quaker,match,review,match,agree,Oat granola with fruit; a granola product.
+^granola,granola aveia com frutos secos cruesli quaker,match,review,match,agree,Oat granola with nuts; a granola product.
+^granola,granola aveia crocante morango e mirtilo quaker,match,review,match,agree,Crunchy strawberry and blueberry oat granola; a granola product.
+^granola,granola aveia e chocolate negro kelloggs,match,review,match,agree,Oat granola with dark chocolate; a granola product.
+^granola,granola aveia e frutos vermelhos kelloggs,match,review,match,agree,Oat granola with red fruits; a granola product.
+^granola,granola aveia e mel fitness,match,review,match,agree,Oat and honey granola; a granola product.
+^granola,granola aveia e mel fitness,match,review,match,agree,Oat and honey granola; a granola product.
+^granola,granola aveia integral cem porcento,match,review,match,agree,Wholegrain oat granola; a granola product.
+^granola,granola aveia trigo e chocolate fitness,match,review,match,agree,"Oat, wheat and chocolate granola; a granola product."
+^granola,granola aveia uva e amendoa jordans,match,review,match,agree,"Oat, grape and almond granola; a granola product."
+^granola,granola berry com sementes e arandos nolita,match,review,match,agree,Berry granola with seeds and cranberries; a granola product.
+^granola,granola cem porcento,match,review,match,agree,Plain granola from Cem Porcento; a granola product.
+^granola,granola cereais dourados cem porcento,match,review,match,agree,Golden cereal granola; a granola product.
+^granola,granola cereais e frutos secos salutem,match,review,match,agree,Cereal and nut granola; a granola product.
+^granola,granola chocolate chunks fuel 10k,match,review,match,agree,Chocolate chunk granola from Fuel 10K; a granola product.
+^granola,granola chocolate e amendoa continente bio,match,review,match,agree,Organic chocolate and almond granola; a granola product.
+^granola,granola chocolate e avela kelloggs,match,review,match,agree,Chocolate and hazelnut granola; a granola product.
+^granola,granola chocolate e avela salutem,match,review,match,agree,Chocolate and hazelnut granola; a granola product.
+^granola,granola chocolate e coco cem porcento,match,review,match,agree,Chocolate and coconut granola; a granola product.
+^granola,granola chocolate e coco salutem,match,review,match,agree,Chocolate and coconut granola; a granola product.
+^granola,granola chocolate e coco sem gluten bjorg,match,review,match,agree,Gluten-free chocolate and coconut granola; a granola product.
+^granola,granola chocolate e morango veggis,match,review,match,agree,Granola product; chocolate and strawberry flavour is acceptable.
+^granola,granola chocolate negro e coco salutem,match,review,match,agree,Granola product; dark chocolate and coconut flavour is acceptable.
+^granola,granola chocolate origens bio,match,review,match,agree,"Granola product; chocolate flavour, any flavour is fine."
+^granola,granola chocolate rude health,match,review,match,agree,"Granola product; chocolate flavour, any flavour is fine."
+^granola,granola chocolate salgado nacional,match,review,match,agree,"Granola product; salted chocolate flavour, any flavour is fine."
+^granola,granola chocolate seara,match,review,match,agree,"Granola product; chocolate flavour, any flavour is fine."
+^granola,granola chocolate sem acucar why foods,match,review,match,agree,"Granola product; chocolate, sugar-free, any flavour is fine."
+^granola,granola coco e chia rude health,match,review,match,agree,Granola product; coconut and chia flavour is acceptable.
+^granola,granola coco e chocolate proteina kelloggs,match,review,match,agree,Granola product; coconut and chocolate protein flavour is acceptable.
+^granola,granola coco e goji origens bio,match,review,match,agree,Granola product; coconut and goji flavour is acceptable.
+^granola,granola cookies sem acucar why foods,match,review,match,agree,"Granola product; cookies flavour, sugar-free, any flavour is fine."
+^granola,granola crunchy chocolate continente bio,match,review,match,agree,Granola product; crunchy chocolate flavour is acceptable.
+^granola,granola crunchy com sementes e avelas nolita,match,review,match,agree,Granola product; crunchy seeds and hazelnut flavour is acceptable.
+^granola,granola crunchy frutas continente bio,match,review,match,agree,Granola product; crunchy fruit flavour is acceptable.
+^granola,granola crunchy frutos vermelhos continente bio,match,review,match,agree,Granola product; crunchy red berry flavour is acceptable.
+^granola,granola crunchy oats fitness,match,review,match,agree,Granola product; crunchy oats flavour is acceptable.
+^granola,granola crunchy sementes e avela nolita,match,review,match,agree,Granola product; crunchy seeds and hazelnut flavour is acceptable.
+^granola,granola de aveia crocante com bagas de goji e mirtilos quaker,match,review,match,agree,Granola product; crunchy oat with goji and blueberry flavour.
+^granola,granola de aveia crocante com nozes pecan quaker,match,review,match,agree,Granola product; crunchy oat with pecan nuts flavour.
+^granola,granola de aveia integral com cacau e chocolate negro nacional,match,review,match,agree,Granola product; wholegrain cocoa and dark chocolate flavour.
+^granola,granola de aveia integral e mel nacional,match,review,match,agree,Granola product; wholegrain oat with honey flavour.
+^granola,granola fruta e canela cem porcento,match,review,match,agree,Granola product; fruit and cinnamon flavour is acceptable.
+^granola,granola fruta e frutos secos jordans,match,review,match,agree,Granola product; fruit and dried nuts flavour is acceptable.
+^granola,granola frutos secos cem porcento,match,review,match,agree,Granola product; dried nuts flavour is acceptable.
+^granola,granola frutos secos e mel continente bio,match,review,match,agree,Granola product; dried nuts and honey flavour is acceptable.
+^granola,granola frutos secos e sementes kelloggs,match,review,match,agree,Granola product; dried nuts and seeds flavour is acceptable.
+^granola,granola frutos secos e sementes nacional,match,review,match,agree,Granola product; dried nuts and seeds flavour is acceptable.
+^granola,granola frutos secos kelloggs,match,review,match,agree,Granola product; dried nuts flavour is acceptable.
+^granola,granola frutos silvestres barnhouse,match,review,match,agree,Granola product; wild berry flavour is acceptable.
+^granola,granola frutos vermelhos cem porcento,match,review,match,agree,Granola product; red berry flavour is acceptable.
+^granola,granola frutos vermelhos cem porcento,match,review,match,agree,Granola product; red berry flavour is acceptable.
+^granola,granola frutos vermelhos forma,match,review,match,agree,Granola product; red berry flavour is acceptable.
+^granola,granola frutos vermelhos fuel 10k,match,review,match,agree,Granola product; red berry flavour is acceptable.
+^granola,granola frutos vermelhos organica rude health,match,review,match,agree,Granola product; organic red berry flavour is acceptable.
+^granola,granola frutos vermelhos origens bio,match,review,match,agree,Granola product; red berry flavour is acceptable.
+^granola,granola frutos vermelhos salutem,match,review,match,agree,Granola product; red berry flavour is acceptable.
+^granola,granola integral light salutem,match,review,match,agree,Granola product; light wholegrain flavour is acceptable.
+^granola,granola integral sementes e frutos secos salutem,match,review,match,agree,Granola product; wholegrain seeds and dried nuts flavour.
+^granola,granola krunchy de avela  e chocolate negro barnhouse,match,review,match,agree,Granola product; crunchy hazelnut and dark chocolate flavour.
+^granola,granola laranje chocolate e amendoim energy simple,match,review,match,agree,"Granola product; orange, chocolate and peanut flavour is acceptable."
+^granola,granola maca e canela continente,match,review,match,agree,Granola cereal product in maca and cinnamon flavour; any flavour is acceptable.
+^granola,granola maca e especiarias rude health,match,review,match,agree,Granola cereal product in maca and spice flavour; any flavour is acceptable.
+^granola,granola maca framboesa e cenoura kelloggs,match,review,match,agree,"Granola cereal product in maca, raspberry and carrot flavour; any flavour is acceptable."
+^granola,granola mel e frutos secos rude health,match,review,match,agree,Granola cereal product with honey and nuts; any flavour is acceptable.
+^granola,granola morango e framboesa rude health,match,review,match,agree,Granola cereal product in strawberry and raspberry flavour; any flavour is acceptable.
+^granola,granola multicereais veggis,match,review,match,agree,Multigrain granola cereal product; any flavour is acceptable.
+^granola,granola nutty com sementes e cajus nolita,match,review,match,agree,Nutty granola with seeds and cashews; a granola product in any flavour.
+^granola,granola nutty sementes e caju nolita,match,review,match,agree,Nutty granola with seeds and cashew; a granola product in any flavour.
+^granola,granola original proteina kelloggs,match,review,match,agree,Original protein granola; a granola product in any flavour.
+^granola,granola original sem gluten cem porcento,match,review,match,agree,Original gluten-free granola; a granola product in any flavour.
+^granola,granola passas rude health,match,review,match,agree,Granola with raisins; a granola product in any flavour.
+^granola,granola portuguesa serramel,match,review,match,agree,Portuguese-style granola; a granola product in any flavour.
+^granola,granola proteica cem porcento,match,review,match,agree,Protein granola product; a granola product in any flavour.
+^granola,granola proteica chocolate origens bio,match,review,match,agree,Organic protein granola with chocolate; a granola product in any flavour.
+^granola,granola proteica frutos do bosque prozis,match,review,match,agree,Protein granola with forest fruit flavour; a granola product in any flavour.
+^granola,granola proteica nacional,match,review,match,agree,Protein granola product; a granola product in any flavour.
+^granola,granola proteina chocolate e avelas prozis,match,review,match,agree,Protein granola with chocolate and hazelnuts; a granola product in any flavour.
+^granola,granola quinoa amendoas e chocolate fitness,match,review,match,agree,"Granola with quinoa, almonds and chocolate; a granola product in any flavour."
+^granola,granola salutem,match,review,match,agree,Granola product from Salutem; any flavour is acceptable.
+^granola,granola seara,match,review,match,agree,Seara granola product; any flavour is acceptable.
+^granola,granola sem acucar why foods,match,review,match,agree,Sugar-free granola; a granola product in any flavour.
+^granola,granola sementes continente equilibrio,match,review,match,agree,Granola with seeds from Continente; a granola product in any flavour.
+^granola,granola special k natural kelloggs,match,review,match,agree,Special K natural granola; a granola product in any flavour.
+^granola,granola sporty com sementes e amendoas nolita,match,review,match,agree,Sporty granola with seeds and almonds; a granola product in any flavour.
+^granola,granola sporty sementes e amendoas nolita,match,review,match,agree,Sporty granola with seeds and almonds; a granola product in any flavour.
+^granola,granola superior antiox salutem,match,review,match,agree,Superior antioxidant granola from Salutem; a granola product in any flavour.
+^granola,granola superior integral frutos secos salutem,match,review,match,agree,Superior wholegrain granola with nuts; a granola product in any flavour.
+^granola,granola superior rude health,match,review,match,agree,Superior granola from Rude Health; a granola product in any flavour.
+^granola,granola superior salutem,match,review,match,agree,Superior granola from Salutem; a granola product in any flavour.
+^granola,granola suprema 5 sementes e arando cem porcento,match,review,match,agree,Supreme 5-seed granola with cranberry; a granola product in any flavour.
+^granola,granola triplo chocolate continente,match,review,match,agree,Triple chocolate granola from Continente; a granola product in any flavour.
+^granola,granola tropical jordans,match,review,match,agree,Tropical granola from Jordans; a granola product in any flavour.
+^granola,granola tropical serramel,match,review,match,agree,Tropical granola from Serramel; a granola product in any flavour.
+^mirtilo,mirtilo,match,review,match,agree,"Plain mirtilo product, matches the requested fresh blueberries."
+^mirtilo,mirtilo,match,review,match,agree,"Plain mirtilo product, matches the requested fresh blueberries."
+^mirtilo,mirtilo beirabaga,match,review,match,agree,Fresh blueberry brand product; any pack size is acceptable.
+^mirtilo,mirtilo biocool bio 300g,match,review,match,agree,Organic fresh blueberries; brand and pack size do not matter.
+^mirtilo,mirtilo biologico continente bio,match,review,match,agree,Organic fresh blueberries from Continente; matches the need.
+^mirtilo,mirtilo biologico continente bio,match,review,match,agree,Organic fresh blueberries from Continente; matches the need.
+^mirtilo,mirtilo biologico continente bio,match,review,match,agree,Organic fresh blueberries from Continente; matches the need.
+^mirtilo,mirtilo biologico valmarques,match,review,match,agree,Organic fresh blueberries; brand does not matter.
+^mirtilo,mirtilo continente,match,review,match,agree,Plain fresh blueberries from Continente; matches the need.
+^mirtilo,mirtilo continente,match,review,match,agree,Plain fresh blueberries from Continente; matches the need.
+^mirtilo,mirtilo continente,match,review,match,agree,Plain fresh blueberries from Continente; matches the need.
+^mirtilo,mirtilo continente,match,review,match,agree,Plain fresh blueberries from Continente; matches the need.
+^mirtilo,mirtilo continente,match,review,match,agree,Plain fresh blueberries from Continente; matches the need.
+^mirtilo,mirtilo liofilizado summmer,no match,review,no match,agree,"Freeze-dried (liofilizado) blueberries, not fresh; different form."
+^mirtilo,mirtilo sekoya continente,match,review,match,agree,Sekoya blueberries from Continente; no sign of frozen or processing.
+^mirtilo,mirtilo sekoya continente,match,review,match,agree,Sekoya blueberries from Continente; no sign of frozen or processing.
+^mirtilo,mirtilos continente,match,review,match,agree,Blueberries (mirtilos) from Continente; matches the need.
+^mirtilo,mirtilos continente 400g,match,review,match,agree,Blueberries from Continente in 400g pack; pack size does not matter.
+^mirtilo,mirtilos origens bio,match,review,match,agree,Origens organic blueberries; no sign of frozen or processing.
+arroz basmati,arroz basmati brajma cigala,match,review,match,agree,"Uncooked basmati rice, brand Brajma; satisfies the need."
+arroz basmati,arroz basmati brajma pronto a comer sem gluten cigala,no match,exclusion,no match,agree,"Ready-to-eat meal, not uncooked rice."
+arroz basmati,arroz basmati cacarola,match,review,match,agree,"Uncooked basmati rice, brand Cacarola."
+arroz basmati,arroz basmati cacarola,match,review,match,agree,"Uncooked basmati rice, brand Cacarola."
+arroz basmati,arroz basmati cigala,match,review,match,agree,"Uncooked basmati rice, brand Cigala."
+arroz basmati,arroz basmati continente,match,review,match,agree,"Uncooked basmati rice, Continente brand."
+arroz basmati,arroz basmati continente,match,review,match,agree,"Uncooked basmati rice, Continente brand."
+arroz basmati,arroz basmati extra longo cacarola,match,review,match,agree,"Uncooked extra-long basmati rice, brand Cacarola."
+arroz basmati,arroz basmati extra longo daawat,match,review,match,agree,"Uncooked extra-long basmati rice, brand Daawat."
+arroz basmati,arroz basmati extra longo pato real,match,review,match,agree,"Uncooked extra-long basmati rice, brand Pato Real."
+arroz basmati,arroz basmati himalaias origens bio,match,review,match,agree,"Organic basmati rice, uncooked; satisfies the need."
+arroz basmati,arroz basmati insular,match,review,match,agree,"Uncooked basmati rice, brand Insular."
+arroz basmati,arroz basmati integral continente equilibrio,match,review,match,agree,"Wholegrain basmati rice, uncooked; still basmati rice."
+arroz basmati,arroz basmati longo continente bio,match,review,match,agree,"Organic long basmati rice, uncooked."
+arroz basmati,arroz basmati o passe,match,review,match,agree,"Uncooked basmati rice, brand O Passe."
+arroz basmati,arroz basmati oriente,match,review,match,agree,"Uncooked basmati rice, brand Oriente."
+arroz basmati,arroz basmati oriente,match,review,match,agree,"Uncooked basmati rice, brand Oriente."
+arroz basmati,arroz basmati oriente,match,review,match,agree,"Uncooked basmati rice, brand Oriente."
+arroz basmati,arroz basmati oriente,match,review,match,agree,"Uncooked basmati rice, brand Oriente."
+arroz basmati,arroz basmati original daawat,match,review,match,agree,"Uncooked basmati rice, Daawat original."
+arroz basmati,arroz basmati pack poupanca continente,match,review,match,agree,"Uncooked basmati rice, value pack from Continente."
+arroz basmati,arroz basmati premium cacarola,match,review,match,agree,"Uncooked premium basmati rice, brand Cacarola."
+arroz basmati,arroz basmati premium cacarola,match,review,match,agree,"Uncooked premium basmati rice, brand Cacarola."
+arroz basmati,arroz basmati pronto a comer continente,no match,exclusion,no match,agree,"Ready-to-eat meal, not uncooked rice."
+arroz basmati,arroz basmati pronto a comer louro,no match,exclusion,no match,agree,"Ready-to-eat meal, not uncooked rice."
+arroz basmati,arroz basmati saludaes,match,review,match,agree,"Uncooked basmati rice, brand Saludaes."
+arroz basmati,arroz basmati saludaes,match,review,match,agree,"Uncooked basmati rice, brand Saludaes."
+arroz basmati,arroz basmati super long oriente,match,review,match,agree,"Uncooked super-long basmati rice, brand Oriente."
+arroz basmati,arroz basmati tilda,match,review,match,agree,"Uncooked basmati rice, brand Tilda."
+arroz basmati,arroz basmati vaporizado continente,match,review,match,agree,"Parboiled basmati rice, still uncooked rice; matches the need."
+arroz basmati,frango tikka masala com arroz basmati diet prozis,no match,exclusion,no match,agree,"Chicken tikka masala meal with rice, not plain rice."
+arroz basmati,thai curry frango com arroz basmati iglo,no match,exclusion,no match,agree,"Thai curry chicken meal with rice, not plain rice."
+arroz basmati,tikka masala frango com arroz basmati iglo,no match,exclusion,no match,agree,"Chicken tikka masala meal with rice, not plain rice."
+atum ao natural,atum albacora ao natural ribeira,match,review,match,agree,"Albacore tuna in natural style, matches atum ao natural."
+atum ao natural,atum ao natural continente equilibrio,match,review,match,agree,"Tuna ao natural from Continente, any pack size counts."
+atum ao natural,atum ao natural ramirez,match,review,match,agree,"Tuna ao natural from Ramirez, matches the need."
+atum ao natural,atum ao natural ribeira,match,review,match,agree,"Tuna ao natural from Ribeira, matches the need."
+atum ao natural,atum ao natural ribeira,match,review,match,agree,"Tuna ao natural from Ribeira, matches the need."
+atum ao natural,atum ao natural tritao,match,review,match,agree,"Tuna ao natural from Tritao, matches the need."
+atum ao natural,atum ao natural tritao,match,review,match,agree,"Tuna ao natural from Tritao, matches the need."
+atum ao natural,atum ao natural tritao,match,review,match,agree,"Tuna ao natural from Tritao, matches the need."
+atum ao natural,atum ao natural tritao,match,review,match,agree,"Tuna ao natural from Tritao, matches the need."
+atum ao natural,atum dos acores posta ao natural continente selecao,match,review,match,agree,"Azorean tuna posta ao natural, a plain natural tuna product."
+atum ao natural,atum posta ao natural a poveira,match,review,match,agree,"Tuna posta ao natural from A Poveira, matches the need."
+atum ao natural,atum posta ao natural a poveira,match,review,match,agree,"Tuna posta ao natural from A Poveira, matches the need."
+atum ao natural,atum posta ao natural alva,match,review,match,agree,"Tuna posta ao natural from Alva, matches the need."
+atum ao natural,atum posta ao natural alva,match,review,match,agree,"Tuna posta ao natural from Alva, matches the need."
+atum ao natural,atum posta ao natural bolina,match,review,match,agree,"Tuna posta ao natural from Bolina, matches the need."
+atum ao natural,atum posta ao natural bolina,match,review,match,agree,"Tuna posta ao natural from Bolina, matches the need."
+atum ao natural,atum posta ao natural bom petisco,match,review,match,agree,"Tuna posta ao natural from Bom Petisco, matches the need."
+atum ao natural,atum posta ao natural bom petisco,match,review,match,agree,"Tuna posta ao natural from Bom Petisco, matches the need."
+atum ao natural,atum posta ao natural bom petisco,match,review,match,agree,"Tuna posta ao natural from Bom Petisco, matches the need."
+atum ao natural,atum posta ao natural bom petisco,match,review,match,agree,"Tuna posta ao natural from Bom Petisco, matches the need."
+atum ao natural,atum posta ao natural continente equilibrio,match,review,match,agree,"Tuna posta ao natural from Continente Equilibrio, matches the need."
+atum ao natural,atum posta ao natural continente equilibrio,match,review,match,agree,"Tuna posta ao natural from Continente Equilibrio, matches the need."
+atum ao natural,atum posta ao natural continente equilibrio,match,review,match,agree,"Tuna posta ao natural from Continente Equilibrio, matches the need."
+atum ao natural,atum posta ao natural minerva,match,review,match,agree,"Tuna posta ao natural from Minerva, matches the need."
+atum ao natural,atum posta ao natural minerva,match,review,match,agree,"Tuna posta ao natural from Minerva, matches the need."
+atum ao natural,atum posta ao natural minerva,match,review,match,agree,"Tuna posta ao natural from Minerva, matches the need."
+atum ao natural,atum posta ao natural pack poupanca continente equilibrio,match,review,match,agree,"Multipack tuna posta ao natural, same product in a bigger pack."
+atum ao natural,atum posta ao natural ribeira,match,review,match,agree,"Tuna posta ao natural from Ribeira, matches the need."
+atum ao natural,atum posta ao natural santa catarina,match,review,match,agree,"Tuna posta ao natural from Santa Catarina, matches the need."
+atum ao natural,atum posta ao natural santa catarina,match,review,match,agree,"Tuna posta ao natural from Santa Catarina, matches the need."
+atum ao natural,atum posta ao natural santa catarina,match,review,match,agree,"Tuna posta ao natural from Santa Catarina, matches the need."
+atum ao natural,filete atum ao natural continente 84g,match,review,match,agree,"Continente tuna fillet ao natural, 84g pack still counts."
+atum ao natural,filete de atum ao natural continente,match,review,match,agree,"Continente tuna fillet ao natural, matches the need."
+atum ao natural,filete de atum ao natural continente selecao,match,review,match,agree,"Continente Selecao tuna fillet ao natural, matches the need."
+atum ao natural,filete de atum ao natural ribeira,match,review,match,agree,"Ribeira tuna fillet ao natural, matches the need."
+atum ao natural,filete de atum ao natural santa catarina,match,review,match,agree,"Santa Catarina tuna fillet ao natural, matches the need."
+atum ao natural,filete de atum ao natural tenorio,match,review,match,agree,"Tenorio tuna fillet ao natural, matches the need."
+atum ao natural,filete de atum natural bolina,match,review,match,agree,"Bolina tuna fillet natural, matches the need."
+atum ao natural,filete de atum natural tenorio,match,review,match,agree,"Tenorio tuna fillet natural, matches the need."
+atum ao natural,filetes de atum ao natural a poveira,match,review,match,agree,"A Poveira tuna fillets ao natural, matches the need."
+atum ao natural,salada de atum e ovo go natural,no match,exclusion,no match,agree,"Tuna and egg salad product, not plain tuna in natural form."
+leite meio gordo sem lactose,leite livre sem lactose meio gordo matinal,match,review,match,agree,"Lactose-free semi-skimmed milk, matching the requested product despite the brand-style wording."
+leite meio gordo sem lactose,leite meio gordo fresco sem lactose vigor,match,review,match,agree,Fresh semi-skimmed lactose-free milk; fresh form isn't implied against by the request.
+leite meio gordo sem lactose,leite meio gordo sem lactose agros,match,review,match,agree,Semi-skimmed lactose-free milk; brand and pack size don't matter.
+leite meio gordo sem lactose,leite meio gordo sem lactose mimosa,match,review,match,agree,Semi-skimmed lactose-free milk; brand and pack size don't matter.
+leite meio gordo sem lactose,leite meio gordo sem lactose nova acores,match,review,match,agree,Semi-skimmed lactose-free milk; brand and pack size don't matter.
+leite meio gordo sem lactose,leite meio gordo sem lactose nova acores,match,review,match,agree,Semi-skimmed lactose-free milk; brand and pack size don't matter.
+leite meio gordo sem lactose,leite uht  meio gordo sem lactose gresso,match,review,match,agree,UHT semi-skimmed lactose-free milk satisfies the need.
+leite meio gordo sem lactose,leite uht meio gordo manha levissima sem lactose parmalat,match,review,match,agree,Semi-skimmed lactose-free UHT milk from Parmalat's light-range line.
+leite meio gordo sem lactose,leite uht meio gordo selecionado sem lactose livre matinal,match,review,match,agree,Semi-skimmed lactose-free UHT milk; selection line still meets the need.
+leite meio gordo sem lactose,leite uht meio gordo sem lactose continente,match,review,match,agree,UHT semi-skimmed lactose-free milk satisfies the need.
+leite meio gordo sem lactose,leite uht meio gordo sem lactose continente,match,review,match,agree,UHT semi-skimmed lactose-free milk satisfies the need.
+leite meio gordo sem lactose,leite uht meio gordo sem lactose continente equilibrio,match,review,match,agree,Semi-skimmed lactose-free UHT milk; Equilibrio is just a product line.
+leite meio gordo sem lactose,leite uht meio gordo sem lactose gresso,match,review,match,agree,UHT semi-skimmed lactose-free milk satisfies the need.
+leite meio gordo sem lactose,leite uht meio gordo sem lactose mimosa,match,review,match,agree,UHT semi-skimmed lactose-free milk satisfies the need.
+leite meio gordo sem lactose,leite uht meio gordo sem lactose mimosa,match,review,match,agree,UHT semi-skimmed lactose-free milk satisfies the need.
+leite meio gordo sem lactose,leite uht meio gordo sem lactose parmalat,match,review,match,agree,UHT semi-skimmed lactose-free milk satisfies the need.
+ovos classe m,ovos ar livre classe m l balaios,match,review,match,agree,Free-range class M eggs satisfy the plain class M egg need.
+ovos classe m,ovos biologicos classe m natureeg 1 2dz,match,review,match,agree,"Organic class M eggs, 12-pack, satisfy the class M egg need."
+ovos classe m,ovos biologicos frescos classe m l continente bio,match,review,match,agree,Fresh organic class M eggs satisfy the class M egg need.
+ovos classe m,ovos biologicos frescos classe m l continente bio,match,review,match,agree,Fresh organic class M eggs satisfy the class M egg need.
+ovos classe m,ovos classe m,match,review,match,agree,Plain class M eggs directly satisfy the need.
+ovos classe m,ovos classe m casa do aido,match,review,match,agree,Plain class M eggs from another brand satisfy the need.
+ovos classe m,ovos classe m continente,match,review,match,agree,Plain class M eggs satisfy the need.
+ovos classe m,ovos classe m continente,match,review,match,agree,Plain class M eggs satisfy the need.
+ovos classe m,ovos classe m dona gema,match,review,match,agree,Plain class M eggs from another brand satisfy the need.
+ovos classe m,ovos classe m dona gema,match,review,match,agree,Plain class M eggs from another brand satisfy the need.
+ovos classe m,ovos classe m girao,match,review,match,agree,Plain class M eggs satisfy the need.
+ovos classe m,ovos classe m l matinados,match,review,match,agree,Plain class M eggs satisfy the need.
+ovos classe m,ovos classe m l ruby zezerovo,match,review,match,agree,Plain class M eggs satisfy the need.
+ovos classe m,ovos classe m primeiro preco,match,review,match,agree,Plain class M eggs satisfy the need.
+ovos classe m,ovos classe m superovo 1dz,match,review,match,agree,Plain class M eggs satisfy the need.
+ovos classe m,ovos de ar livre classe m l continente,match,review,match,agree,Free-range class M eggs satisfy the class M egg need.
+ovos classe m,ovos de ar livre classe m l continente,match,review,match,agree,Free-range class M eggs satisfy the class M egg need.
+ovos classe m,ovos de ar livre classe m l continente,match,review,match,agree,Free-range class M eggs satisfy the class M egg need.
+ovos classe m,ovos de ar livre classe m l continente,match,review,match,agree,Free-range class M eggs satisfy the class M egg need.
+ovos classe m,ovos de ar livre classe m l matinados,match,review,match,agree,Free-range class M eggs satisfy the class M egg need.
+ovos classe m,ovos de ar livre classe m l matinados,match,review,match,agree,Free-range class M eggs satisfy the class M egg need.
+ovos classe m,ovos de gaiola classe m girao,match,review,match,agree,Caged-hen class M eggs still satisfy the class M egg need.
+ovos classe m,ovos de gaiola classe m girao,match,review,match,agree,Caged-hen class M eggs still satisfy the class M egg need.
+ovos classe m,ovos de solo classe m continente,match,review,match,agree,Ground-raised class M eggs satisfy the class M egg need.
+ovos classe m,ovos de solo classe m continente,match,review,match,agree,Ground-raised class M eggs satisfy the class M egg need.
+ovos classe m,ovos de solo classe m continente,match,review,match,agree,Ground-raised class M eggs satisfy the class M egg need.
+ovos classe m,ovos de solo classe m continente,match,review,match,agree,Ground-raised class M eggs satisfy the class M egg need.
+ovos classe m,ovos de solo classe m continente,match,review,match,agree,Ground-raised class M eggs satisfy the class M egg need.
+ovos classe m,ovos de solo classe m l arado,match,review,match,agree,Ground-raised class M eggs satisfy the class M egg need.
+ovos classe m,ovos de solo classe m l continente,match,review,match,agree,Ground-raised class M eggs satisfy the class M egg need.
+ovos classe m,ovos de solo classe m l girao,match,review,match,agree,Ground-raised class M eggs satisfy the class M egg need.
+ovos classe m,ovos de solo classe m l superovo,match,review,match,agree,Ground-raised class M eggs satisfy the class M egg need.
+ovos classe m,ovos omega 3 classe m l continente,match,review,match,agree,Omega-3 class M eggs still satisfy the class M egg need.
+peito frango,fiambre de peito de frango fatiado baixo teor de sal continente,no match,review,no match,agree,"Deli ham slices, a processed cured meat, not fresh chicken breast."
+peito frango,fiambre de peito de frango fatiado continente,no match,review,no match,agree,"Sliced deli ham, processed product, not fresh raw breast."
+peito frango,fiambre de peito de frango fatiado no balcao campofrio,no match,review,no match,agree,"Counter-sliced deli ham, processed and cooked, not fresh breast."
+peito frango,fiambre de peito de frango fatiado no balcao continente,no match,review,no match,agree,"Counter-sliced deli ham, processed and cooked, not fresh breast."
+peito frango,fiambre de peito de frango fatiado pack familiar continente,no match,review,no match,agree,"Sliced deli ham in a family pack, processed, not fresh breast."
+peito frango,fiambre de peito de frango fatiado proteina elpozo,no match,review,no match,agree,"Sliced deli ham, processed product, not fresh raw breast."
+peito frango,fiambre de peito de frango fatiado proteina elpozo,no match,review,no match,agree,"Sliced deli ham, processed product, not fresh raw breast."
+peito frango,fiambre de peito de frango fatiado sem aditivos elpozo,no match,review,no match,agree,"Sliced deli ham without additives, still processed, not fresh breast."
+peito frango,fiambre de peito de frango fatias finas cuida t nobre,no match,review,no match,agree,"Thin-sliced deli ham, processed and cooked, not fresh breast."
+peito frango,fiambre de peito de frango fatias finas nobre,no match,review,no match,agree,"Thin-sliced deli ham, processed and cooked, not fresh breast."
+peito frango,fiambre de peito de frango fatias finas noel,no match,review,no match,agree,"Thin-sliced deli ham, processed and cooked, not fresh breast."
+peito frango,fiambre de peito de frango forno de lenha fatiado campofrio,no match,review,no match,agree,"Smoked deli ham slices, processed and cooked, not fresh breast."
+peito frango,fiambre de peito de frango forno de lenha fatiado continente,no match,review,no match,agree,"Smoked deli ham slices, processed and cooked, not fresh breast."
+peito frango,fiambre de peito de frango forno de lenha fatiado no balcao campofrio,no match,review,no match,agree,"Smoked counter deli ham, processed and cooked, not fresh breast."
+peito frango,fiambre de peito de frango forno de lenha fatias finas campofrio,no match,review,no match,agree,"Smoked thin-sliced deli ham, processed and cooked, not fresh breast."
+peito frango,fiambre de peito de frango forno de lenha fatias finas campofrio,no match,review,no match,agree,"Smoked thin-sliced deli ham, processed and cooked, not fresh breast."
+peito frango,fiambre peito de frango forno a lenha izidoro,no match,review,no match,agree,"Smoked deli ham, processed and cooked, not fresh breast."
+peito frango,nuggets de peito de frango continente,no match,review,no match,agree,"Breaded nuggets, a processed snack, not fresh breast."
+peito frango,nuggets de peito de frango pack poupanca continente,no match,review,no match,agree,"Breaded nuggets, a processed snack, not fresh breast."
+peito frango,peito de frango ao natural continente equilibrio,match,review,match,agree,"Plain natural chicken breast, fresh and unprocessed."
+peito frango,peito de frango ao natural ribeira,match,review,match,agree,"Plain natural chicken breast, fresh and unprocessed."
+peito frango,peito de frango continente,match,review,match,agree,"Plain chicken breast, matches fresh breast need."
+peito frango,peito de frango continente,match,review,match,agree,"Plain chicken breast, matches fresh breast need."
+peito frango,peito de frango do campo continente selecao,match,review,match,agree,"Selected free-range chicken breast, fresh raw meat."
+peito frango,peito de frango em vacuo continente,match,review,match,agree,"Vacuum-packed chicken breast, fresh raw meat, brand irrelevant."
+peito frango,peito de frango em vacuo continente,match,review,match,agree,"Vacuum-packed chicken breast, fresh raw meat, brand irrelevant."
+peito frango,ratatouille com peito de frango o passe,no match,review,no match,agree,"Ratatouille dish containing chicken breast, a ready meal."
