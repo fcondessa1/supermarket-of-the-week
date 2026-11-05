@@ -4,7 +4,7 @@ Tells me where to do this week's shopping. For each item on my list ("leite meio
 
 I built it because I use it. It is also a portfolio project: the parts that matter are measured against data I checked by hand, and the failures are documented next to the fixes.
 
-> **Status (2026-11-03):** Working end to end for Continente, Pingo Doce and Lidl: prices for every product that matches my list, compared per kg/L/unit across brands and stores, and a weekly recommendation (one store, or a split across two if it beats the trip cost). A GitHub Action runs it every Tuesday, commits the prices and posts the report as an issue. Next: an LLM to judge product matches, measured against my own decisions. Dropped: reading the leaflets with a vision model (see below).
+> **Status (2026-11-05):** Working end to end for Continente, Pingo Doce and Lidl: prices for every product that matches my list, compared per kg/L/unit across brands and stores, and a weekly recommendation (one store, or a split across two if it beats the trip cost). A GitHub Action runs it every Tuesday, commits the prices and posts the report as an issue. An LLM judges whether a product is what I need, scored at 93% on a held-out store (word rules: 90%). Next: using it on Lidl's unreviewed offers. Dropped: reading the leaflets with a vision model (see below).
 
 ## How it works
 
@@ -51,6 +51,40 @@ From the first run, 27 October 2026, before I had recorded any Lidl regular pric
 
 Lidl's two offers saved 1.07 € on my quantities, below the trip cost, so that week's answer was **Continente only**. That run is also what showed the gap: without Lidl's regular prices, the comparison was biased towards Continente, which is why the regular-price table exists.
 
+## Matching with an LLM
+
+Word rules find candidates: every product whose name has all of an item's words. They also let through things I don't mean: frozen blueberries and cranberries ("mirtilos vermelhos") for "mirtilo", granola bites and a vegan "chicken" for granola and chicken breast. For Continente and Pingo Doce I review matches once; Lidl's offers change every week and are never reviewed. So the question is whether a model can judge "is this what I need?" well enough to trust where I don't look.
+
+**Set-up** (`src/llm_match.py`). For each list item, every catalogue product with the item's words is a test case, labelled from my own decisions: accepted = match; rejected in review, or removed by one of my exclusions ("achocolatado", "salada") = no match. The model sees the item and a one-line rule I wrote for it ("fresh blueberries only; not frozen; not freeze-dried; not cranberries"), never my exclusions, and returns a JSON verdict and a reason per product. Continente's decisions were used to develop the prompt; Pingo Doce's were scored once, with the prompt frozen and a pass mark set beforehand. Labels were redone and committed before the first model run on them.
+
+**Prompt versions, on the Continente tuning set (Claude Haiku 5.5):**
+
+| Version | Change | Right | Wrong products caught | Good products wrongly rejected |
+|---|---|---|---|---|
+| v1 | Item and my exclusions | 276 of 285 | — (no wrong products in the test) | 9 |
+| v2 | Exclusions no longer given, so they become test cases | 278 of 287 (97%) | 28 of 32 | 5 |
+| v3 | Named the kinds of mistake (snack forms, ready meals, frozen) and made my notes binding | 247 of 287 (86%) | 35 of 38 | **37** |
+| v4 | Rules in their own column; pack size never matters; no guessing what a brand sells | **281 of 287 (98%)** | 35 of 38 | 3 |
+
+Between v2 and v3 I re-checked the labels the model disagreed with, and changed several (net: 255 → 249 products labelled a match), e.g. a ready meal and a vegan imitation I had accepted as chicken breast. v2's 97% is on the old labels.
+
+**Held-out result, Pingo Doce, prompt v4, scored once:**
+
+| | Right | Wrong products caught | Good products wrongly rejected | Cost |
+|---|---|---|---|---|
+| Word rules alone | 89 of 106 (84%) | 0 of 17 | 0 | — |
+| Word rules + my exclusions | 95 of 106 (90%) | 6 of 17 | 0 | — |
+| Claude Haiku 5.5 | **99 of 106 (93%)** | **16 of 17** | 6 of 89 | $0.0033 |
+| Claude Sonnet 5.5 | 99 of 106 (93%) | 16 of 17 | 6 of 89 | $0.052 |
+
+Both models disagreed with me on the same 7 products, and none of the 7 is a model mistake against what I had written down: five egg packs graded "classe M/L" (my item says "classe m"; I had accepted them), a coffee granola I accepted although my own rule excludes coffee, and fresh milk I rejected under a "UHT only" rule I never wrote. So the remaining errors are in my specification, and the larger model buys nothing here: Haiku, 16 times cheaper, is the one to use. (18 of the 106 answers were reused from the Continente run, where the same product name appeared for the same item; the cache key is the model, prompt, item, rule and name, and contains no labels.)
+
+**What went wrong on the way:**
+- **v1 couldn't measure what mattered.** Giving the model my exclusions meant every wrong product had already been removed: 285 cases, none of them wrong. Exclusion-removed products became the negative cases from v2.
+- **v3 got worse, and the test caught it.** My notes mixed rules with quantities ("12 eggs", "two 125 g punnets"); told to treat notes as rules, the model rejected 32 of 33 egg packs for not showing "12". Rules now have their own column, and notes are never sent.
+- **Invented facts.** v3 said brands can be a clue; the model then called Sekoya "a frozen-fruit brand", which I don't believe is true. v4 judges from the name only, at the cost of missing one frozen brand (Gelcampo) that the name doesn't reveal.
+- **My labels contradicted my rules.** A freeze-dried blueberry product and a coffee granola were accepted against rules I had written. The model applied the rules more consistently than I did.
+
 ## Continente: how an item becomes a ranked list
 
 1. **Catalogue.** Continente publishes product sitemaps for search engines. Each entry's address holds the product's name and ID, e.g. `.../produto/atum-posta-ao-natural-continente-equilibrio-3697795.html`, so the whole catalogue costs 7 requests. It has no prices.
@@ -84,7 +118,7 @@ Why not fetch the price of every catalogue product: that would be one ~1.6 MB pa
 | Page filter v1: recall and precision | Hand labels, all 43 pages of the Lidl leaflet of 19–25 Oct 2026 (dev set) | Recall 0.97 (29 of 30 grocery pages kept), precision 0.88; 10 of 43 pages skipped |
 | Page filter v2 | Hand labels, Lidl leaflet of 12–18 Oct 2026 (held-out test set, 40 pages) | Recall 0.96 (27 of 28), precision 0.90; 10 of 40 pages skipped |
 | Page filter v3 | — | Not scored: leaflet extraction dropped |
-| Matching Lidl offers to list items | Hand-labelled matches | Pending |
+| Product matching: LLM (Haiku 5.5, prompt v4) vs word rules | My decisions on 106 Pingo Doce products (held-out) | **93% right vs 90%**; 16 of 17 wrong products caught; 6 of 89 good ones rejected (see *Matching with an LLM*) |
 
 ### Unit prices: what went wrong and what changed
 
@@ -134,7 +168,8 @@ The first plan was to read Lidl's weekly leaflet with a vision model and score i
 | Pingo Doce weekly prices | €0 | one request per accepted product (97), one per second |
 | Leaflet downloads (not part of the weekly run) | €0 | one leaflet per store, when run |
 | Page filter | €0 | none (keyword rules) |
-| Weekly GitHub Action | €0 (free minutes, about 8 per run) | the two weekly price runs above |
+| Weekly GitHub Action | €0 (free minutes, about 20 per run) | the three weekly price runs above |
+| LLM matching evaluation | $0.088 in total for all runs below (Haiku 5.5: under 1 cent per run) | none |
 
 ## Run it
 
@@ -155,6 +190,10 @@ python src/fetch_pingodoce_online.py
 
 # Lidl: this week's offers from lidl.pt
 python src/fetch_lidl_online.py
+
+# LLM matching: score against my decisions (Continente = tuning set, Pingo Doce = held-out)
+python src/llm_match.py eval continente --dry-run     # case count and cost estimate, no API calls
+python src/llm_match.py eval pingodoce --model haiku  # needs ANTHROPIC_API_KEY
 
 # Where to shop (writes data/reports/<date>.md)
 python src/recommend.py                          # --trip-cost 5, --no-lidl-plus
@@ -180,6 +219,8 @@ src/fetch_pingodoce_online.py   weekly Pingo Doce prices: reads its product page
 src/fetch_continente_online.py  weekly prices, unit prices and checks for accepted products
 src/fetch_lidl_online.py        this week's Lidl offers from lidl.pt (decodes the pages' Nuxt data)
 src/recommend.py                cheapest store per item, plans, and the recommendation
+src/llm_match.py                LLM judgement of product matches, evaluated against my decisions
+data/llm/                       cached model answers and one evaluation file per store, model and prompt version
 data/shopping/lidl_regular.csv  Lidl regular prices I record by hand (lidl.pt doesn't publish them)
 data/prices/lidl/               one Lidl price file per run (committed)
 data/reports/                   one recommendation per run (committed)
