@@ -160,6 +160,64 @@ def lidl_offer_rows(lidl: list[dict], today: str, use_plus: bool) -> list[dict]:
     return rows
 
 
+def summary(plans: dict[str, float], assignment: dict[str, dict[str, str]], costs: dict[str, dict[str, float]],
+            unpriced: list[str], trip_cost: float, rejected: int) -> list[str]:
+    """The top of the report: the recommendation, what it gives up, and the biggest differences between stores.
+    All amounts are for my quantities (unit price x quantity)."""
+    if not plans:
+        return ["## Summary", "", "No store, or pair of stores, has a price for every item.", ""]
+    show = lambda n: n.lstrip("^")
+
+    def words(plan: str) -> str:                 # "Split: Continente + Lidl" -> "split between Continente and Lidl"
+        if plan.startswith("Split: "):
+            a, b = plan[len("Split: "):].split(" + ")
+            return f"split between {a} and {b} (+ {trip_cost:.2f} € trip)"
+        return plan[0].lower() + plan[1:]
+
+    ranked = sorted(plans, key=plans.get)
+    choice = ranked[0]
+    first = words(choice)
+    out = ["## Summary", "", f"**{first[0].upper() + first[1:]}: {plans[choice]:.2f} €.**"
+           + (f" Next best: {words(ranked[1])}, {plans[ranked[1]]:.2f} € "
+              f"({plans[ranked[1]] - plans[choice]:.2f} € more)." if len(ranked) > 1 else "")]
+    at = assignment[choice]
+    if choice.startswith("Split"):
+        by_store: dict[str, list[str]] = {}
+        for n, st in at.items():
+            by_store.setdefault(st, []).append(show(n))
+        out.append("- Buy " + "; ".join(f"at {st}: {', '.join(ns)}" for st, ns in by_store.items()) + ".")
+
+    # items that are cheaper at a store this plan doesn't use for them
+    cheaper: dict[str, list[tuple[str, float]]] = {}
+    for n, c in costs.items():
+        best = min(c, key=c.get)
+        gain = c[at[n]] - c[best]
+        if best != at[n] and gain >= 0.01:
+            cheaper.setdefault(best, []).append((show(n), gain))
+    for st, gains in cheaper.items():
+        total = sum(g for _, g in gains)
+        why = ""
+        if not choice.startswith("Split"):
+            why = (f" ({total:.2f} € together)" if len(gains) > 1 else "") + f": not worth the {trip_cost:.2f} € trip"
+        out.append(f"- Cheaper at {st}: " + ", ".join(f"{n} {g:.2f} € less" for n, g in gains) + why + ".")
+    if not cheaper:
+        out.append("- Every item is at its cheapest store.")
+
+    # biggest gaps between stores, for items priced at two stores or more
+    gaps = sorted(((max(c.values()) - min(c.values()), n, c) for n, c in costs.items() if len(c) > 1), reverse=True)
+    gaps = [g for g in gaps if g[0] >= 0.10][:3]
+    if gaps:
+        out.append("- Biggest differences between stores: " + "; ".join(
+            f"{show(n)} {min(c.values()):.2f} € at {min(c, key=c.get)} vs {max(c.values()):.2f} € at {max(c, key=c.get)}"
+            for _, n, c in gaps) + ".")
+    if unpriced:
+        out.append(f"- No price at any store: {', '.join(show(n) for n in unpriced)}.")
+    if rejected:
+        out.append(f"- {rejected} Lidl product{'s' if rejected > 1 else ''} not counted: the model judged "
+                   f"{'they are' if rejected > 1 else 'it is'} not what I need (see Notes).")
+    return out + [""]
+
+
 def plan_name(stores: tuple[str, ...]) -> str:
     return f"Everything at {stores[0]}" if len(stores) == 1 else f"Split: {stores[0]} + {stores[1]}"
 
@@ -319,6 +377,7 @@ def main() -> None:
     unpriced = [it["item"].strip() for it in items if it["item"].strip() not in costs]
     if unpriced:
         lines.append(f"Not in any plan (no price at any store): {', '.join(unpriced)}.")
+    lines[2:2] = summary(plans, assignment, costs, unpriced, trip_cost, dropped if use_llm else 0)
     lines += ["", "Costs are unit price × quantity and ignore pack rounding. Continente and Pingo Doce prices are "
               "online prices. Lidl prices are this week's lidl.pt offers, otherwise a regular price: my own record, "
               "or the price lidl.pt showed before an earlier offer (the product may have been a limited-time item)."]
