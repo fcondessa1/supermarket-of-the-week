@@ -89,12 +89,18 @@ def parse_product_page(page: str, product_id: str) -> dict:
         # A fractional count isn't a count, and guessing kg would be wrong for products sold by the litre.
         notes.append(f"pack size {size_text!r} is a fractional count (a weight written as units?): not used")
         size = None
-    # Sold by weight: the price is per kg and the size is only an average ("Peso aproximado da unidade 0.6 Kg",
-    # "6,59 €/Kg" next to the price; Peito de Frango Embalado, seen 2026-11-06). v1 divided by the weight again.
+    # Sold by weight: the price is per kg and the size is only an average. The price block says so just before
+    # the "Adicionar" button: "6,59 €/Kg 1 Un 0,6 kg" (Peito de Frango Embalado, with "Peso aproximado da
+    # unidade" further down) or "2,49 €/Kg 1 Un 0,37 kg" (Batata Doce, without it). Seen 2026-11-06; v1 divided
+    # the per-kg price by the weight again (sweet potato 6.73 €/kg). Only the block before the first
+    # "Adicionar" is read, so recommended products further down can't trigger it.
     page_text = re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", page)))
-    by_weight = price is not None and "peso aproximado" in page_text.lower() and any(
+    add = page_text.lower().find("adicionar")
+    block = page_text[max(0, add - 300):add] if add >= 0 else ""
+    # (a 1 kg pack shows "1 Kg | 1,89 €/Kg" there too: same number either way, so it isn't called 'by weight')
+    by_weight = price is not None and (not size or (size[1] == "kg" and size[0] != 1)) and any(
         abs(float(f"{a}.{b}") - price) < 0.006
-        for a, b in re.findall(r"(\d+),(\d{2})\s*€\s*/\s*kg", page_text, re.I))
+        for a, b in re.findall(r"(\d+),(\d{2})\s*€\s*/\s*kg", block, re.I))
     if by_weight:
         notes.append(f"sold by weight: {price:.2f} €/kg; average pack {size_text or 'unknown'}")
     if price is not None:

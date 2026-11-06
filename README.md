@@ -4,7 +4,7 @@ Tells me where to do this week's shopping. For each item on my list ("leite meio
 
 I built it because I use it. It is also a portfolio project: the parts that matter are measured against data I checked by hand, and the failures are documented next to the fixes.
 
-> **Status (2026-11-05):** Working end to end for Continente, Pingo Doce and Lidl: prices for every product that matches my list, compared per kg/L/unit across brands and stores, and a weekly recommendation (one store, or a split across two if it beats the trip cost). A GitHub Action runs it every Tuesday, commits the prices and posts the report as an issue. An LLM judges whether a product is what I need, scored at 93% on a held-out store (word rules: 90%). Next: using it on Lidl's unreviewed offers. Dropped: reading the leaflets with a vision model (see below).
+> **Status (2026-11-05):** Working end to end for Continente, Pingo Doce and Lidl: prices for every product that matches my list, compared per kg/L/unit across brands and stores, and a weekly recommendation (one store, or a split across two if it beats the trip cost). A GitHub Action runs it every Tuesday, commits the prices and posts the report as an issue. An LLM judges whether a product is what I need, scored at 93% on a held-out store (word rules: 90%). It now checks Lidl's offers in the weekly run, where nobody reviews matches. Dropped: reading the leaflets with a vision model (see below).
 
 ## How it works
 
@@ -133,6 +133,18 @@ Why not fetch the price of every catalogue product: that would be one ~1.6 MB pa
 - **A price of 0 is not a price.** In the first run, most products had `"price": 0` in the page's analytics data, and the script took it at face value: "everything at Pingo Doce for 0.00 €". Zero now means no price, and unit prices of 0 are ignored for every store. 20 of 97 products had no price; why (out of stock, or not sold online) is not yet checked.
 - **Weights written as counts.** Pingo Doce gives some pack sizes as "1.5 Un" (a 1.5 kg bag of rice) or "0.084 Un" (84 g of tuna). A count with decimals is treated as unknown: the page's own €/kg is used if it prints one, otherwise the product is left out, rather than guessing kg (which would be wrong for anything sold by the litre).
 - **Matching shows its limits.** Words alone accept frozen blueberries and cranberries ("mirtilos vermelhos") for "mirtilo". The review catches them; the LLM step is meant to catch them for offers that are never reviewed.
+
+### Products sold by weight: what went wrong and what changed
+
+Fresh chicken and loose sweet potato are priced **per kg** at both shops, with only an approximate pack weight. The first version treated that price as a pack price and divided it by the weight again:
+
+| Product | Page says | v1 computed | Now |
+|---|---|---|---|
+| Peito de Frango em Vácuo, Continente | "6,49€/kg 14,28€/un", 2,2 kg (aprox.) | 2.95 €/kg | 6.49 €/kg |
+| Batata Doce, Pingo Doce | "2,49 €/Kg 1 Un 0,37 kg" | 6.73 €/kg | 2.49 €/kg |
+| Peito de Frango Embalado, Pingo Doce | "6,59 €/Kg 1 Un 0,6 kg" | 10.98 €/kg | 6.59 €/kg |
+
+The unit-price check couldn't catch it: these pages print no separate €/kg to compare against, because the price already *is* the €/kg. The chicken made it into a recommendation before I noticed it was a third of the usual price. The pages now decide: Continente's "X €/kg Y €/un" and Pingo Doce's "X €/Kg" in the price block, where X is the product's price, mean a per-kg price. Two of my own fixes failed on the way: the first Pingo Doce rule looked for "Peso aproximado", which the sweet potato page doesn't say, and the first Continente rule didn't decode `&euro;` in the raw page.
 
 ### Products the catalogue lists but Continente doesn't sell
 
