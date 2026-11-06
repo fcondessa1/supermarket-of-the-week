@@ -11,7 +11,6 @@ item,product_id,name,url,decision
 ^granola,819924,granola aveia com chocolate cruesli quaker,https://www.pingodoce.pt/home/produtos/bolachas-cereais-e-guloseimas/cereais-barras-e-bolsas-de-fruta/muesli-e-granola/granola-aveia-com-chocolate-cruesli-quaker-819924.html,accepted
 ^granola,819923,granola aveia com frutos secos cruesli quaker,https://www.pingodoce.pt/home/produtos/bolachas-cereais-e-guloseimas/cereais-barras-e-bolsas-de-fruta/muesli-e-granola/granola-aveia-com-frutos-secos-cruesli-quaker-819923.html,accepted
 ^granola,1009863,granola aveia e mel fitness,https://www.pingodoce.pt/home/produtos/bolachas-cereais-e-guloseimas/cereais-barras-e-bolsas-de-fruta/muesli-e-granola/granola-aveia-e-mel-fitness-1009863.html,accepted
-^granola,976481,granola chocolate branco e cafe pingo doce,https://www.pingodoce.pt/home/produtos/bolachas-cereais-e-guloseimas/cereais-barras-e-bolsas-de-fruta/muesli-e-granola/granola-chocolate-branco-e-cafe-pingo-doce-976481.html,accepted
 ^granola,766794,granola com chocolate e coco cem porcento,https://www.pingodoce.pt/home/produtos/bolachas-cereais-e-guloseimas/cereais-barras-e-bolsas-de-fruta/muesli-e-granola/granola-com-chocolate-e-coco-cem-porcento-766794.html,accepted
 ^granola,1009861,granola crunchy aveia fitness,https://www.pingodoce.pt/home/produtos/bolachas-cereais-e-guloseimas/cereais-barras-e-bolsas-de-fruta/muesli-e-granola/granola-crunchy-aveia-fitness-1009861.html,accepted
 ^granola,828235,granola de aveia com arandos e sementes de abobora fitness,https://www.pingodoce.pt/home/produtos/bolachas-cereais-e-guloseimas/cereais-barras-e-bolsas-de-fruta/muesli-e-granola/granola-de-aveia-com-arandos-e-sementes-de-abobora-fitness-828235.html,accepted
@@ -35,6 +34,7 @@ item,product_id,name,url,decision
 ^granola,974937,granola superior sem adicao de acucar anti ox salutem,https://www.pingodoce.pt/home/produtos/bolachas-cereais-e-guloseimas/cereais-barras-e-bolsas-de-fruta/muesli-e-granola/granola-superior-sem-adicao-de-acucar-anti-ox-salutem-974937.html,accepted
 ^granola,839297,granola suprema 5 sementes cem porcento,https://www.pingodoce.pt/home/produtos/bolachas-cereais-e-guloseimas/cereais-barras-e-bolsas-de-fruta/muesli-e-granola/granola-suprema-5-sementes-cem-porcento-839297.html,accepted
 ^granola,936549,granola trio de chocolates pingo doce,https://www.pingodoce.pt/home/produtos/bolachas-cereais-e-guloseimas/cereais-barras-e-bolsas-de-fruta/muesli-e-granola/granola-trio-de-chocolates-pingo-doce-936549.html,accepted
+^granola,976481,granola chocolate branco e cafe pingo doce,https://www.pingodoce.pt/home/produtos/bolachas-cereais-e-guloseimas/cereais-barras-e-bolsas-de-fruta/muesli-e-granola/granola-chocolate-branco-e-cafe-pingo-doce-976481.html,rejected
 ^mirtilo,985682,mirtilos biologicos pingo doce biologico,https://www.pingodoce.pt/home/produtos/frutas-e-vegetais/frutas/morangos-e-frutos-vermelhos/mirtilos-biologicos-pingo-doce-biologico-985682.html,accepted
 ^mirtilo,1003970,mirtilos embalados beirabaga,https://www.pingodoce.pt/home/produtos/frutas-e-vegetais/frutas/morangos-e-frutos-vermelhos/mirtilos-embalados-beirabaga-1003970.html,accepted
 ^mirtilo,1005153,mirtilos embalados beirabaga,https://www.pingodoce.pt/home/produtos/frutas-e-vegetais/frutas/morangos-e-frutos-vermelhos/mirtilos-embalados-beirabaga-1005153.html,accepted
@@ -73,6 +73,23 @@ atum ao natural,940222,filetes de atum ao natural minerva,https://www.pingodoce.
 atum ao natural,925349,filetes de atum ao natural pingo doce,https://www.pingodoce.pt/home/produtos/mercearia/conservas/atum/filetes-de-atum-ao-natural-pingo-doce-925349.html,accepted
 atum ao natural,809661,filetes de atum ao natural tenorio,https://www.pingodoce.pt/home/produtos/mercearia/conservas/atum/filetes-de-atum-ao-natural-tenorio-809661.html,accepted
 atum ao natural,824111,filetes de atum ao natural tenorio,https://www.pingodoce.pt/home/produtos/mercearia/conservas/atum/filetes-de-atum-ao-natural-tenorio-824111.html,accepted
+batata doce,878038,batata doce nossa fruta e legumes,https://www.pingodoce.pt/home/produtos/frutas-e-vegetais/vegetais/batatas-cebolas-e-alhos/batata-doce-nossa-fruta-e-legumes-878038.html,accepted
+batata doce,994315,atum de cebolada com batata doce comida fresca,https://www.pingodoce.pt/home/produtos/take-away/prato-principal-e-acompanhamento/atum-de-cebolada-com-batata-doce-comida-fresca-994315.html,rejected
+batata doce,954267,azevias de batata doce 1un nossa padaria,https://www.pingodoce.pt/home/produtos/padaria-e-pastelaria/pastelaria/bolos-individuais%E2%80%8B/azevias-de-batata-doce-1un-nossa-padaria-954267.html,rejected
+batata doce,810841,batata doce baby nossa fruta e legumes,https://www.pingodoce.pt/home/produtos/frutas-e-vegetais/vegetais/batatas-cebolas-e-alhos/batata-doce-baby-nossa-fruta-e-legumes-810841.html,rejected
+batata doce,970062,batata doce polpa amarela nossa fruta e legumes,https://www.pingodoce.pt/home/produtos/frutas-e-vegetais/vegetais/batatas-cebolas-e-alhos/batata-doce-polpa-amarela-nossa-fruta-e-legumes-970062.html,rejected
+batata doce,967395,batata doce polpa laranja embalada nossa fruta e legumes,https://www.pingodoce.pt/home/produtos/frutas-e-vegetais/vegetais/batatas-cebolas-e-alhos/batata-doce-polpa-laranja-embalada-nossa-fruta-e-legumes-967395.html,rejected
+batata doce,989985,batata doce polpa roxa embalada nossa fruta e legumes,https://www.pingodoce.pt/home/produtos/frutas-e-vegetais/vegetais/batatas-cebolas-e-alhos/batata-doce-polpa-roxa-embalada-nossa-fruta-e-legumes-989985.html,rejected
+batata doce,932543,batata doce preparada vitacress,https://www.pingodoce.pt/home/produtos/frutas-e-vegetais/vegetais/saladas-e-legumes-preparados/batata-doce-preparada-vitacress-932543.html,rejected
+batata doce,985942,batata para assar quartos congeladas pingo doce,https://www.pingodoce.pt/home/produtos/congelados/refeicoes-e-salgados/batatas-e-pure/batata-para-assar-quartos-congeladas-pingo-doce-985942.html,rejected
+batata doce,954175,batata para assar selecionada embalada pingo doce,https://www.pingodoce.pt/home/produtos/frutas-e-vegetais/vegetais/batatas-cebolas-e-alhos/batata-para-assar-selecionada-embalada-pingo-doce-954175.html,rejected
+batata doce,962511,batata para cozer selecionada embalada pingo doce,https://www.pingodoce.pt/home/produtos/frutas-e-vegetais/vegetais/batatas-cebolas-e-alhos/batata-para-cozer-selecionada-embalada-pingo-doce-962511.html,rejected
+batata doce,901542,batatas noisettes pingo doce,https://www.pingodoce.pt/home/produtos/congelados/refeicoes-e-salgados/batatas-e-pure/batatas-noisettes-pingo-doce-901542.html,rejected
+batata doce,1017091,batatas wedges congeladas pingo doce,https://www.pingodoce.pt/home/produtos/congelados/refeicoes-e-salgados/batatas-e-pure/batatas-wedges-congeladas-pingo-doce-1017091.html,rejected
+batata doce,900861,bolsa de fruta maca batata doce e cenoura pingo doce,https://www.pingodoce.pt/home/produtos/bolachas-cereais-e-guloseimas/cereais-barras-e-bolsas-de-fruta/bolsas-de-fruta/bolsa-de-fruta-maca-batata-doce-e-cenoura-pingo-doce-900861.html,rejected
+batata doce,1005324,peito de peru assado com batata doce brocolos e molho de mostarda comida fresca,https://www.pingodoce.pt/home/produtos/take-away/prato-principal-e-acompanhamento/peito-de-peru-assado-com-batata-doce-brocolos-e-molho-de-mostarda-comida-fresca-1005324.html,rejected
+batata doce,700918,pure de batata com leite pingo doce,https://www.pingodoce.pt/home/produtos/mercearia/sopas-e-refeicoes-pre-preparadas/pure/pure-de-batata-com-leite-pingo-doce-700918.html,rejected
+batata doce,26230,pure de batata com noz moscada pingo doce,https://www.pingodoce.pt/home/produtos/congelados/refeicoes-e-salgados/batatas-e-pure/pure-de-batata-com-noz-moscada-pingo-doce-26230.html,rejected
 leite meio gordo sem lactose,842567,leite meio gordo sem lactose ucal,https://www.pingodoce.pt/home/produtos/leite-e-bebidas-vegetais/leite/leite-sem-lactose%E2%80%8B/leite-meio-gordo-sem-lactose-ucal-842567.html,accepted
 leite meio gordo sem lactose,843765,leite meio gordo sem lactose vigor,https://www.pingodoce.pt/home/produtos/leite-e-bebidas-vegetais/leite/leite-fresco%E2%80%8B/leite-meio-gordo-sem-lactose-vigor-843765.html,accepted
 leite meio gordo sem lactose,950005,leite uht meio gordo sem lactose agros,https://www.pingodoce.pt/home/produtos/leite-e-bebidas-vegetais/leite/leite-sem-lactose%E2%80%8B/leite-uht-meio-gordo-sem-lactose-agros-950005.html,accepted
@@ -85,6 +102,26 @@ leite meio gordo sem lactose,900471,leite uht meio gordo sem lactose pastagem no
 leite meio gordo sem lactose,919501,leite uht meio gordo sem lactose pingo doce,https://www.pingodoce.pt/home/produtos/leite-e-bebidas-vegetais/leite/leite-sem-lactose%E2%80%8B/leite-uht-meio-gordo-sem-lactose-pingo-doce-919501.html,accepted
 leite meio gordo sem lactose,977850,leite uht meio gordo sem lactose pingo doce,https://www.pingodoce.pt/home/produtos/leite-e-bebidas-vegetais/leite/leite-sem-lactose%E2%80%8B/leite-uht-meio-gordo-sem-lactose-pingo-doce-977850.html,accepted
 leite meio gordo sem lactose,919502,leite fresco meio gordo sem lactose pingo doce,https://www.pingodoce.pt/home/produtos/leite-e-bebidas-vegetais/leite/leite-fresco%E2%80%8B/leite-fresco-meio-gordo-sem-lactose-pingo-doce-919502.html,rejected
+massa espirais,1005754,massa espirais integrais pingo doce,https://www.pingodoce.pt/home/produtos/mercearia/arroz-massa-e-leguminosas/massa/massa-espirais-integrais-pingo-doce-1005754.html,accepted
+massa espirais,662821,massa espirais milaneza,https://www.pingodoce.pt/home/produtos/mercearia/arroz-massa-e-leguminosas/massa/massa-espirais-milaneza-662821.html,accepted
+massa espirais,860074,massa espirais nacional,https://www.pingodoce.pt/home/produtos/mercearia/arroz-massa-e-leguminosas/massa/massa-espirais-nacional-860074.html,accepted
+massa espirais,657178,massa espirais pingo doce,https://www.pingodoce.pt/home/produtos/mercearia/arroz-massa-e-leguminosas/massa/massa-espirais-pingo-doce-657178.html,accepted
+massa espirais,986050,massa espirais pingo doce,https://www.pingodoce.pt/home/produtos/mercearia/arroz-massa-e-leguminosas/massa/massa-espirais-pingo-doce-986050.html,accepted
+massa espirais,848627,massa espirais com vegetais nacional,https://www.pingodoce.pt/home/produtos/mercearia/arroz-massa-e-leguminosas/massa/massa-espirais-com-vegetais-nacional-848627.html,rejected
+massa espirais,822309,massa espirais wok milaneza,https://www.pingodoce.pt/home/produtos/mercearia/arroz-massa-e-leguminosas/massa/massa-espirais-wok-milaneza-822309.html,rejected
+ovos class,413770,ovos classe m ovos natura,https://www.pingodoce.pt/home/produtos/ovos/ovos-classe-m-ovos-natura-413770.html,accepted
+ovos class,461603,ovos classe m saborosos,https://www.pingodoce.pt/home/produtos/ovos/ovos-classe-m-saborosos-461603.html,accepted
+ovos class,974232,ovos de ar livre classe m/l bio pingo doce biologico,https://www.pingodoce.pt/home/produtos/alternativas-alimentares/produtos-biologicos/ovos-de-ar-livre-classe-m%2Fl-bio-pingo-doce-biologico-974232.html,accepted
+ovos class,894655,ovos de ar livre classe m/l matinados,https://www.pingodoce.pt/home/produtos/ovos/ovos-de-ar-livre-classe-m%2Fl-matinados-894655.html,accepted
+ovos class,895037,ovos de ar livre classe m/l matinados,https://www.pingodoce.pt/home/produtos/ovos/ovos-de-ar-livre-classe-m%2Fl-matinados-895037.html,accepted
+ovos class,996981,ovos de ar livre classe m/l matinados,https://www.pingodoce.pt/home/produtos/promocoes/poupe-esta-semana/ovos-de-ar-livre-classe-m%2Fl-matinados-996981.html,accepted
+ovos class,889024,ovos de ar livre classe m/l pingo doce,https://www.pingodoce.pt/home/produtos/as-nossas-marcas/pingo-doce/ovos-de-ar-livre-classe-m%2Fl-pingo-doce-889024.html,accepted
+ovos class,889025,ovos de solo classe l pingo doce,https://www.pingodoce.pt/home/produtos/as-nossas-marcas/pingo-doce/ovos-de-solo-classe-l-pingo-doce-889025.html,accepted
+ovos class,889026,ovos de solo classe l pingo doce,https://www.pingodoce.pt/home/produtos/as-nossas-marcas/pingo-doce/ovos-de-solo-classe-l-pingo-doce-889026.html,accepted
+ovos class,889027,ovos de solo classe m pingo doce,https://www.pingodoce.pt/home/produtos/as-nossas-marcas/pingo-doce/ovos-de-solo-classe-m-pingo-doce-889027.html,accepted
+ovos class,889028,ovos de solo classe m pingo doce,https://www.pingodoce.pt/home/produtos/as-nossas-marcas/pingo-doce/ovos-de-solo-classe-m-pingo-doce-889028.html,accepted
+ovos class,1011777,ovos de solo classe m saborosos,https://www.pingodoce.pt/home/produtos/ovos/ovos-de-solo-classe-m-saborosos-1011777.html,accepted
+ovos class,889029,ovos de solo classe xl pingo doce,https://www.pingodoce.pt/home/produtos/as-nossas-marcas/pingo-doce/ovos-de-solo-classe-xl-pingo-doce-889029.html,rejected
 ovos classe m,413770,ovos classe m ovos natura,https://www.pingodoce.pt/home/produtos/ovos/ovos-classe-m-ovos-natura-413770.html,accepted
 ovos classe m,461603,ovos classe m saborosos,https://www.pingodoce.pt/home/produtos/ovos/ovos-classe-m-saborosos-461603.html,accepted
 ovos classe m,974232,ovos de ar livre classe m/l bio pingo doce biologico,https://www.pingodoce.pt/home/produtos/alternativas-alimentares/produtos-biologicos/ovos-de-ar-livre-classe-m%2Fl-bio-pingo-doce-biologico-974232.html,accepted

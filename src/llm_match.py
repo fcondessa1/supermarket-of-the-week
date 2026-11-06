@@ -10,6 +10,7 @@ Usage:
     python src/llm_match.py eval continente --dry-run          # count cases and estimate the cost, no API calls
     python src/llm_match.py eval continente --model haiku      # dev set: tune the prompt here
     python src/llm_match.py eval pingodoce --model haiku       # held-out test set: score once, don't tune on it
+    python src/llm_match.py lidl                               # in use: judge this week's Lidl candidates (Haiku)
     (--model sonnet for the larger model)
 
 The model sees each item's words and its `rule` column in data/shopping/list.csv, never `notes`.
@@ -176,6 +177,74 @@ def ask(client, model_id: str, batch: list[dict]) -> tuple[dict[int, dict], dict
     return answers, usage
 
 
+def judge(todo: list[dict], model: str, cache: dict) -> None:
+    """Ask the model about every case not yet in the cache (grouped per item, BATCH per request), and append
+    the answers to the cache. Prints the measured cost from the API's token counts."""
+    model_id, price_in, price_out = MODELS[model]
+    if not os.environ.get("ANTHROPIC_API_KEY"):
+        sys.exit("ANTHROPIC_API_KEY is not set. Add it as a Codespaces / Actions secret.")
+    import anthropic
+    client = anthropic.Anthropic()
+    groups: dict[str, list[dict]] = {}
+    for c in todo:
+        groups.setdefault(c["item"], []).append(c)
+    batches = [g[i:i + BATCH] for g in groups.values() for i in range(0, len(g), BATCH)]
+    used_in = used_out = 0
+    CACHE.parent.mkdir(parents=True, exist_ok=True)
+    with open(CACHE, "a", encoding="utf-8") as f:
+        for n, batch in enumerate(batches, 1):
+            answers, usage = ask(client, model_id, batch)
+            used_in += usage["input"]
+            used_out += usage["output"]
+            if usage["stop"] != "end_turn":
+                print(f"  request {n}: stopped with {usage['stop']}; answers may be incomplete")
+            for i, c in enumerate(batch, 1):
+                a = answers.get(i)
+                entry = {"key": cache_key(model_id, c), "model": model_id, "prompt": PROMPT_VERSION,
+                         "item": c["item"], "name": c["name"],
+                         "match": a["match"] if a else None, "reason": a["reason"] if a else "no answer"}
+                cache[entry["key"]] = entry
+                f.write(json.dumps(entry, ensure_ascii=False) + "\n")
+            print(f"  request {n}/{len(batches)}: {len(batch)} products, {usage['input']} in / {usage['output']} out tokens")
+            time.sleep(0.5)
+    print(f"measured cost: {used_in:,} input + {used_out:,} output tokens "
+          f"= ${used_in / 1e6 * price_in + used_out / 1e6 * price_out:.4f}")
+
+
+def lookup(cache: dict, item: str, rule: str, name: str, model: str = "haiku") -> dict | None:
+    """The cached answer for one product, asked exactly as in the evaluation (item + rule, no exclusions)."""
+    return cache.get(cache_key(MODELS[model][0], {"item": item, "exclude": "", "rule": rule, "name": name}))
+
+
+def cmd_lidl(model: str) -> None:
+    """Judge this week's Lidl candidates: the offers valid today and the remembered regular prices that the word
+    rules and my exclusions let through for each list item. These are never reviewed by me, so this is where the
+    model is used. recommend.py then drops what it rejects and lists it in the report."""
+    from datetime import date
+    from recommend import latest, lidl_history_regular, lidl_offer_rows   # here, to avoid a circular import
+    today = date.today().isoformat()
+    _, lidl = latest("lidl")
+    offers = lidl_offer_rows(lidl, today, use_plus=True)
+    history, _ = lidl_history_regular(today)
+    cache = load_cache()
+    found, todo = [], []
+    for it in load_list():
+        item, exclude, rule = it["item"].strip(), (it.get("exclude") or "").strip(), (it.get("rule") or "").strip()
+        names = sorted({r["name"] for r in candidates(offers, item, exclude) + candidates(history, item, exclude)})
+        for name in names:
+            c = {"item": item, "exclude": "", "rule": rule, "name": name}
+            found.append(c)
+            if cache_key(MODELS[model][0], c) not in cache:
+                todo.append(c)
+    print(f"Lidl: {len(found)} candidates for {len({c['item'] for c in found})} items; {len(todo)} not judged yet")
+    if todo:
+        judge(todo, model, cache)
+    for c in found:
+        a = lookup(cache, c["item"], c["rule"], c["name"], model)
+        verdict = "no answer" if a is None or a["match"] is None else ("match" if a["match"] else "REJECTED")
+        print(f"  {verdict:9} {c['item'][:28]:28} {c['name'][:50]:50} | {(a or {}).get('reason', '')}")
+
+
 # ---------- eval ----------
 
 def cmd_eval(store: str, model: str, dry_run: bool) -> None:
@@ -202,30 +271,7 @@ def cmd_eval(store: str, model: str, dry_run: bool) -> None:
         return
 
     if todo:
-        if not os.environ.get("ANTHROPIC_API_KEY"):
-            sys.exit("ANTHROPIC_API_KEY is not set. Add it as a Codespaces secret and reload the Codespace.")
-        import anthropic
-        client = anthropic.Anthropic()
-        used_in = used_out = 0
-        CACHE.parent.mkdir(parents=True, exist_ok=True)
-        with open(CACHE, "a", encoding="utf-8") as f:
-            for n, batch in enumerate(batches, 1):
-                answers, usage = ask(client, model_id, batch)
-                used_in += usage["input"]
-                used_out += usage["output"]
-                if usage["stop"] != "end_turn":
-                    print(f"  request {n}: stopped with {usage['stop']}; answers may be incomplete")
-                for i, c in enumerate(batch, 1):
-                    a = answers.get(i)
-                    entry = {"key": cache_key(model_id, c), "model": model_id, "prompt": PROMPT_VERSION,
-                             "item": c["item"], "name": c["name"],
-                             "match": a["match"] if a else None, "reason": a["reason"] if a else "no answer"}
-                    cache[entry["key"]] = entry
-                    f.write(json.dumps(entry, ensure_ascii=False) + "\n")
-                print(f"  request {n}/{len(batches)}: {len(batch)} products, {usage['input']} in / {usage['output']} out tokens")
-                time.sleep(0.5)
-        print(f"measured cost: {used_in:,} input + {used_out:,} output tokens "
-              f"= ${used_in / 1e6 * price_in + used_out / 1e6 * price_out:.4f}")
+        judge(todo, model, cache)
 
     # score
     rows, tally = [], {"agree": 0, "false_reject": 0, "false_accept": 0, "no_answer": 0}
@@ -280,7 +326,9 @@ def cmd_eval(store: str, model: str, dry_run: bool) -> None:
 
 def main() -> None:
     args = sys.argv[1:]
-    if len(args) >= 2 and args[0] == "eval" and args[1] in ("continente", "pingodoce"):
+    if args[:1] == ["lidl"]:
+        cmd_lidl("haiku")
+    elif len(args) >= 2 and args[0] == "eval" and args[1] in ("continente", "pingodoce"):
         model = args[args.index("--model") + 1] if "--model" in args else "haiku"
         if model not in MODELS:
             sys.exit(f"--model must be one of {', '.join(MODELS)}")

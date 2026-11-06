@@ -4,6 +4,7 @@ Usage:
     python src/recommend.py                    # uses the latest price file of each store
     python src/recommend.py --trip-cost 5      # a second store must save more than 5 € (default 3 €)
     python src/recommend.py --no-lidl-plus     # ignore prices that need the Lidl Plus app
+    python src/recommend.py --no-llm           # don't use the model's verdicts on Lidl candidates
 
 Inputs:
     data/shopping/list.csv          item, quantity, unit (l / kg / unit), exclude, notes
@@ -145,6 +146,20 @@ def lidl_history_regular(today: str) -> tuple[list[dict], int]:
 ONLINE_SHOPS = {"Continente": "continente", "Pingo Doce": "pingodoce"}   # same price-file format
 
 
+def lidl_offer_rows(lidl: list[dict], today: str, use_plus: bool) -> list[dict]:
+    """This week's valid Lidl offers, with the price I would pay (Lidl Plus or not) as 'price'."""
+    rows = []
+    for r in lidl:
+        if not r.get("name") or not lidl_valid_today(r, today):
+            continue
+        plus = r.get("lidl_plus_price")
+        if plus and not use_plus:
+            continue          # its unit price was computed on the app price; skip rather than guess the other
+        rows.append(r | {"store": "Lidl", "_tokens": tokens(r["name"]), "_norm": normalise(r["name"]),
+                         "price": plus or r.get("shelf_price", ""), "app": "yes" if plus else ""})
+    return rows
+
+
 def plan_name(stores: tuple[str, ...]) -> str:
     return f"Everything at {stores[0]}" if len(stores) == 1 else f"Split: {stores[0]} + {stores[1]}"
 
@@ -167,16 +182,12 @@ def main() -> None:
             sources.append(f"{label} Online ({day})")
     l_date, lidl = latest("lidl")
 
-    # Lidl rows: this week's valid offers, with the price I would pay (Lidl Plus or not) as 'price'.
-    lidl_rows = []
-    for r in lidl:
-        if not r.get("name") or not lidl_valid_today(r, today):
-            continue
-        plus = r.get("lidl_plus_price")
-        if plus and not use_plus:
-            continue          # its unit price was computed on the app price; skip rather than guess the other
-        lidl_rows.append(r | {"store": "Lidl", "_tokens": tokens(r["name"]), "_norm": normalise(r["name"]),
-                              "price": plus or r.get("shelf_price", ""), "app": "yes" if plus else ""})
+    lidl_rows = lidl_offer_rows(lidl, today, use_plus)
+    use_llm = "--no-llm" not in sys.argv
+    if use_llm:
+        from llm_match import PROMPT_VERSION, load_cache, lookup
+        llm_cache = load_cache()
+    unchecked, dropped = 0, 0
 
     regular, notes = lidl_regular_prices(today)
     history, n_files = lidl_history_regular(today)
@@ -200,6 +211,21 @@ def main() -> None:
         rows = [r | {"store": label} for label, rs in shop_rows.items() for r in rs if r.get("item") == name]
         l_rows = candidates(lidl_rows, name, it.get("exclude") or "")
         l_rows += candidates(history, name, it.get("exclude") or "")
+        if use_llm:
+            # Lidl's candidates are never reviewed by me: keep only what the model judged a match
+            # (src/llm_match.py lidl). Unjudged ones are kept and counted, so a failed check is visible.
+            kept = []
+            for r in l_rows:
+                a = lookup(llm_cache, name, (it.get("rule") or "").strip(), r["name"])
+                if a is None or a.get("match") is None:
+                    unchecked += 1
+                    kept.append(r)
+                elif a["match"]:
+                    kept.append(r)
+                else:
+                    dropped += 1
+                    notes.append(f"{name}: Lidl '{r['name'][:50]}' not counted (model: {a['reason']})")
+            l_rows = kept
         if name in regular:
             l_rows = l_rows + [regular[name]]
         basis, ranked = comparable_prices(rows + l_rows)
@@ -296,8 +322,13 @@ def main() -> None:
     lines += ["", "Costs are unit price × quantity and ignore pack rounding. Continente and Pingo Doce prices are "
               "online prices. Lidl prices are this week's lidl.pt offers, otherwise a regular price: my own record, "
               "or the price lidl.pt showed before an earlier offer (the product may have been a limited-time item)."]
+    if use_llm:
+        lines += ["", f"Lidl candidates checked by Claude Haiku 5.5 (prompt {PROMPT_VERSION}, 93% right on a "
+                  f"held-out store): {dropped} rejected"
+                  + (f", {unchecked} NOT checked (run: python src/llm_match.py lidl)" if unchecked else "") + "."]
     if notes:
-        lines += ["", "Notes:"] + [f"- {n}" for n in notes]
+        # dict.fromkeys: the same Lidl product can come as this week's offer and as a remembered price
+        lines += ["", "Notes:"] + [f"- {n}" for n in dict.fromkeys(notes)]
 
     report = "\n".join(lines)
     print(report)

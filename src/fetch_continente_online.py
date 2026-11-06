@@ -157,6 +157,21 @@ def parse_size(text: str) -> tuple[float, str] | None:
 
 # ---------- one product ----------
 
+def price_per_kg_on_page(page: str, price: float | None) -> float | None:
+    """For products sold by weight, Continente's price IS the price per kg, and the page says so next to the
+    price of an average pack: "6,49€/kg 14,28€/un" (Peito de Frango em Vácuo, "2,2 kg (aprox.)", seen
+    2026-11-06). Returns that pack price if the page's €/kg figure equals the product's price, else None.
+    v1 divided the per-kg price by the approximate weight again: 6.49 / 2.2 = 2.95 €/kg for chicken."""
+    if price is None:
+        return None
+    # decode entities first: the raw page writes the euro sign as &euro; (v2 of this fix missed that, 2026-11-06)
+    text = re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", page)))
+    for m in re.finditer(r"(\d+)\s*,\s*(\d{2})\s*€\s*/\s*kg\s*(\d+)\s*,\s*(\d{2})\s*€\s*/\s*un", text):
+        if abs(float(f"{m.group(1)}.{m.group(2)}") - price) < 0.006:
+            return float(f"{m.group(3)}.{m.group(4)}")
+    return None
+
+
 def parse_product_page(page: str, product_id: str) -> dict:
     ld = json_ld_product(page)
     offers = ld.get("offers", {})
@@ -178,6 +193,10 @@ def parse_product_page(page: str, product_id: str) -> dict:
     unit_price, unit, pack_qty = None, "", None
     drained = drained_size_text(size_text)
     weight_basis = "drained" if drained else ""
+    pack_price = price_per_kg_on_page(page, price) if sold_by != "kg" else None
+    if pack_price is not None:
+        sold_by = "kg"
+        notes.append(f"sold by weight: {price:.2f} €/kg; a pack of {size_text or 'unknown weight'} costs about {pack_price:.2f} €")
     if price is not None:
         if sold_by == "kg":                              # sold by weight: the price is already per kg
             unit_price, unit = price, "kg"
@@ -191,7 +210,9 @@ def parse_product_page(page: str, product_id: str) -> dict:
 
     page_units = page_unit_prices(page)
     check, page_up = "", None
-    if unit:
+    if pack_price is not None:
+        page_up, check = price, "per kg (page)"
+    elif unit:
         same_unit = [v for v, u in page_units if u == unit]
         if same_unit and unit_price is not None:
             page_up = min(same_unit, key=lambda v: abs(v - unit_price))

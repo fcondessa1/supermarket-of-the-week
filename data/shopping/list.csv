@@ -1,8 +1,10 @@
 item,quantity,unit,exclude,rule,notes
-leite meio gordo sem lactose,6,l,achocolatado; iogurte; bebida,,6 litres
+leite meio gordo sem lactose,6,l,achocolatado; iogurte; bebida,not fresh milk (leite fresco); UHT or unspecified is fine,6 litres
 atum ao natural,0.48,kg,salada,,big tins are ideal around 250g
 arroz basmati,1,kg,frango; pronto a comer,uncooked rice only; no meals with rice,
-ovos classe m,12,unit,caca; broinhas; bolachas,,12 eggs
+ovos class,12,unit,caca; broinhas; bolachas,class M or mixed M/L packs,12 eggs
 peito frango,1,kg,,fresh raw chicken breast only; not cooked; no other cuts,
 ^granola,0.5,kg,bolachas,loose granola to add to milk; any flavour except coffee; not bars or bites,
 ^mirtilo,0.25,kg,congelados; vermelhos,fresh blueberries only; not frozen; not freeze-dried; not cranberries,two 125 g punnets
+batata doce,1,kg,frita,yellow sweet potato only,
+massa espirais,1,kg,,any shape,

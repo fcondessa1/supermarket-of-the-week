@@ -89,8 +89,18 @@ def parse_product_page(page: str, product_id: str) -> dict:
         # A fractional count isn't a count, and guessing kg would be wrong for products sold by the litre.
         notes.append(f"pack size {size_text!r} is a fractional count (a weight written as units?): not used")
         size = None
+    # Sold by weight: the price is per kg and the size is only an average ("Peso aproximado da unidade 0.6 Kg",
+    # "6,59 €/Kg" next to the price; Peito de Frango Embalado, seen 2026-11-06). v1 divided by the weight again.
+    page_text = re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", page)))
+    by_weight = price is not None and "peso aproximado" in page_text.lower() and any(
+        abs(float(f"{a}.{b}") - price) < 0.006
+        for a, b in re.findall(r"(\d+),(\d{2})\s*€\s*/\s*kg", page_text, re.I))
+    if by_weight:
+        notes.append(f"sold by weight: {price:.2f} €/kg; average pack {size_text or 'unknown'}")
     if price is not None:
-        if size:
+        if by_weight:
+            unit_price, unit = price, "kg"
+        elif size:
             pack_qty, unit = size
             unit_price = price / pack_qty
         elif re.fullmatch(r"(1\s*)?kg", size_text.strip(), re.I):
@@ -100,7 +110,9 @@ def parse_product_page(page: str, product_id: str) -> dict:
 
     page_units = page_unit_prices(page_unit_text)
     check, page_up = "", None
-    if unit and unit_price is not None:
+    if by_weight:
+        page_up, check = price, "per kg (page)"
+    elif unit and unit_price is not None:
         same = [v for v, u in page_units if u == unit]
         if same:
             page_up = same[0]
@@ -116,7 +128,7 @@ def parse_product_page(page: str, product_id: str) -> dict:
         notes.append("unit price taken from the page")
 
     unit_price_total = unit_price
-    if drained and price is not None:
+    if drained and price is not None and not by_weight:
         total = parse_size(size_text)
         unit_price_total = price / total[0] if total and total[1] == unit else None
 
@@ -128,7 +140,7 @@ def parse_product_page(page: str, product_id: str) -> dict:
         "price": _fmt(price), "pre_discount_price": _fmt(pre) if on_promo else "",
         "discount": _fmt(pre - price) if on_promo else "",
         "on_promotion": "yes" if on_promo else "no", "price_valid_until": "",
-        "sold_by": "kg" if unit == "kg" and pack_qty is None else "", "size_text": size_text,
+        "sold_by": "kg" if by_weight or (unit == "kg" and pack_qty is None) else "", "size_text": size_text,
         "weight_basis": weight_basis, "pack_quantity": f"{pack_qty:g}" if pack_qty else "",
         "unit_price": _fmt(unit_price, 3), "unit_price_total": _fmt(unit_price_total, 3), "unit": unit,
         "page_unit_price": _fmt(page_up), "check": check, "note": "; ".join(notes),
