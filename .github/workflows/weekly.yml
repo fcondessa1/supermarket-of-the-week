@@ -56,6 +56,17 @@ jobs:
         continue-on-error: true
         run: python src/fetch_lidl_online.py
 
+      # Lidl's offers are never reviewed by me: Claude Haiku judges each candidate (93% right on a held-out
+      # store, under 1 cent a week). Without the secret, the report says the candidates weren't checked.
+      - name: Check Lidl candidates with the model
+        id: llm
+        continue-on-error: true
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          if [ -z "$ANTHROPIC_API_KEY" ]; then echo "No ANTHROPIC_API_KEY secret: Lidl candidates not checked"; exit 0; fi
+          python src/llm_match.py lidl
+
       - name: Recommendation
         run: |
           python src/recommend.py --trip-cost "${{ inputs.trip_cost || '3' }}"
@@ -63,7 +74,7 @@ jobs:
           {
             echo
             echo "---"
-            echo "Run: Continente fetch ${{ steps.continente.outcome }}, Pingo Doce fetch ${{ steps.pingodoce.outcome }}, Lidl fetch ${{ steps.lidl.outcome }}."
+            echo "Run: Continente fetch ${{ steps.continente.outcome }}, Pingo Doce fetch ${{ steps.pingodoce.outcome }}, Lidl fetch ${{ steps.lidl.outcome }}, model check ${{ steps.llm.outcome }}."
             echo "If a fetch failed, its prices above are from an earlier week. Log: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           } >> "$REPORT"
           echo "REPORT=$REPORT" >> "$GITHUB_ENV"
@@ -73,7 +84,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898732+github-actions[bot]@users.noreply.github.com"
           # the price runs also mark products that are no longer sold online as "unavailable"
-          git add data/prices data/reports data/shopping/*_products.csv
+          git add data/prices data/reports data/shopping/*_products.csv data/llm
           git diff --cached --quiet || git commit -m "Weekly prices and recommendation $(date +%F)"
           # The run takes ~20 minutes; if I pushed meanwhile, put this commit on top of mine and retry.
           # (2026-11-03: the first run's push was rejected for exactly this reason.)
