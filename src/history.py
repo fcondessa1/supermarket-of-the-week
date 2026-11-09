@@ -17,6 +17,8 @@ Tables:
     comparison    recommend.py's per-item result: the cheapest product per store, with its source and whether
                   the recommended plan buys it there (from 2026-11-09; earlier weeks only have the .md report)
     shopping_list my list as it is now
+Columns worth knowing: week (Monday of the snapshot's week); regular_price (price before any discount);
+accepted_now (the product counts for the item under my current decisions).
 This is also what the model gets in option 3 (questions in plain words, answered with SQL).
 Cost: no LLM calls, no network.
 """
@@ -55,22 +57,36 @@ def connect() -> duckdb.DuckDBPyConnection:
         t, n, _ = picker(src)
         parts.append(f"""
             SELECT '{'Continente' if s == 'continente' else 'Pingo Doce'}' AS store, {SNAPSHOT} AS snapshot,
+                   date_trunc('week', {SNAPSHOT})::DATE AS week,
                    {t('item')} AS item, {t('product_id')} AS product_id, {t('name')} AS name,
                    {t('brand')} AS brand, {t('category')} AS category,
                    {n('price')} AS price, {n('pre_discount_price')} AS pre_discount_price,
+                   coalesce({n('pre_discount_price')}, {n('price')}) AS regular_price,
                    coalesce({t('on_promotion')} = 'yes', false) AS on_promotion,
-                   {n('unit_price')} AS unit_price, {n('unit_price_total')} AS unit_price_total,
+                   {n('unit_price')} AS unit_price,
+                   coalesce({n('unit_price_total')}, {n('unit_price')}) AS unit_price_total,
                    {t('unit')} AS unit, {t('weight_basis')} AS weight_basis, {t('size_text')} AS size_text,
                    {t('check')} AS price_check
             FROM {src}
             WHERE {t('item')} IS NOT NULL AND {t('item')} <> ''""")
     if parts:
-        con.execute("CREATE VIEW shop_prices AS " + " UNION ALL ".join(parts))
+        # accepted_now: the product counts for the item under my CURRENT decisions. Analyses use it, so products
+        # I rejected later (frozen blueberries, deli chicken) don't distort the history they were once part of.
+        decisions = " UNION ALL ".join(
+            f"SELECT '{'Continente' if s == 'continente' else 'Pingo Doce'}' AS store, item, product_id, decision "
+            f"FROM read_csv('data/shopping/{s}_products.csv', all_varchar = true, header = true)" for s in shops)
+        # one row per product: a decisions file can list a product twice for an item (seen in testing)
+        con.execute(f"""CREATE VIEW shop_prices AS
+            SELECT p.*, coalesce(d.accepted, false) AS accepted_now
+            FROM ({" UNION ALL ".join(parts)}) p
+            LEFT JOIN (SELECT store, item, product_id, bool_or(decision IN ('accepted', 'unavailable')) AS accepted
+                       FROM ({decisions}) GROUP BY ALL) d USING (store, item, product_id)""")
     if list((PRICES / "lidl").glob("*.csv")):
         src = read(f"{PRICES}/lidl/*.csv")
         t, n, d = picker(src)
         con.execute(f"""CREATE VIEW lidl AS
-            SELECT {SNAPSHOT} AS snapshot, {t('product_id')} AS product_id, {t('name')} AS name,
+            SELECT {SNAPSHOT} AS snapshot, date_trunc('week', {SNAPSHOT})::DATE AS week,
+                   {t('product_id')} AS product_id, {t('name')} AS name,
                    {t('category')} AS category, {n('shelf_price')} AS shelf_price, {n('old_price')} AS old_price,
                    {n('lidl_plus_price')} AS lidl_plus_price, {d('start_date')} AS start_date, {d('end_date')} AS end_date,
                    {n('unit_price')} AS unit_price, {t('unit')} AS unit
@@ -105,42 +121,46 @@ def show(con, sql: str, title: str = "") -> None:
         print("  (no rows)")
 
 
+# All analyses: products I accept NOW, per week (several snapshots can fall in one week: the lowest wins), and
+# prices per TOTAL weight, which every version of the scripts recorded (unit_price switched to drained weight
+# for tuna on 2026-10-22, which looked like a 35% price rise in the first version of this report).
 REPORT = [
     ("Snapshots per store", """
-        SELECT store, count(DISTINCT snapshot) AS snapshots, min(snapshot) AS first, max(snapshot) AS last,
-               count(*) AS product_prices
+        SELECT store, count(DISTINCT snapshot) AS snapshots, count(DISTINCT week) AS weeks,
+               min(snapshot) AS first, max(snapshot) AS last, count(*) AS product_prices
         FROM shop_prices GROUP BY store
         UNION ALL
-        SELECT 'Lidl', count(DISTINCT snapshot), min(snapshot), max(snapshot), count(*) FROM lidl
+        SELECT 'Lidl', count(DISTINCT snapshot), count(DISTINCT week), min(snapshot), max(snapshot), count(*) FROM lidl
         ORDER BY store"""),
-    ("Cheapest unit price per item, store and snapshot (Continente and Pingo Doce)", """
-        SELECT item, store, snapshot, min(unit_price) AS cheapest, any_value(unit) AS per
-        FROM shop_prices WHERE unit_price > 0
-        GROUP BY ALL ORDER BY item, store, snapshot"""),
-    ("How often the cheapest product per item is on promotion", """
-        WITH ranked AS (
-            SELECT *, row_number() OVER (PARTITION BY store, snapshot, item ORDER BY unit_price) AS rank
-            FROM shop_prices WHERE unit_price > 0)
-        SELECT item, store, count(*) AS snapshots, sum(on_promotion::INT) AS cheapest_on_promo,
-               round(100 * avg(on_promotion::INT)) AS pct
-        FROM ranked WHERE rank = 1 GROUP BY ALL ORDER BY item, store"""),
-    ("Products whose price changed between their first and latest snapshot (biggest moves)", """
+    ("Cheapest price per item, store and week (per kg / L / unit, total weight; products I accept now)", """
+        SELECT item, store, week, min(unit_price_total) AS cheapest, any_value(unit) AS per
+        FROM shop_prices WHERE accepted_now AND unit_price_total > 0
+        GROUP BY ALL ORDER BY item, store, week"""),
+    ("How often each item's cheapest product is on promotion (weeks)", """
+        WITH weekly AS (
+            SELECT store, week, item, arg_min(on_promotion, unit_price_total) AS cheapest_on_promo
+            FROM shop_prices WHERE accepted_now AND unit_price_total > 0 GROUP BY ALL)
+        SELECT item, store, count(*) AS weeks, sum(cheapest_on_promo::INT) AS on_promo,
+               round(100 * avg(cheapest_on_promo::INT))::INT AS pct
+        FROM weekly GROUP BY ALL ORDER BY item, store"""),
+    ("Regular prices that changed (price before discount, so promotions starting or ending don't count)", """
         WITH ends AS (
             SELECT store, product_id, any_value(name) AS name, any_value(item) AS item,
-                   arg_min(price, snapshot) AS first_price, arg_max(price, snapshot) AS last_price,
+                   arg_min(regular_price, snapshot) AS first_price, arg_max(regular_price, snapshot) AS last_price,
                    min(snapshot) AS first, max(snapshot) AS last
-            FROM shop_prices WHERE price > 0 GROUP BY store, product_id)
+            FROM shop_prices WHERE accepted_now AND regular_price > 0 GROUP BY store, product_id)
         SELECT store, item, name, first, first_price, last, last_price,
-               round(100 * (last_price / first_price - 1)) AS pct_change
-        FROM ends WHERE first < last AND last_price <> first_price
+               round(100 * (last_price / first_price - 1))::INT AS pct_change
+        FROM ends WHERE first < last AND abs(last_price - first_price) >= 0.01
         ORDER BY abs(last_price / first_price - 1) DESC LIMIT 10"""),
-    ("Lidl offers per snapshot: discount against the price before the offer", """
-        SELECT snapshot, count(*) AS products,
+    ("Lidl offers per week: discount against the price before the offer", """
+        WITH weekly AS (SELECT DISTINCT ON (week, product_id) * FROM lidl ORDER BY week, product_id, snapshot DESC)
+        SELECT week, count(*) AS products,
                count(old_price) FILTER (WHERE old_price > coalesce(lidl_plus_price, shelf_price)) AS with_discount,
                round(100 * avg(1 - coalesce(lidl_plus_price, shelf_price) / old_price)
-                     FILTER (WHERE old_price > coalesce(lidl_plus_price, shelf_price))) AS avg_discount_pct,
+                     FILTER (WHERE old_price > coalesce(lidl_plus_price, shelf_price)))::INT AS avg_discount_pct,
                count(lidl_plus_price) AS lidl_plus
-        FROM lidl GROUP BY snapshot ORDER BY snapshot"""),
+        FROM weekly GROUP BY week ORDER BY week"""),
 ]
 
 

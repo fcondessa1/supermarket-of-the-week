@@ -301,7 +301,7 @@ def main() -> None:
         if not unit:
             notes.append(f"{name}: no unit on the list; quantity {qty:g} read as {u}")
         if "Lidl" not in best:
-            notes.append(f"{name}: no Lidl price (no offer this week, never seen on lidl.pt, not in lidl_regular.csv)")
+            notes.append(f"{name}: no Lidl price (no offer this week, no price before an offer on lidl.pt, not in lidl_regular.csv)")
         elif best["Lidl"][1].get("regular"):
             seen = best["Lidl"][1]["regular"]
             try:
