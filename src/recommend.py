@@ -259,6 +259,7 @@ def main() -> None:
              "| Item | Quantity | " + " | ".join(f"{st}: cheapest" for st in stores) + " | Cheapest at |",
              "|---|---|" + "---|" * len(stores) + "---|"]
     costs: dict[str, dict[str, float]] = {}       # item -> store -> cost of my quantity at its cheapest product
+    comparison: list[dict] = []                    # the same, one row per item and store: data/reports/<date>.csv
     for it in items:
         name = it["item"].strip()
         qty = float(it.get("quantity") or 1)
@@ -327,6 +328,13 @@ def main() -> None:
             return f"{v:.2f} €/{r['unit']} {r['name'][:40]}{extra}"
 
         costs[name] = {store: v * qty for store, (v, _) in best.items()}
+        for store, (v, r) in best.items():
+            source = ("price before offer (lidl.pt)" if r.get("source") == "lidl.pt" else "regular (my table)" if r.get("regular")
+                      else "Lidl Plus offer" if r.get("app") else "offer" if store == "Lidl"
+                      else "promotion" if r.get("on_promotion") == "yes" else "regular")
+            comparison.append({"item": name, "quantity": f"{qty:g}", "unit": u, "store": store,
+                               "unit_price": f"{v:.3f}", "cost": f"{v * qty:.2f}", "product": r["name"],
+                               "source": source, "chosen": ""})
         cheapest_store = min(best, key=lambda st: best[st][0])
         basis_note = " (total weight)" if basis.startswith("total") else ""
         lines.append(f"| {name}{basis_note} | {qty:g} {u} | " + " | ".join(cell(st) for st in stores)
@@ -393,6 +401,17 @@ def main() -> None:
     print(report)
     REPORTS.mkdir(parents=True, exist_ok=True)
     (REPORTS / f"{today}.md").write_text(report + "\n", encoding="utf-8")
+    # machine-readable twin of the table, for the price history (src/history.py): which product counted for
+    # each item at each store, and whether the recommended plan buys it there
+    if plans:
+        at = assignment[min(plans, key=plans.get)]
+        for row in comparison:
+            row["chosen"] = "yes" if at.get(row["item"]) == row["store"] else ""
+    with open(REPORTS / f"{today}.csv", "w", newline="", encoding="utf-8") as f:
+        w = csv.DictWriter(f, fieldnames=["item", "quantity", "unit", "store", "unit_price", "cost", "product",
+                                          "source", "chosen"])
+        w.writeheader()
+        w.writerows(comparison)
     print(f"\n-> {REPORTS / (today + '.md')}")
 
 

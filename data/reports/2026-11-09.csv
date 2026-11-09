@@ -1,0 +1,24 @@
+item,quantity,unit,store,unit_price,cost,product,source,chosen
+leite meio gordo sem lactose,6,l,Continente,1.060,6.36,Leite UHT Meio Gordo sem Lactose Gresso,promotion,yes
+leite meio gordo sem lactose,6,l,Pingo Doce,1.070,6.42,Leite UHT Meio Gordo sem Lactose,regular,
+atum ao natural,0.48,kg,Lidl,6.273,3.01,Atum ao Natural,offer,
+atum ao natural,0.48,kg,Continente,7.117,3.42,Atum ao Natural Continente Equilíbrio,regular,yes
+atum ao natural,0.48,kg,Pingo Doce,8.809,4.23,Atum ao Natural,promotion,
+arroz basmati,1,kg,Continente,1.738,1.74,Arroz Basmati Pack Poupança Continente,regular,yes
+arroz basmati,1,kg,Pingo Doce,1.890,1.89,Arroz Basmati,regular,
+arroz basmati,1,kg,Lidl,1.890,1.89,arroz basmati,regular (my table),
+ovos class,12,unit,Lidl,0.199,2.39,Ovos Classe M de Galinhas Criadas no Solo,offer,
+ovos class,12,unit,Continente,0.249,2.99,Ovos de Solo Classe M Continente,regular,yes
+ovos class,12,unit,Pingo Doce,0.249,2.99,Ovos de Solo Classe M,regular,
+peito frango,1,kg,Pingo Doce,6.290,6.29,Bife/Peito de Frango a granel,promotion,
+peito frango,1,kg,Continente,6.490,6.49,Peito de Frango Continente,regular,yes
+peito frango,1,kg,Lidl,6.490,6.49,peito frango,regular (my table),
+^granola,0.5,kg,Continente,5.973,2.99,Granola Cem Porcento,promotion,yes
+^granola,0.5,kg,Pingo Doce,5.980,2.99,Granola Trio de Chocolates,regular,
+^mirtilo,0.25,kg,Continente,8.725,2.18,Mirtilos Continente,regular,yes
+^mirtilo,0.25,kg,Pingo Doce,14.980,3.75,Mirtilos Embalados,regular,
+batata doce,1,kg,Lidl,1.490,1.49,Batata Doce Nacional,Lidl Plus offer,
+batata doce,1,kg,Continente,2.490,2.49,Batata Doce Continente,regular,yes
+batata doce,1,kg,Pingo Doce,2.490,2.49,Batata Doce,regular,
+massa espirais,1,kg,Pingo Doce,1.290,1.29,Massa Espirais,regular,
+massa espirais,1,kg,Continente,1.390,1.39,Massa Espirais Pack Poupança Continente,regular,yes
