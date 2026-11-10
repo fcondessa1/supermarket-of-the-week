@@ -85,6 +85,21 @@ Both models disagreed with me on the same 7 products, and none of the 7 is a mod
 - **Invented facts.** v3 said brands can be a clue; the model then called Sekoya "a frozen-fruit brand", which I don't believe is true. v4 judges from the name only, at the cost of missing one frozen brand (Gelcampo) that the name doesn't reveal.
 - **My labels contradicted my rules.** A freeze-dried blueberry product and a coffee granola were accepted against rules I had written. The model applied the rules more consistently than I did.
 
+## Price history in SQL
+
+`src/history.py` reads every weekly price file into DuckDB views (`shop_prices`, `lidl`, `comparison`, `shopping_list`). Nothing is copied: the CSV files stay the only source. `python src/history.py report` runs the standing analyses; `python src/history.py sql "..."` runs anything else.
+
+**Early findings** (3 weeks of Continente and Lidl, 1 of Pingo Doce, so trends are only suggestive):
+- **Blueberries got dearer at Continente:** the regular price (before discounts) of six blueberry products rose 5–20% between 26 October and 6 November.
+- **Some "promotions" never end:** Continente's cheapest lactose-free milk, granola and Nicola capsules were on promotion in every week observed. For planning, that promotional price is the regular price.
+- **Lidl's discounts:** offers that show a price before the offer averaged 26% off.
+
+**What the first version of the report got wrong**, all visible in its output:
+- **A method change read as a price rise.** Tuna "rose" from 7.12 to 9.59 €/kg on 22 October: that was the day `unit_price` switched to drained weight. Analyses now use total weight, which every version of the scripts recorded.
+- **Old decisions distorted the history.** Pingo Doce blueberries "rose" from 7.96 to 14.98 €/kg because 7.96 was frozen blueberries I later rejected. Analyses now count only products I accept now (`accepted_now`).
+- **Promotions ending read as price rises.** A granola "doubled" from 2.49 to 4.99 €; it had been on promotion. Price changes are now measured on the price before discount (`regular_price`).
+- **Snapshots counted as weeks.** Four runs between 2 and 6 November counted four times. Analyses now group by week.
+
 ## Continente: how an item becomes a ranked list
 
 1. **Catalogue.** Continente publishes product sitemaps for search engines. Each entry's address holds the product's name and ID, e.g. `.../produto/atum-posta-ao-natural-continente-equilibrio-3697795.html`, so the whole catalogue costs 7 requests. It has no prices.
@@ -207,7 +222,10 @@ python src/fetch_lidl_online.py
 python src/llm_match.py eval continente --dry-run     # case count and cost estimate, no API calls
 python src/llm_match.py eval pingodoce --model haiku  # needs ANTHROPIC_API_KEY
 
-# Where to shop (writes data/reports/<date>.md)
+# Price history (all weekly files, as SQL tables)
+python src/history.py report
+
+# Where to shop (writes data/reports/<date>.md and .csv)
 python src/recommend.py                          # --trip-cost 5, --no-lidl-plus
 
 # Leaflets
@@ -232,6 +250,7 @@ src/fetch_continente_online.py  weekly prices, unit prices and checks for accept
 src/fetch_lidl_online.py        this week's Lidl offers from lidl.pt (decodes the pages' Nuxt data)
 src/recommend.py                cheapest store per item, plans, and the recommendation
 src/llm_match.py                LLM judgement of product matches, evaluated against my decisions
+src/history.py                  price history as SQL tables (DuckDB): standing analyses and ad-hoc queries
 data/llm/                       cached model answers and one evaluation file per store, model and prompt version
 data/shopping/lidl_regular.csv  Lidl regular prices I record by hand (lidl.pt doesn't publish them)
 data/prices/lidl/               one Lidl price file per run (committed)
