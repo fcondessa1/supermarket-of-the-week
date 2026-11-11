@@ -432,7 +432,7 @@ def main() -> None:
     if "--user" in sys.argv:
         import lists
         user = sys.argv[sys.argv.index("--user") + 1]
-        items = lists.load_list(user)
+        items = lists.load_list(user, active_only=True)
         if not items:
             sys.exit(f"No list for '{user}' in data/users/")
         verdict = lists.verdict_for(user)

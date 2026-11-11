@@ -37,7 +37,7 @@ from catalogue import STORES, candidates, catalogue_path, normalise, tokens
 from llm_match import CACHE, MODELS, cache_key, judge, load_cache, lookup
 
 USERS = Path("data/users")
-LIST_FIELDS = ["item", "quantity", "unit", "rule", "notes"]
+LIST_FIELDS = ["active", "item", "quantity", "unit", "rule", "notes"]   # active: "no" = kept but not this week
 OVERRIDE_FIELDS = ["store", "item", "product_id", "name", "counts", "date"]
 SHOPS = {"Continente": "continente", "Pingo Doce": "pingodoce"}
 MAX_CANDIDATES = 400          # per item and store: above this, ask for more words instead of judging them all
@@ -94,9 +94,13 @@ def users() -> list[str]:
     return sorted(p.name for p in USERS.iterdir() if p.is_dir()) if USERS.exists() else []
 
 
-def load_list(user: str) -> list[dict]:
-    return [{k: (r.get(k) or "").strip() for k in LIST_FIELDS} for r in read_csv(USERS / user / "list.csv")
+def load_list(user: str, active_only: bool = False) -> list[dict]:
+    """Every item; with active_only, only the ones ticked for this week (lists without the column: all)."""
+    rows = [{k: (r.get(k) or "").strip() for k in LIST_FIELDS} for r in read_csv(USERS / user / "list.csv")
             if (r.get("item") or "").strip()]
+    for r in rows:
+        r["active"] = "no" if r["active"].lower() == "no" else "yes"
+    return [r for r in rows if r["active"] == "yes"] if active_only else rows
 
 
 def save_list(user: str, rows: list[dict]) -> None:
@@ -224,6 +228,7 @@ def cmd_build() -> None:
     union: dict[str, dict] = {}
     for _, it in items:
         union.setdefault(it["item"], it)
+    # every item, ticked or not: an unticked item keeps getting prices, so they are there when it comes back
     write_csv(Path("data/shopping/list.csv"), LIST_FIELDS, list(union.values()))
     print(f"{len(union)} different items -> data/shopping/list.csv")
 
@@ -240,7 +245,7 @@ def cmd_migrate(user: str) -> None:
         excl = [x.strip() for x in (r.get("exclude") or "").split(";") if x.strip()]
         if excl:
             rule = "; ".join([rule] if rule else []) + ("; " if rule else "") + "not: " + ", ".join(excl)
-        rows.append({"item": r["item"], "quantity": r.get("quantity", ""), "unit": r.get("unit", ""),
+        rows.append({"active": "yes", "item": r["item"], "quantity": r.get("quantity", ""), "unit": r.get("unit", ""),
                      "rule": rule, "notes": r.get("notes", "")})
     save_list(user, rows)
     overrides = {}

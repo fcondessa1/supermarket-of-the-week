@@ -130,12 +130,15 @@ def page_list(user: str) -> None:
                "your own words: the model reads it for every product (\"not fresh milk\", \"not frozen; not "
                "freeze-dried\"). Notes are just for you.")
     rows = lists.load_list(user)
-    df = pd.DataFrame(rows or [{"item": "", "quantity": "", "unit": "kg", "rule": "", "notes": ""}],
+    df = pd.DataFrame(rows or [{"active": "yes", "item": "", "quantity": "", "unit": "kg", "rule": "", "notes": ""}],
                       columns=lists.LIST_FIELDS)
     df["quantity"] = pd.to_numeric(df["quantity"], errors="coerce")
+    df["active"] = df["active"] != "no"
     edited = st.data_editor(
         df, num_rows="dynamic", width="stretch", hide_index=True, key="list_editor",
         column_config={
+            "active": st.column_config.CheckboxColumn("This week", default=True,
+                                                      help="Untick to leave it out this week without deleting it"),
             "item": st.column_config.TextColumn("Item", required=True, width="medium"),
             "quantity": st.column_config.NumberColumn("Quantity", min_value=0, step=0.05, format="%g"),
             "unit": st.column_config.SelectboxColumn("Unit", options=UNITS, required=True),
@@ -146,6 +149,7 @@ def page_list(user: str) -> None:
         new_rows = [r for r in edited.fillna("").to_dict("records") if str(r["item"]).strip()]
         for r in new_rows:
             r["quantity"] = f"{float(r['quantity']):g}" if r["quantity"] != "" else ""
+            r["active"] = "no" if r["active"] is False else "yes"
         lists.save_list(user, new_rows)
         judge_items([(user, r) for r in lists.load_list(user)])
         st.success("Saved. New items are matched now and get prices in the next Tuesday run.")
@@ -215,9 +219,12 @@ def page_products(user: str) -> None:
 
 def page_where(user: str) -> None:
     st.subheader("Where to shop")
-    items = lists.load_list(user)
+    items = lists.load_list(user, active_only=True)
+    paused = [r["item"].lstrip("^") for r in lists.load_list(user) if r["active"] == "no"]
+    if paused:
+        st.caption("Not this week (unticked on My list): " + ", ".join(paused))
     if not items:
-        st.info("Your list is empty: add items under My list.")
+        st.info("Nothing ticked for this week: tick items under My list.")
         return
     c1, c2 = st.columns(2)
     trip = c1.number_input("A second shop is worth it only if it saves more than (€)", 0.0, 20.0, 3.0, 0.5)
@@ -234,11 +241,14 @@ def page_where(user: str) -> None:
             line = {"item": item.lstrip("^")}
             for s in stores:
                 r = next((r for r in rows if r["item"] == item and r["store"] == s), None)
-                line[s] = (("✅ " if r["chosen"] else "") + f"{float(r['cost']):.2f} € · {r['product'][:38]}"
-                           + ("" if r["source"] == "regular" else f" ({r['source']})")) if r else "—"
+                short = {"promotion": "promo", "offer": "offer", "Lidl Plus offer": "Lidl Plus",
+                         "regular (my table)": "my price", "price before offer (lidl.pt)": "before offer"}
+                line[s] = (("✅ " if r["chosen"] else "") + f"{float(r['cost']):.2f} € ({float(r['unit_price']):.2f} €/{r['unit']})"
+                           + f" · {r['product'][:32]}"
+                           + ("" if r["source"] == "regular" else f" · {short.get(r['source'], r['source'])}")) if r else "—"
             table.append(line)
-        st.caption("Cost of your quantity at each shop's cheapest product that counts for you. ✅ = where the "
-                   "recommendation buys it.")
+        st.caption("Cost of your quantity at each shop's cheapest product that counts for you, with its price per "
+                   "kg, litre or unit in brackets. ✅ = where the recommendation buys it.")
         st.dataframe(pd.DataFrame(table), hide_index=True, width="stretch")
     if result["unpriced"]:
         st.info("No price yet for: " + ", ".join(i.lstrip("^") for i in result["unpriced"]) +
