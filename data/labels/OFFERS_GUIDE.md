@@ -9,7 +9,8 @@ Label a page completely, before running the model on it. A half-labelled page ma
 - A product (or group of products) with a **concrete price** printed on the page.
 - One price for several varieties ("vários sabores", "preta/rosada"): **one row**. Name it as printed and write `varieties` in `notes`.
 - The same offer printed twice on one page: one row.
-- **Not labelled:** category-wide discounts without a price ("Até 30% desconto no red fish"), recipes, ads, non-grocery items.
+- **Every price box counts, food or not** (plants, toys, clothes): it keeps the labels objective and the score simple.
+- **Not labelled:** category-wide discounts without a price ("Até 30% desconto no red fish"), recipes, ads.
 
 ## Columns
 
