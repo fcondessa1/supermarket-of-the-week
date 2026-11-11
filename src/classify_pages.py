@@ -97,7 +97,12 @@ NOT_GROCERY = re.compile(r"\bmolhos? de (rosas|flores|tulipas)")
 
 def predict(row: dict) -> tuple[int, str]:
     # Lidl: alt_text (keywords only as a fallback). Continente: the page's printed text.
-    description = (row.get("alt_text") or "") + " " + (row.get("text") or "")
+    # From the leaflet of 9 Nov 2026 Lidl's alt text is only "Página 3 - Promoções Semanais - A partir de 09/11",
+    # with the products moved to the keywords; v3 then kept 0 of 40 pages. Such a generic description counts as none.
+    alt = row.get("alt_text") or ""
+    if re.fullmatch(r"\s*p[aá]gina\s+\d+\s*-.*", alt, re.I) and len(alt) < 90:
+        alt = ""
+    description = alt + " " + (row.get("text") or "")
     if not description.strip():
         description = row.get("keywords") or ""
     text = NOT_GROCERY.sub(" ", normalise(description))

@@ -4,7 +4,7 @@ Tells me where to do this week's shopping. For each item on my list ("leite meio
 
 I built it because I use it. It is also a portfolio project: the parts that matter are measured against data I checked by hand, and the failures are documented next to the fixes.
 
-> **Status (2026-11-11):** Working end to end for Continente, Pingo Doce and Lidl: prices for every product that matches my list, compared per kg/L/unit across brands and stores, and a weekly recommendation (one store, or a split across two if it beats the trip cost). A GitHub Action runs it every Tuesday, commits the prices and posts the report as an issue. An LLM judges whether a product is what I need, scored at 93% on a held-out store (word rules: 90%). It now checks Lidl's offers in the weekly run, where nobody reviews matches. A one-off experiment found that Claude Haiku 5.5 reads Lidl leaflet pages almost perfectly (38 of 38 offers, prices 37/38) for $0.0055 for 5 pages; the weekly run uses lidl.pt instead (see below).
+> **Status (2026-11-11):** An app for a few people to write their own lists and see where to shop (below). Working end to end for Continente, Pingo Doce and Lidl: prices for every product that matches my list, compared per kg/L/unit across brands and stores, and a weekly recommendation (one store, or a split across two if it beats the trip cost). A GitHub Action runs it every Tuesday, commits the prices and posts the report as an issue. An LLM judges whether a product is what I need, scored at 93% on a held-out store (word rules: 90%). It now checks Lidl's offers in the weekly run, where nobody reviews matches. A one-off experiment found that Claude Haiku 5.5 reads Lidl leaflet pages almost perfectly (38 of 38 offers, prices 37/38) for $0.0055 for 5 pages; the weekly run uses lidl.pt instead (see below).
 
 ## How it works
 
@@ -50,6 +50,21 @@ From the first run, 27 October 2026, before I had recorded any Lidl regular pric
 | Lactose-free milk, basmati, granola, coffee capsules, blueberries | — | not on lidl.pt |
 
 Lidl's two offers saved 1.07 € on my quantities, below the trip cost, so that week's answer was **Continente only**. That run is also what showed the gap: without Lidl's regular prices, the comparison was biased towards Continente, which is why the regular-price table exists.
+
+## The app
+
+`src/app.py` (Streamlit): sign in, write your list, see which products count, and find out where to shop, for your list rather than mine. Shared with a few people by password.
+
+- **My list:** items in plain words, a quantity, and a **rule** in your own words ("not fresh milk", "not frozen; not freeze-dried"). The rule replaces both the exclusion words and the manual review of every product.
+- **Which products count:** for each item, every product whose name has its words, per store, with the model's verdict, its reason, and the latest price. Tick or untick to overrule the model; the correction is saved and wins from then on.
+- **Where to shop:** the summary and recommendation for your list, a table of the cheapest product that counts for you at each store, and what was left out and why.
+
+**How a product comes to count for you:** word matching finds the candidates (free); Claude Haiku 5.5 judges each one against your rule (the prompt scored 93% on a held-out store); your overrides win over the model. My earlier review decisions became my overrides, so nothing I had curated was lost.
+
+**Design choices:**
+- **Lists live in the repository** (`data/users/<name>/`). The app saves through GitHub's API, one commit per save, so the Tuesday run sees everyone's list and every change is versioned. The Tuesday run then judges new candidates for everyone and prices the products that count for someone.
+- **Prices only on Tuesday.** The app never fetches from the shops, so it is instant and adds no load on their sites; an item added on Wednesday is matched at once and priced the following Tuesday.
+- **Cost control:** the model is only asked about products it hasn't judged for that item and rule (answers are cached and shared), with a daily cap in the app and a monthly limit on the API key.
 
 ## Matching with an LLM
 
@@ -269,7 +284,10 @@ src/continente_catalogue.py     the same for Continente (older commands)
 src/fetch_pingodoce_online.py   weekly Pingo Doce prices: reads its product pages, reuses Continente's run
 src/fetch_continente_online.py  weekly prices, unit prices and checks for accepted products
 src/fetch_lidl_online.py        this week's Lidl offers from lidl.pt (decodes the pages' Nuxt data)
-src/recommend.py                cheapest store per item, plans, and the recommendation
+src/recommend.py                cheapest store per item, plans, and the recommendation (compute() is used by the app)
+src/app.py                      the app (Streamlit): sign in, list, which products count, where to shop
+src/lists.py                    everyone's lists and overrides; weekly: products to price from all lists
+data/users/<name>/              each person's list.csv and overrides.csv (written by the app)
 src/llm_match.py                LLM judgement of product matches, evaluated against my decisions
 src/history.py                  price history as SQL tables (DuckDB): standing analyses and ad-hoc queries
 data/llm/                       cached model answers and one evaluation file per store, model and prompt version

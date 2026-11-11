@@ -2,4 +2,4 @@ data/raw/
 .env
 __pycache__/
 .venv/
-data/catalogue/
+.streamlit/secrets.toml

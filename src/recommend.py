@@ -222,13 +222,16 @@ def plan_name(stores: tuple[str, ...]) -> str:
     return f"Everything at {stores[0]}" if len(stores) == 1 else f"Split: {stores[0]} + {stores[1]}"
 
 
-def main() -> None:
-    trip_cost = arg_value("--trip-cost", 3.0)
-    use_plus = "--no-lidl-plus" not in sys.argv
-    today = date.today().isoformat()
+def compute(items: list[dict], today: str, trip_cost: float = 3.0, use_plus: bool = True, use_llm: bool = True,
+            verdict=None) -> dict:
+    """The comparison and recommendation for one list. Used by the command line (below) and the app (src/app.py).
 
-    with open(LIST, encoding="utf-8") as f:
-        items = [r for r in csv.DictReader(f) if (r.get("item") or "").strip()]
+    verdict(store, item_row, product_name, product_id) -> (True / False / None, reason): whether a product counts
+    for an item, for one person (their overrides, then the model's answer for their rule). None = not judged:
+    kept, and counted. Without it, Continente and Pingo Doce products count as in the decisions files, and Lidl's
+    as the model judged them for the list's rule.
+    Returns {"markdown", "summary", "comparison", "plans", "choice", "assignment", "costs", "notes", "sources",
+    "rejected"}: rejected lists (item, store, product, reason) for products a verdict ruled out."""
 
     # Online shops (Continente, Pingo Doce): every accepted product per item, already tagged with the item.
     # A shop without any price file yet is left out of the comparison.
@@ -241,8 +244,8 @@ def main() -> None:
     l_date, lidl = latest("lidl")
 
     lidl_rows = lidl_offer_rows(lidl, today, use_plus)
-    use_llm = "--no-llm" not in sys.argv
-    if use_llm:
+    rejected: list[tuple[str, str, str, str]] = []
+    if use_llm and verdict is None:
         from llm_match import PROMPT_VERSION, load_cache, lookup
         llm_cache = load_cache()
     unchecked, dropped = 0, 0
@@ -270,7 +273,20 @@ def main() -> None:
         rows = [r | {"store": label} for label, rs in shop_rows.items() for r in rs if r.get("item") == name]
         l_rows = candidates(lidl_rows, name, it.get("exclude") or "")
         l_rows += candidates(history, name, it.get("exclude") or "")
-        if use_llm:
+        if verdict is not None:
+            # one person's view: their overrides, then the model's answer for their rule, for every store
+            kept_rows, kept_lidl = [], []
+            for group, out in ((rows, kept_rows), (l_rows, kept_lidl)):
+                for r in group:
+                    ok, reason = verdict(r["store"], it, r["name"], r.get("product_id", ""))
+                    if ok is False:
+                        dropped += r["store"] == "Lidl"
+                        rejected.append((name, r["store"], r["name"], reason))
+                        continue
+                    unchecked += ok is None
+                    out.append(r)
+            rows, l_rows = kept_rows, kept_lidl
+        elif use_llm:
             # Lidl's candidates are never reviewed by me: keep only what the model judged a match
             # (src/llm_match.py lidl). Unjudged ones are kept and counted, so a failed check is visible.
             kept = []
@@ -389,7 +405,7 @@ def main() -> None:
     lines += ["", "Costs are unit price × quantity and ignore pack rounding. Continente and Pingo Doce prices are "
               "online prices. Lidl prices are this week's lidl.pt offers, otherwise a regular price: my own record, "
               "or the price lidl.pt showed before an earlier offer (the product may have been a limited-time item)."]
-    if use_llm:
+    if use_llm and verdict is None:
         lines += ["", f"Lidl candidates checked by Claude Haiku 5.5 (prompt {PROMPT_VERSION}, 93% right on a "
                   f"held-out store): {dropped} rejected"
                   + (f", {unchecked} NOT checked (run: python src/llm_match.py lidl)" if unchecked else "") + "."]
@@ -397,16 +413,40 @@ def main() -> None:
         # dict.fromkeys: the same Lidl product can come as this week's offer and as a remembered price
         lines += ["", "Notes:"] + [f"- {n}" for n in dict.fromkeys(notes)]
 
-    report = "\n".join(lines)
+    choice = min(plans, key=plans.get) if plans else None
+    if choice:
+        for row in comparison:
+            row["chosen"] = "yes" if assignment[choice].get(row["item"]) == row["store"] else ""
+    return {"markdown": "\n".join(lines),
+            "summary": summary(plans, assignment, costs, unpriced, trip_cost, dropped if use_llm else 0),
+            "comparison": comparison, "plans": plans, "choice": choice, "assignment": assignment, "costs": costs,
+            "notes": list(dict.fromkeys(notes)), "sources": sources, "lidl_date": l_date, "rejected": rejected,
+            "unchecked": unchecked, "unpriced": unpriced}
+
+
+def main() -> None:
+    """--user NAME: that person's list (data/users/NAME), with their overrides and the model's verdicts.
+    Without it: data/shopping/list.csv as before (since the app, that is every item on anyone's list)."""
+    today = date.today().isoformat()
+    verdict = None
+    if "--user" in sys.argv:
+        import lists
+        user = sys.argv[sys.argv.index("--user") + 1]
+        items = lists.load_list(user)
+        if not items:
+            sys.exit(f"No list for '{user}' in data/users/")
+        verdict = lists.verdict_for(user)
+    else:
+        with open(LIST, encoding="utf-8") as f:
+            items = [r for r in csv.DictReader(f) if (r.get("item") or "").strip()]
+    result = compute(items, today, trip_cost=arg_value("--trip-cost", 3.0), use_plus="--no-lidl-plus" not in sys.argv,
+                     use_llm="--no-llm" not in sys.argv, verdict=verdict)
+    report, comparison = result["markdown"], result["comparison"]
     print(report)
     REPORTS.mkdir(parents=True, exist_ok=True)
     (REPORTS / f"{today}.md").write_text(report + "\n", encoding="utf-8")
     # machine-readable twin of the table, for the price history (src/history.py): which product counted for
     # each item at each store, and whether the recommended plan buys it there
-    if plans:
-        at = assignment[min(plans, key=plans.get)]
-        for row in comparison:
-            row["chosen"] = "yes" if at.get(row["item"]) == row["store"] else ""
     with open(REPORTS / f"{today}.csv", "w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=["item", "quantity", "unit", "store", "unit_price", "cost", "product",
                                           "source", "chosen"])

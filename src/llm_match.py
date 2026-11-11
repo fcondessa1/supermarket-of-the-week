@@ -177,14 +177,16 @@ def ask(client, model_id: str, batch: list[dict]) -> tuple[dict[int, dict], dict
     return answers, usage
 
 
-def judge(todo: list[dict], model: str, cache: dict) -> None:
+def judge(todo: list[dict], model: str, cache: dict) -> tuple[list[dict], float]:
     """Ask the model about every case not yet in the cache (grouped per item, BATCH per request), and append
-    the answers to the cache. Prints the measured cost from the API's token counts."""
+    the answers to the cache. Prints the measured cost from the API's token counts.
+    Returns the new cache entries and the cost in dollars (the app pushes the entries and keeps a daily cap)."""
     model_id, price_in, price_out = MODELS[model]
     if not os.environ.get("ANTHROPIC_API_KEY"):
-        sys.exit("ANTHROPIC_API_KEY is not set. Add it as a Codespaces / Actions secret.")
+        raise RuntimeError("ANTHROPIC_API_KEY is not set. Add it as a Codespaces / Actions / Streamlit secret.")
     import anthropic
     client = anthropic.Anthropic()
+    new: list[dict] = []
     groups: dict[str, list[dict]] = {}
     for c in todo:
         groups.setdefault(c["item"], []).append(c)
@@ -204,11 +206,13 @@ def judge(todo: list[dict], model: str, cache: dict) -> None:
                          "item": c["item"], "name": c["name"],
                          "match": a["match"] if a else None, "reason": a["reason"] if a else "no answer"}
                 cache[entry["key"]] = entry
+                new.append(entry)
                 f.write(json.dumps(entry, ensure_ascii=False) + "\n")
             print(f"  request {n}/{len(batches)}: {len(batch)} products, {usage['input']} in / {usage['output']} out tokens")
             time.sleep(0.5)
-    print(f"measured cost: {used_in:,} input + {used_out:,} output tokens "
-          f"= ${used_in / 1e6 * price_in + used_out / 1e6 * price_out:.4f}")
+    cost = used_in / 1e6 * price_in + used_out / 1e6 * price_out
+    print(f"measured cost: {used_in:,} input + {used_out:,} output tokens = ${cost:.4f}")
+    return new, cost
 
 
 def lookup(cache: dict, item: str, rule: str, name: str, model: str = "haiku") -> dict | None:
