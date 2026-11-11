@@ -1,4 +1,4 @@
-# Every Tuesday: fetch this week's Continente, Pingo Doce and Lidl prices, write the recommendation,
+# Every Tuesday: fetch this week's Continente, Pingo Doce and Lidl prices for everyone's lists, write the recommendation,
 # commit the price files and report (the price history), and post the report as a GitHub issue.
 # Also runs on demand: Actions tab -> "Weekly prices" -> "Run workflow".
 name: Weekly prices
@@ -31,8 +31,29 @@ jobs:
 
       - run: pip install -r requirements.txt
 
-      # A blocked or broken store must not stop the other one: each fetch may fail,
-      # and the report says which one did.
+      # Everyone's lists (data/users/, written by the app) decide what gets priced. Order: catalogues and
+      # lidl.pt first (they are the candidates), then the model judges every new candidate for each person's
+      # rule, then the two online shops are priced for the products that count for someone.
+      # A blocked or broken store must not stop the others: each step may fail, and the report says which did.
+      - name: Catalogues
+        id: catalogues
+        continue-on-error: true
+        run: |
+          python src/catalogue.py continente build
+          python src/catalogue.py pingodoce build
+
+      - name: Lidl prices
+        id: lidl
+        continue-on-error: true
+        run: python src/fetch_lidl_online.py
+
+      - name: Products for everyone's lists (model judges new candidates)
+        id: llm
+        continue-on-error: true
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python src/lists.py build
+
       - name: Continente prices
         id: continente
         continue-on-error: true
@@ -45,36 +66,19 @@ jobs:
         id: pingodoce
         continue-on-error: true
         run: |
-          if [ ! -f data/shopping/pingodoce_products.csv ]; then
-            echo "No Pingo Doce products reviewed yet: run 'python src/catalogue.py pingodoce review'"; exit 0
-          fi
           if [ "$(date +%d)" -le 7 ]; then python src/fetch_pingodoce_online.py --recheck
           else python src/fetch_pingodoce_online.py; fi
 
-      - name: Lidl prices
-        id: lidl
-        continue-on-error: true
-        run: python src/fetch_lidl_online.py
-
-      # Lidl's offers are never reviewed by me: Claude Haiku judges each candidate (93% right on a held-out
-      # store, under 1 cent a week). Without the secret, the report says the candidates weren't checked.
-      - name: Check Lidl candidates with the model
-        id: llm
-        continue-on-error: true
-        env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: |
-          if [ -z "$ANTHROPIC_API_KEY" ]; then echo "No ANTHROPIC_API_KEY secret: Lidl candidates not checked"; exit 0; fi
-          python src/llm_match.py lidl
-
       - name: Recommendation
         run: |
-          python src/recommend.py --trip-cost "${{ inputs.trip_cost || '3' }}"
+          # the issue is the owner's list (repository variable OWNER, else the first person in data/users)
+          OWNER="${{ vars.OWNER }}"; OWNER="${OWNER:-$(ls data/users | head -1)}"
+          python src/recommend.py --user "$OWNER" --trip-cost "${{ inputs.trip_cost || '3' }}"
           REPORT="data/reports/$(date +%F).md"
           {
             echo
             echo "---"
-            echo "Run: Continente fetch ${{ steps.continente.outcome }}, Pingo Doce fetch ${{ steps.pingodoce.outcome }}, Lidl fetch ${{ steps.lidl.outcome }}, model check ${{ steps.llm.outcome }}."
+            echo "Run: Continente fetch ${{ steps.continente.outcome }}, Pingo Doce fetch ${{ steps.pingodoce.outcome }}, Lidl fetch ${{ steps.lidl.outcome }}, catalogues ${{ steps.catalogues.outcome }}, product lists and model ${{ steps.llm.outcome }}. Other people's reports: in the app."
             echo "If a fetch failed, its prices above are from an earlier week. Log: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           } >> "$REPORT"
           echo "REPORT=$REPORT" >> "$GITHUB_ENV"
@@ -84,7 +88,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898732+github-actions[bot]@users.noreply.github.com"
           # the price runs also mark products that are no longer sold online as "unavailable"
-          git add data/prices data/reports data/shopping/*_products.csv data/llm
+          git add data/prices data/reports data/shopping data/llm data/catalogue
           git diff --cached --quiet || git commit -m "Weekly prices and recommendation $(date +%F)"
           # The run takes ~20 minutes; if I pushed meanwhile, put this commit on top of mine and retry.
           # (2026-11-03: the first run's push was rejected for exactly this reason.)
