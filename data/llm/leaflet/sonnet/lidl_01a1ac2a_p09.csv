@@ -1,0 +1,10 @@
+offer,name,brand,size,price,price_per,regular_price,unit_price,unit_price_per,condition,discount_text,notes
+1,Queijo Ralado 4 Queijos XXL,Milbona,400 g,2.99,unit,,7.48,kg,none,-16%*,Stock limitado
+2,Iogurte Líquido 0% de Frutos Silvestres,Danone Activia,8x155 g,3.89,unit,6.29,3.14,kg,none,-38%,Stock limitado; pack
+3,Bacon em Cubos,Fumadinho,2x75 g,1.29,unit,1.69,8.60,kg,none,-23%,Sempre disponível
+4,Manteiga com Sal,Milhafre,250 g,2.19,unit,2.49,8.76,kg,none,-12%,Sempre disponível
+5,Creme Vegetal para Cozinhar,Vaqueiro,1 kg,2.99,unit,4.99,,,none,-40%,Sempre disponível
+6,Nuggets de Frango,Iglo,"1,042 kg",12.99,unit,25.99,12.47,kg,none,-50%,Sempre disponível; Mega Pack Até -50%
+7,Massa Quebrada,Chef Select & You,230 g,0.69,unit,0.99,3.00,kg,app,-30%,Com Lidl Plus; cada emb.
+8,Peito de Peru Fatiado Finíssimo,Fumadinho,150 g,1.49,unit,1.99,9.93,kg,app,-25%,Com Lidl Plus
+9,Queijo Flamengo em Fatias,Milbona,275 g,1.99,unit,2.49,7.24,kg,app,-20%,Com Lidl Plus

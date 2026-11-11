@@ -1,0 +1,10 @@
+offer,name,brand,size,price,price_per,regular_price,unit_price,unit_price_per,condition,discount_text,notes
+1,Queijo Ralado 4 Queijos XXL,Milbona,Emb. 400 g,2.99,unit,,7.48,kg,none,-16%*,
+2,Iogurte Líquido 0% de Frutos Silvestres,Danone Activia,Pack 8x155 g,3.89,unit,6.29,3.14,kg,none,-38%,
+3,Bacon em Cubos,Fumadinho,Emb. 2x75 g,1.29,unit,1.69,8.60,kg,none,-23%,
+4,Manteiga com Sal,Milhafre,Emb. 250 g,2.19,unit,2.49,8.76,kg,none,-12%,
+5,Creme Vegetal para Cozinhar,Vaqueiro,Emb. 1 kg,2.99,unit,4.99,,,none,-40%,
+6,Nuggets de Frango,Iglo,Emb. 1.042 kg,12.99,unit,25.99,12.47,kg,none,-50%,
+7,Massa Quebrada,Chef Select & You,Cada emb. 230 g,0.69,unit,0.99,3.00,kg,app,-30%,
+8,Peito de Peru Fatiado Finíssimo,Fumadinho,Emb. 150 g,1.49,unit,1.99,9.93,kg,app,-25%,
+9,Queijo Flamengo em Fatias,Milbona,Emb. 275 g,1.99,unit,2.49,7.24,kg,app,-20%,

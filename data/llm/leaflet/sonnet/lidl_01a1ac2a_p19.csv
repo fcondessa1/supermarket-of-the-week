@@ -1,0 +1,10 @@
+offer,name,brand,size,price,price_per,regular_price,unit_price,unit_price_per,condition,discount_text,notes
+1,Calendário Advento,Milka,200 g,9.29,unit,14.99,46.45,kg,none,-38%,Stock limitado
+2,Bombons Sortido de Natal/ Caramelo Salgado e Estrelas de Natal/ Línguas de Gato e Azevinhos,Arcadia,160 g,8.89,unit,11.49,55.56,kg,none,-22%,varieties; Stock limitado
+3,Surpresa Maxi,Kinder,220 g,14.99,unit,,68.14,kg,none,,Stock limitado
+4,Chocolates Frutos do Mar,Guylian,125 g,4.59,unit,6.19,36.72,kg,none,-25%,Stock limitado
+5,Calendário do Advento,Guylian,247 g,14.99,unit,19.99,60.69,kg,none,-25%,Stock limitado
+6,Bombons,Ferrero Rocher,300 g,7.99,unit,10.69,26.63,kg,none,-25%,Stock limitado
+7,Bombons,Ferrero Rocher,375 g,8.19,unit,10.99,21.84,kg,none,-25%,Stock limitado
+8,Bombons,Mon Chéri,315 g,7.49,unit,9.99,23.78,kg,none,-25%,Stock limitado
+9,Bombons Lata,Raffaello,300 g,9.69,unit,12.99,32.30,kg,none,-25%,Stock limitado

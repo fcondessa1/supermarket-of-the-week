@@ -1,0 +1,36 @@
+page,what,product,mine,model
+lidl_01a1ac2a_p12.csv,unit_price,Roti de Bovino Recheado com Cebola Caramelizada e Bacon,19.99,
+lidl_01a1ac2a_p12.csv,size,Roti de Bovino Recheado com Cebola Caramelizada e Bacon,1 kg,
+lidl_01a1ac2a_p12.csv,unit_price,Perna de Borrego,13.99,
+lidl_01a1ac2a_p12.csv,size,Perna de Borrego,1 kg,
+lidl_01a1ac2a_p12.csv,price,Hamburger de Bovino com Cebola,unit,3.99
+lidl_01a1ac2a_p12.csv,price_per,Hamburger de Bovino com Cebola,,unit
+lidl_01a1ac2a_p12.csv,regular_price,Hamburger de Bovino com Cebola,13.30,
+lidl_01a1ac2a_p12.csv,unit_price,Hamburger de Bovino com Cebola,kg,13.30
+lidl_01a1ac2a_p12.csv,condition,Hamburger de Bovino com Cebola,,none
+lidl_01a1ac2a_p19.csv,invented,Bombons,,7.49
+lidl_01a1ac2a_p19.csv,invented,Bombons Lata,,9.69
+lidl_01a1ac2a_p25.csv,price_per,Arroz Basmati Premium,kg,unit
+lidl_01a1ac2a_p25.csv,price,Nestum Cereais de Espelta e Aveia Zero +3A,unit,2.24
+lidl_01a1ac2a_p25.csv,price_per,Nestum Cereais de Espelta e Aveia Zero +3A,2.99,unit
+lidl_01a1ac2a_p25.csv,regular_price,Nestum Cereais de Espelta e Aveia Zero +3A,8.96,2.99
+lidl_01a1ac2a_p25.csv,unit_price,Nestum Cereais de Espelta e Aveia Zero +3A,kg,8.96
+lidl_01a1ac2a_p25.csv,condition,Nestum Cereais de Espelta e Aveia Zero +3A,-25%,none
+lidl_01a1ac2a_p25.csv,size,Nestum Cereais de Espelta e Aveia Zero +3A,2.24,250 g
+lidl_01a1ac2a_p25.csv,brand,Nestum Cereais de Espelta e Aveia Zero +3A,250g,Nestlé
+lidl_01a1ac2a_p25.csv,price,Atum em Azeite,unit,3.25
+lidl_01a1ac2a_p25.csv,price_per,Atum em Azeite,3.65,unit
+lidl_01a1ac2a_p25.csv,regular_price,Atum em Azeite,7.39,3.65
+lidl_01a1ac2a_p25.csv,unit_price,Atum em Azeite,kg,7.39
+lidl_01a1ac2a_p25.csv,condition,Atum em Azeite,-10%,none
+lidl_01a1ac2a_p25.csv,size,Atum em Azeite,3.24,4x110 g
+lidl_01a1ac2a_p25.csv,brand,Atum em Azeite,4x110 g,
+lidl_01a1ac2a_p25.csv,price,Arroz Basmati Pronto a Comer,unit,1.35
+lidl_01a1ac2a_p25.csv,price_per,Arroz Basmati Pronto a Comer,1.55,unit
+lidl_01a1ac2a_p25.csv,regular_price,Arroz Basmati Pronto a Comer,5.40,1.55
+lidl_01a1ac2a_p25.csv,unit_price,Arroz Basmati Pronto a Comer,kg,5.40
+lidl_01a1ac2a_p25.csv,condition,Arroz Basmati Pronto a Comer,-12%,none
+lidl_01a1ac2a_p25.csv,size,Arroz Basmati Pronto a Comer,1.35,2x125 g
+lidl_01a1ac2a_p25.csv,brand,Arroz Basmati Pronto a Comer,2x125 g,Cigala
+lidl_01a1ac2a_p25.csv,missed,Nestum Cereias Pro,unit,
+lidl_01a1ac2a_p25.csv,invented,Nestum Cereais Pro,,2.49
