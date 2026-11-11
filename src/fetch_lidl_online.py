@@ -31,7 +31,7 @@ from zoneinfo import ZoneInfo
 
 import requests
 
-from continente_catalogue import candidates as match_candidates, normalise, tokens
+from catalogue import candidates as match_candidates, normalise, tokens
 from fetch_continente_online import drained_size_text, parse_size
 
 SITEMAP = "https://www.lidl.pt/p/export/PT/pt/product_sitemap.xml.gz"

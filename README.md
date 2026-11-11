@@ -22,7 +22,7 @@ Where the prices come from depends on what each store publishes:
 |---|---|---|---|
 | Continente | Continente Online product pages | Gives the current price, the price before discount, the promotion's end date and pack size for every product, not only promoted ones | Working |
 | Lidl | lidl.pt product pages for this week's offers; regular prices from lidl.pt's "price before offer" in past weeks, plus a small table I keep by hand | lidl.pt lists only offers (248 products on 27 Oct 2026), not the regular range: no basmati rice, although Lidl sells it | Working |
-| Pingo Doce | Pingo Doce Online product pages | Same platform as Continente, so the catalogue, review and weekly run are shared; only reading a page differs. `robots.txt` allows product pages | Working since 3 Nov 2026 |
+| Pingo Doce | Pingo Doce Online product pages | Same platform as Continente, so the catalogue and weekly run are shared; only reading a page differs. `robots.txt` allows product pages | Working since 3 Nov 2026 |
 | Intermarché | — | `robots.txt` disallows automated access | Not used |
 
 **Known limitation:** Lidl doesn't publish regular prices online. Two substitutes, both labelled in the report and flagged after 60 days:
@@ -231,46 +231,34 @@ The weekly run doesn't read leaflets: lidl.pt gives this week's offers as data, 
 
 ## Run it
 
-Requires Python 3.10+.
+Requires Python 3.10+. Day to day, nothing needs running: the app is the interface and the Tuesday run does the rest.
 
 ```bash
 pip install -r requirements.txt
 
-# Continente: catalogue (rebuild occasionally), review new products for my list, this week's prices
-python src/continente_catalogue.py build
-python src/continente_catalogue.py review
-python src/fetch_continente_online.py            # add --recheck about once a month
+# The app, locally (users in .streamlit/secrets.toml, which is never committed)
+streamlit run src/app.py
 
-# Pingo Doce: the same steps
+# What the Tuesday run does (.github/workflows/weekly.yml), by hand
+python src/catalogue.py continente build
 python src/catalogue.py pingodoce build
-python src/catalogue.py pingodoce review
+python src/fetch_lidl_online.py                       # this week's lidl.pt offers
+python src/lists.py build                             # products that count for everyone's lists (model + overrides)
+python src/fetch_continente_online.py                 # add --recheck about once a month
 python src/fetch_pingodoce_online.py
-
-# Lidl: this week's offers from lidl.pt
-python src/fetch_lidl_online.py
-
-# LLM matching: score against my decisions (Continente = tuning set, Pingo Doce = held-out)
-python src/llm_match.py eval continente --dry-run     # case count and cost estimate, no API calls
-python src/llm_match.py eval pingodoce --model haiku  # needs ANTHROPIC_API_KEY
+python src/recommend.py --user fcondessa1             # report for one person: data/reports/<date>.md and .csv
 
 # Price history (all weekly files, as SQL tables)
 python src/history.py report
 
-# Where to shop (writes data/reports/<date>.md and .csv)
-python src/recommend.py                          # --trip-cost 5, --no-lidl-plus
+# Evaluations (see the sections above)
+python src/llm_match.py eval pingodoce --model haiku  # product matching vs my decisions; --dry-run for cost only
+python src/leaflet_extract.py score --model haiku     # leaflet reading vs my labels and lidl.pt
+python src/sql_eval.py check                          # reference answers for the price-history questions
 
-# Leaflet experiment (labels first: make_offer_labels.py new / check)
-python src/leaflet_extract.py estimate
-python src/leaflet_extract.py run --model haiku
-python src/leaflet_extract.py score --model haiku
-
-# Leaflets
+# Leaflets and the page filter (Lidl)
 python src/fetch_lidl.py
-python src/fetch_continente.py
-
-# Page filter (Lidl): label a leaflet's pages by hand, then predict and score
 FLYER=data/raw/lidl/<flyer id>
-python src/classify_pages.py template $FLYER
 python src/classify_pages.py auto $FLYER
 python src/classify_pages.py eval $FLYER
 ```
@@ -278,32 +266,30 @@ python src/classify_pages.py eval $FLYER
 ## Repository layout
 
 ```
-.github/workflows/weekly.yml    every Tuesday: prices, recommendation, commit, report as an issue
-src/catalogue.py                catalogue from a store's sitemaps (continente, pingodoce); review which products count as each item
-src/continente_catalogue.py     the same for Continente (older commands)
-src/fetch_pingodoce_online.py   weekly Pingo Doce prices: reads its product pages, reuses Continente's run
-src/fetch_continente_online.py  weekly prices, unit prices and checks for accepted products
-src/fetch_lidl_online.py        this week's Lidl offers from lidl.pt (decodes the pages' Nuxt data)
-src/recommend.py                cheapest store per item, plans, and the recommendation (compute() is used by the app)
+.github/workflows/weekly.yml    every Tuesday: catalogues, product lists, prices, recommendation, issue
 src/app.py                      the app (Streamlit): sign in, list, which products count, where to shop
 src/lists.py                    everyone's lists and overrides; weekly: products to price from all lists
-data/users/<name>/              each person's list.csv and overrides.csv (written by the app)
-src/llm_match.py                LLM judgement of product matches, evaluated against my decisions
+src/catalogue.py                store catalogues from the sitemaps (continente, pingodoce), and word matching
+src/llm_match.py                the model's product judgements, and their evaluation against my decisions
+src/fetch_continente_online.py  weekly Continente prices, unit prices and checks
+src/fetch_pingodoce_online.py   weekly Pingo Doce prices: reads its product pages, reuses Continente's run
+src/fetch_lidl_online.py        this week's Lidl offers from lidl.pt (decodes the pages' Nuxt data)
+src/recommend.py                cheapest store per item, plans, and the recommendation (compute() is used by the app)
 src/history.py                  price history as SQL tables (DuckDB): standing analyses and ad-hoc queries
-data/llm/                       cached model answers and one evaluation file per store, model and prompt version
-data/shopping/lidl_regular.csv  Lidl regular prices I record by hand (lidl.pt doesn't publish them)
-data/prices/lidl/               one Lidl price file per run (committed)
-data/reports/                   one recommendation per run (committed)
+src/sql_eval.py                 questions about the price history, with reference SQL (model run to come)
 src/fetch_lidl.py               download Lidl leaflet metadata and page images
-src/fetch_continente.py         download Continente leaflet page text, product hotspots and page images
-src/classify_pages.py           page filter: label template, keyword-rule predictions, evaluation
+src/classify_pages.py           page filter: keyword-rule predictions and evaluation
 src/make_offer_labels.py        blank offer-label files per leaflet page, and a format check
 src/leaflet_extract.py          one-off: a vision model reads labelled leaflet pages; scored against my labels and lidl.pt
-data/shopping/list.csv          my list: item (plain words; ^ = first word anchored), quantity, unit, exclude, notes
-data/shopping/<store>_products.csv      my decisions: which products count as each item
-data/prices/continente/         one price file per run (committed: the price history)
+data/users/<name>/              each person's list.csv and overrides.csv (written by the app)
+data/catalogue/                 the stores' catalogues (names, IDs, URLs; rebuilt weekly)
+data/shopping/                  generated weekly from everyone's lists: items and products to price;
+                                plus lidl_regular.csv, Lidl regular prices I record by hand
+data/prices/<store>/            one price file per run (the price history)
+data/reports/                   one recommendation per run (the owner's list)
+data/llm/                       cached model answers, evaluation results, the price-history questions
 data/labels/                    my hand labels and the predictions they are scored against
-data/raw/, data/catalogue/      downloads (not committed; leaflet images are the stores' material)
+data/raw/                       leaflet downloads (not committed: leaflet images are the stores' material)
 ```
 
 ## Responsible use

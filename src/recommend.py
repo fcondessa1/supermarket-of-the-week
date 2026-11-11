@@ -288,7 +288,7 @@ def compute(items: list[dict], today: str, trip_cost: float = 3.0, use_plus: boo
             rows, l_rows = kept_rows, kept_lidl
         elif use_llm:
             # Lidl's candidates are never reviewed by me: keep only what the model judged a match
-            # (src/llm_match.py lidl). Unjudged ones are kept and counted, so a failed check is visible.
+            # (src/lists.py build). Unjudged ones are kept and counted, so a failed check is visible.
             kept = []
             for r in l_rows:
                 a = lookup(llm_cache, name, (it.get("rule") or "").strip(), r["name"])
@@ -408,7 +408,7 @@ def compute(items: list[dict], today: str, trip_cost: float = 3.0, use_plus: boo
     if use_llm and verdict is None:
         lines += ["", f"Lidl candidates checked by Claude Haiku 5.5 (prompt {PROMPT_VERSION}, 93% right on a "
                   f"held-out store): {dropped} rejected"
-                  + (f", {unchecked} NOT checked (run: python src/llm_match.py lidl)" if unchecked else "") + "."]
+                  + (f", {unchecked} NOT checked (run: python src/lists.py build)" if unchecked else "") + "."]
     if notes:
         # dict.fromkeys: the same Lidl product can come as this week's offer and as a remembered price
         lines += ["", "Notes:"] + [f"- {n}" for n in dict.fromkeys(notes)]

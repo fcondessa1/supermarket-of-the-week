@@ -3,14 +3,13 @@
 The word rules (catalogue.py) find candidates: every product whose name has all the item's words and none of
 its excluded phrases. They let through things I don't mean: "mirtilos congelados" and "mirtilos vermelhos"
 (cranberries) for "mirtilo". For Continente and Pingo Doce I review those once; Lidl's offers change every
-week and are never reviewed. This script asks a model to judge each candidate, and scores it against my
+week and are never reviewed. (In use: src/lists.py, for every store and person.) This script asks a model to judge each candidate, and scores it against my
 decisions, to find out whether it can be trusted where I don't review.
 
 Usage:
     python src/llm_match.py eval continente --dry-run          # count cases and estimate the cost, no API calls
     python src/llm_match.py eval continente --model haiku      # dev set: tune the prompt here
     python src/llm_match.py eval pingodoce --model haiku       # held-out test set: score once, don't tune on it
-    python src/llm_match.py lidl                               # in use: judge this week's Lidl candidates (Haiku)
     (--model sonnet for the larger model)
 
 The model sees each item's words and its `rule` column in data/shopping/list.csv, never `notes`.
@@ -220,37 +219,6 @@ def lookup(cache: dict, item: str, rule: str, name: str, model: str = "haiku") -
     return cache.get(cache_key(MODELS[model][0], {"item": item, "exclude": "", "rule": rule, "name": name}))
 
 
-def cmd_lidl(model: str) -> None:
-    """Judge this week's Lidl candidates: the offers valid today and the remembered regular prices that the word
-    rules and my exclusions let through for each list item. These are never reviewed by me, so this is where the
-    model is used. recommend.py then drops what it rejects and lists it in the report."""
-    from datetime import date
-    from recommend import latest, lidl_history_regular, lidl_offer_rows   # here, to avoid a circular import
-    today = date.today().isoformat()
-    _, lidl = latest("lidl")
-    offers = lidl_offer_rows(lidl, today, use_plus=True)
-    history, _ = lidl_history_regular(today)
-    cache = load_cache()
-    found, todo = [], []
-    for it in load_list():
-        item, exclude, rule = it["item"].strip(), (it.get("exclude") or "").strip(), (it.get("rule") or "").strip()
-        names = sorted({r["name"] for r in candidates(offers, item, exclude) + candidates(history, item, exclude)})
-        for name in names:
-            c = {"item": item, "exclude": "", "rule": rule, "name": name}
-            found.append(c)
-            if cache_key(MODELS[model][0], c) not in cache:
-                todo.append(c)
-    print(f"Lidl: {len(found)} candidates for {len({c['item'] for c in found})} items; {len(todo)} not judged yet")
-    if todo:
-        judge(todo, model, cache)
-    for c in found:
-        a = lookup(cache, c["item"], c["rule"], c["name"], model)
-        verdict = "no answer" if a is None or a["match"] is None else ("match" if a["match"] else "REJECTED")
-        print(f"  {verdict:9} {c['item'][:28]:28} {c['name'][:50]:50} | {(a or {}).get('reason', '')}")
-
-
-# ---------- eval ----------
-
 def cmd_eval(store: str, model: str, dry_run: bool) -> None:
     model_id, price_in, price_out = MODELS[model]
     all_cases = cases(store)
@@ -330,9 +298,7 @@ def cmd_eval(store: str, model: str, dry_run: bool) -> None:
 
 def main() -> None:
     args = sys.argv[1:]
-    if args[:1] == ["lidl"]:
-        cmd_lidl("haiku")
-    elif len(args) >= 2 and args[0] == "eval" and args[1] in ("continente", "pingodoce"):
+    if len(args) >= 2 and args[0] == "eval" and args[1] in ("continente", "pingodoce"):
         model = args[args.index("--model") + 1] if "--model" in args else "haiku"
         if model not in MODELS:
             sys.exit(f"--model must be one of {', '.join(MODELS)}")

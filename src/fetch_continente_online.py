@@ -5,7 +5,7 @@ Usage:
     python src/fetch_continente_online.py            # add --recheck about once a month
     (Pingo Doce, same platform: python src/fetch_pingodoce_online.py, which reuses this run.)
 
-Input:  data/shopping/continente_products.csv (accepted products, from `continente_catalogue.py review`)
+Input:  data/shopping/continente_products.csv (products that count for someone's list: `python src/lists.py build`)
 Output: data/prices/continente/<YYYY-MM-DD>.csv, one row per product, and a summary per item.
 
 Where each number comes from (checked on 2026-10-20 on product 4676679, Pescanova Supremas):
@@ -302,7 +302,7 @@ def main(store: str = "continente", parse_page=None, label: str = "Continente") 
     products = Path(f"data/shopping/{store}_products.csv")
     out_dir = Path(f"data/prices/{store}")
     parse_page = parse_page or parse_product_page
-    review = f"python src/catalogue.py {store} review"
+    review = "python src/lists.py build"
     if not products.exists():
         sys.exit(f"{products} not found. Run: {review}")
     with open(products, encoding="utf-8") as f:

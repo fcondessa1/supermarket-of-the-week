@@ -3,3 +3,4 @@ data/raw/
 __pycache__/
 .venv/
 .streamlit/secrets.toml
+scratch/

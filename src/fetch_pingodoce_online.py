@@ -4,7 +4,7 @@ Usage:
     python src/fetch_pingodoce_online.py               # add --recheck about once a month
     python src/fetch_pingodoce_online.py --test FILE   # parse a saved product page, no requests
 
-Input:  data/shopping/pingodoce_products.csv (accepted products, from `python src/catalogue.py pingodoce review`)
+Input:  data/shopping/pingodoce_products.csv (products that count for someone's list: `python src/lists.py build`)
 Output: data/prices/pingodoce/<YYYY-MM-DD>.csv, same columns as Continente's price files.
 
 The run itself (which products, redirects, checks, summary) is Continente's: both shops are built on
