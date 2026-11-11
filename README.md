@@ -4,7 +4,7 @@ Tells me where to do this week's shopping. For each item on my list ("leite meio
 
 I built it because I use it. It is also a portfolio project: the parts that matter are measured against data I checked by hand, and the failures are documented next to the fixes.
 
-> **Status (2026-11-05):** Working end to end for Continente, Pingo Doce and Lidl: prices for every product that matches my list, compared per kg/L/unit across brands and stores, and a weekly recommendation (one store, or a split across two if it beats the trip cost). A GitHub Action runs it every Tuesday, commits the prices and posts the report as an issue. An LLM judges whether a product is what I need, scored at 93% on a held-out store (word rules: 90%). It now checks Lidl's offers in the weekly run, where nobody reviews matches. Dropped: reading the leaflets with a vision model (see below).
+> **Status (2026-11-11):** Working end to end for Continente, Pingo Doce and Lidl: prices for every product that matches my list, compared per kg/L/unit across brands and stores, and a weekly recommendation (one store, or a split across two if it beats the trip cost). A GitHub Action runs it every Tuesday, commits the prices and posts the report as an issue. An LLM judges whether a product is what I need, scored at 93% on a held-out store (word rules: 90%). It now checks Lidl's offers in the weekly run, where nobody reviews matches. A one-off experiment found that Claude Haiku 5.5 reads Lidl leaflet pages almost perfectly (38 of 38 offers, prices 37/38) for $0.0055 for 5 pages; the weekly run uses lidl.pt instead (see below).
 
 ## How it works
 
@@ -133,6 +133,7 @@ Why not fetch the price of every catalogue product: that would be one ~1.6 MB pa
 | Page filter v1: recall and precision | Hand labels, all 43 pages of the Lidl leaflet of 19–25 Oct 2026 (dev set) | Recall 0.97 (29 of 30 grocery pages kept), precision 0.88; 10 of 43 pages skipped |
 | Page filter v2 | Hand labels, Lidl leaflet of 12–18 Oct 2026 (held-out test set, 40 pages) | Recall 0.96 (27 of 28), precision 0.90; 10 of 40 pages skipped |
 | Page filter v3 | — | Not scored: leaflet extraction dropped |
+| Leaflet reading: Haiku 5.5 and Sonnet 5.5 vs my labels | 5 random pages, 38 offers, Lidl leaflet 9–15 Nov 2026 | **38/38 offers found, 0 invented, prices 37/38**; 26/26 prices agree with lidl.pt (first score, before label fixes: 35/36, prices 31/35) |
 | Product matching: LLM (Haiku 5.5, prompt v4) vs word rules | My decisions on 106 Pingo Doce products (held-out) | **93% right vs 90%**; 16 of 17 wrong products caught; 6 of 89 good ones rejected (see *Matching with an LLM*) |
 
 ### Unit prices: what went wrong and what changed
@@ -174,9 +175,23 @@ Lidl leaflets have many non-food pages, so a free keyword filter on the leaflet'
 - **v3** fixes a general bug: short stems matched longer words ("bolo" matched "bolor", "nata" would match "Natal"). It also adds sweets and drops pet food, which isn't on my list. Both leaflets shaped it, so it is scored on the next unseen one.
 - **Left in on purpose.** Three errors would need rules for single phrases: a charity page whose description omits its products, a pet "bolsa de snacks", and "produtos de limpeza Dirt Devil" (gadgets).
 
-## Why the leaflets aren't read by a model
+## Reading a leaflet page with a vision model (one-off experiment)
 
-The first plan was to read Lidl's weekly leaflet with a vision model and score it against hand labels and lidl.pt. I dropped it: lidl.pt already gives this week's offers as structured data, and Continente Online gives every product's price, so the leaflet would add only in-store-only offers, at an API cost per page and with a model error rate to manage. The leaflet downloaders and the page filter (scored above) stay in the repository as the groundwork, but the weekly run doesn't use them.
+The weekly run doesn't read leaflets: lidl.pt gives this week's offers as data, so the leaflet would add only in-store-only offers. But "can a model read a leaflet as well as I can?" is worth measuring once, so I did (`src/leaflet_extract.py`).
+
+**Set-up.** Lidl leaflet of 9–15 November 2026: 5 pages picked at random (fixed seed) from the pages the page filter kept, labelled by hand (one row per price box: name, brand, size, price, per pack or per kg, price before discount, €/kg, condition such as Lidl Plus, discount badge) and committed before any model run. Each model got the page image and the same labelling guide I used, and returned the same columns as JSON. A second, independent check compares the models' prices with lidl.pt's for the same week.
+
+| | Offers found | Invented | Price | Per pack/kg | Price before discount | €/kg | Condition | Size | Cost (5 pages) |
+|---|---|---|---|---|---|---|---|---|---|
+| **First score** (Haiku 5.5 and Sonnet 5.5, identical except size) | 35 of 36 | 3 | 31/35 | 30/35 | 31/35 | 29/35 | 31/35 | 17/35 Haiku, 26/35 Sonnet | |
+| **After fixing my scorer and labels** (both models) | **38 of 38** | **0** | 37/38 | 37/38 | 37/38 | 38/38 | 38/38 | 37/38 | Haiku $0.0055, Sonnet $0.072 |
+| **lidl.pt check** (both models) | 26 offers found on lidl.pt | | **26/26 same price** | | | | | | |
+
+**Almost every first-score error was mine, not the models'.** The two models disagreed with my labels on exactly the same offers, and lidl.pt agreed with the models; that pattern pointed at the labels:
+- **My labels:** in 5 rows I had left out the brand column, so every later value sat one column off (27 field "errors"). I had missed 2 of 9 price boxes on one page (Mon Chéri, Raffaello), which counted as the model "inventing" them. One name typo ("Cereias") made a correct match look like a miss plus an invention. Two products sold per kg had a size and a unit price that the guide says to leave blank. The label check (`make_offer_labels.py check`) flags all the column shifts; I committed before running it.
+- **My scorer:** it treated "Emb. 275 g" and "275 g" as different sizes (13 of Haiku's size errors, and the whole Haiku–Sonnet gap), and the lidl.pt check compared one Ferrero Rocher pack with the other.
+
+**How much to trust it.** 5 pages and 38 offers is a small sample, and the labels were corrected after seeing the models' answers (the first score stays above for that reason). One page's labels were drafted by Claude and checked by me, and another was reviewed by Claude, which favours a Claude model; the lidl.pt check is the part that doesn't depend on my labels. Within those limits: reading a leaflet page is something a small model does as well as a large one, for under a tenth of a cent per page; the harder part was producing labels accurate enough to measure it.
 
 ## Things the stores' data does that the code has to handle
 
@@ -197,6 +212,7 @@ The first plan was to read Lidl's weekly leaflet with a vision model and score i
 | Page filter | €0 | none (keyword rules) |
 | Weekly GitHub Action | €0 (free minutes, about 20 per run) | the three weekly price runs above |
 | LLM matching evaluation | $0.088 in total for all runs below (Haiku 5.5: under 1 cent per run) | none |
+| Leaflet experiment (5 pages, both models) | $0.078 ($0.0055 Haiku, $0.072 Sonnet) | none |
 
 ## Run it
 
@@ -227,6 +243,11 @@ python src/history.py report
 
 # Where to shop (writes data/reports/<date>.md and .csv)
 python src/recommend.py                          # --trip-cost 5, --no-lidl-plus
+
+# Leaflet experiment (labels first: make_offer_labels.py new / check)
+python src/leaflet_extract.py estimate
+python src/leaflet_extract.py run --model haiku
+python src/leaflet_extract.py score --model haiku
 
 # Leaflets
 python src/fetch_lidl.py
@@ -259,6 +280,7 @@ src/fetch_lidl.py               download Lidl leaflet metadata and page images
 src/fetch_continente.py         download Continente leaflet page text, product hotspots and page images
 src/classify_pages.py           page filter: label template, keyword-rule predictions, evaluation
 src/make_offer_labels.py        blank offer-label files per leaflet page, and a format check
+src/leaflet_extract.py          one-off: a vision model reads labelled leaflet pages; scored against my labels and lidl.pt
 data/shopping/list.csv          my list: item (plain words; ^ = first word anchored), quantity, unit, exclude, notes
 data/shopping/<store>_products.csv      my decisions: which products count as each item
 data/prices/continente/         one price file per run (committed: the price history)
