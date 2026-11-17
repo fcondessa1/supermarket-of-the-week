@@ -434,7 +434,13 @@ def main() -> None:
         user = sys.argv[sys.argv.index("--user") + 1]
         items = lists.load_list(user, active_only=True)
         if not items:
-            sys.exit(f"No list for '{user}' in data/users/")
+            # not an error: someone with an empty list (or nothing ticked) still gets a report, and the weekly
+            # run carries on to commit the prices (2026-11-17: this exited 1 and the week's prices were lost)
+            report = f"# Where to shop, {today}\n\nNothing on {user}'s list for this week.\n"
+            print(report)
+            REPORTS.mkdir(parents=True, exist_ok=True)
+            (REPORTS / f"{today}.md").write_text(report, encoding="utf-8")
+            return
         verdict = lists.verdict_for(user)
     else:
         with open(LIST, encoding="utf-8") as f:
