@@ -1,0 +1,27 @@
+item,quantity,unit,store,unit_price,cost,product,source,chosen
+leite meio gordo sem lactose,6,l,Pingo Doce,0.990,5.94,Leite UHT Meio Gordo sem Lactose,promotion,
+leite meio gordo sem lactose,6,l,Lidl,1.040,6.24,MIMOSA Leite Meio-gordo sem Lactose,offer,
+leite meio gordo sem lactose,6,l,Continente,1.060,6.36,Leite UHT Meio Gordo sem Lactose Gresso,promotion,yes
+atum ao natural,0.48,kg,Continente,7.117,3.42,Atum ao Natural Continente Equilíbrio,regular,yes
+atum ao natural,0.48,kg,Lidl,7.182,3.45,Atum ao Natural,price before offer (lidl.pt),
+atum ao natural,0.48,kg,Pingo Doce,8.809,4.23,Atum ao Natural,promotion,
+arroz basmati,1,kg,Continente,1.738,1.74,Arroz Basmati Pack Poupança Continente,regular,yes
+arroz basmati,1,kg,Pingo Doce,1.790,1.79,Arroz Basmati,promotion,
+arroz basmati,1,kg,Lidl,1.890,1.89,arroz basmati,regular (my table),
+ovos class,12,unit,Continente,0.249,2.99,Ovos de Solo Classe M Continente,regular,yes
+ovos class,12,unit,Pingo Doce,0.249,2.99,Ovos de Solo Classe M,regular,
+ovos class,12,unit,Lidl,0.315,3.78,ovos class,regular (my table),
+peito frango,1,kg,Lidl,5.990,5.99,- Peito de Frango XXL,Lidl Plus offer,
+peito frango,1,kg,Continente,6.450,6.45,Peito de Frango em Vácuo Continente,regular,yes
+peito frango,1,kg,Pingo Doce,6.490,6.49,Bife/Peito de Frango a granel,regular,
+^granola,0.5,kg,Continente,5.980,2.99,Granola Triplo Chocolate Continente,regular,yes
+^granola,0.5,kg,Pingo Doce,5.980,2.99,Granola Suprema 5 Sementes,promotion,
+^mirtilo,0.25,kg,Continente,8.725,2.18,Mirtilos Continente,regular,yes
+^mirtilo,0.25,kg,Pingo Doce,14.980,3.75,Mirtilos Embalados,regular,
+batata doce,1,kg,Continente,2.490,2.49,Batata Doce Continente,regular,yes
+batata doce,1,kg,Pingo Doce,2.490,2.49,Batata Doce,regular,
+massa espirais,1,kg,Pingo Doce,1.290,1.29,Massa Espirais,regular,
+massa espirais,1,kg,Continente,1.390,1.39,Massa Espirais Pack Poupança Continente,regular,yes
+polpa de tomate,1,kg,Lidl,1.730,1.73,Baresa Polpa de Tomate,Lidl Plus offer,
+polpa de tomate,1,kg,Continente,1.890,1.89,Polpa de Tomate Continente,regular,yes
+polpa de tomate,1,kg,Pingo Doce,1.980,1.98,Polpa de Tomate,regular,
