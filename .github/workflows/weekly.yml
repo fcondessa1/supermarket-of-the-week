@@ -71,8 +71,10 @@ jobs:
 
       - name: Recommendation
         run: |
-          # the issue is the owner's list (repository variable OWNER, else the first person in data/users)
-          OWNER="${{ vars.OWNER }}"; OWNER="${OWNER:-$(ls data/users | head -1)}"
+          # the issue is the owner's list (repository variable OWNER, else the first person with items on their
+          # list: 2026-11-17 the fallback picked a friend with an empty list, and the run stopped here)
+          OWNER="${{ vars.OWNER }}"
+          OWNER="${OWNER:-$(python -c "import sys; sys.path.insert(0, 'src'); import lists; print(next((u for u in lists.users() if lists.load_list(u)), ''))")}"
           python src/recommend.py --user "$OWNER" --trip-cost "${{ inputs.trip_cost || '3' }}"
           REPORT="data/reports/$(date +%F).md"
           {
@@ -84,6 +86,7 @@ jobs:
           echo "REPORT=$REPORT" >> "$GITHUB_ENV"
 
       - name: Commit prices and report
+        if: always()                          # the prices are worth keeping even if the report failed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898732+github-actions[bot]@users.noreply.github.com"
