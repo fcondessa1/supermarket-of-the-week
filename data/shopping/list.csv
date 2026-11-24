@@ -4,8 +4,8 @@ yes,atum ao natural,0.48,kg,not: salada,big tins are ideal around 250g
 yes,arroz basmati,1,kg,"uncooked rice only; no meals with rice; not: frango, pronto a comer",
 yes,ovos class,12,unit,"class M or mixed M/L packs; not: caca, broinhas, bolachas",12 eggs
 yes,peito frango,1,kg,fresh raw chicken breast only; not cooked; no other cuts,
-yes,^granola,0.5,kg,loose granola to add to milk; any flavour except coffee; not bars or bites; not: bolachas,
-yes,^mirtilo,0.25,kg,"fresh blueberries only; not frozen; not freeze-dried; not cranberries; not: congelados, vermelhos",two 125 g punnets
+no,^granola,0.5,kg,loose granola to add to milk; any flavour except coffee; not bars or bites; not: bolachas,
+no,^mirtilo,0.25,kg,"fresh blueberries only; not frozen; not freeze-dried; not cranberries; not: congelados, vermelhos",two 125 g punnets
 yes,batata doce,1,kg,yellow sweet potato only; not: frita,
 yes,massa espirais,1,kg,any shape,
 yes,polpa de tomate,1,kg,"polpa de tomate no chunks, can have basil or garlic",

@@ -1,0 +1,21 @@
+item,quantity,unit,store,unit_price,cost,product,source,chosen
+leite meio gordo sem lactose,6,l,Pingo Doce,1.040,6.24,Leite UHT Meio Gordo sem Lactose,promotion,
+leite meio gordo sem lactose,6,l,Continente,1.070,6.42,Leite UHT Meio Gordo sem Lactose Continente,regular,yes
+atum ao natural,0.48,kg,Continente,7.117,3.42,Atum ao Natural Continente Equilíbrio,regular,yes
+atum ao natural,0.48,kg,Lidl,7.182,3.45,Atum ao Natural,price before offer (lidl.pt),
+atum ao natural,0.48,kg,Pingo Doce,8.809,4.23,Atum ao Natural,promotion,
+arroz basmati,1,kg,Continente,1.738,1.74,Arroz Basmati Pack Poupança Continente,regular,yes
+arroz basmati,1,kg,Pingo Doce,1.890,1.89,Arroz Basmati,regular,
+arroz basmati,1,kg,Lidl,1.890,1.89,arroz basmati,regular (my table),
+ovos class,12,unit,Continente,0.249,2.99,Ovos de Solo Classe M Continente,regular,yes
+ovos class,12,unit,Pingo Doce,0.249,2.99,Ovos de Solo Classe M,regular,
+ovos class,12,unit,Lidl,0.265,3.18,- Ovos do Campo Classe M/L,offer,
+peito frango,1,kg,Continente,6.450,6.45,Peito de Frango em Vácuo Continente,regular,yes
+peito frango,1,kg,Pingo Doce,6.490,6.49,Bife/Peito de Frango a granel,regular,
+peito frango,1,kg,Lidl,6.490,6.49,peito frango,regular (my table),
+batata doce,1,kg,Pingo Doce,1.690,1.69,Batata Doce,promotion,
+batata doce,1,kg,Continente,2.490,2.49,Batata Doce Continente,regular,yes
+massa espirais,1,kg,Pingo Doce,1.290,1.29,Massa Espirais,regular,
+massa espirais,1,kg,Continente,1.390,1.39,Massa Espirais Pack Poupança Continente,regular,yes
+polpa de tomate,1,kg,Continente,1.890,1.89,Polpa de Tomate Continente,regular,yes
+polpa de tomate,1,kg,Pingo Doce,1.980,1.98,Polpa de Tomate,regular,
